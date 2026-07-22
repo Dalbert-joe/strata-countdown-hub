@@ -70,7 +70,7 @@ function Index() {
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[#0a0a0a] text-[#e8dcc0]">
+    <div className="relative flex min-h-screen flex-col overflow-hidden bg-[#0a0a0a] text-[#e8dcc0]">
       {/* Blurred background image */}
       <div
         aria-hidden
