@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
 import logoAsset from "@/assets/strata-logo.png.asset.json";
+import backgroundAsset from "@/assets/strata-background.jpg.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -70,13 +71,13 @@ function Index() {
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-[#0a0a0a] text-[#e8dcc0]">
-      {/* Blurred background logo */}
+      {/* Blurred background image */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-center bg-no-repeat bg-contain opacity-20 blur-2xl scale-125"
-        style={{ backgroundImage: `url(${logoAsset.url})` }}
+        className="pointer-events-none absolute inset-0 bg-cover bg-center blur-sm"
+        style={{ backgroundImage: `url(${backgroundAsset.url})` }}
       />
-      <div aria-hidden className="pointer-events-none absolute inset-0 bg-black/70" />
+      <div aria-hidden className="pointer-events-none absolute inset-0 bg-black/60" />
 
       {/* Top nav */}
       <header className="relative z-10 flex items-center justify-between px-6 py-5 md:px-12">
