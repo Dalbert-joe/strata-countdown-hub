@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
 import logoAsset from "@/assets/strata-logo.png.asset.json";
+import backgroundAsset from "@/assets/strata-background.jpg.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
