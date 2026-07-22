@@ -6,8 +6,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
-import logoAsset from "@/assets/strata-logo.png.asset.json";
-import backgroundAsset from "@/assets/strata-background.jpg.asset.json";
+import logo from "../Starta ogo.jpeg";
+import background from "../bg site.jpeg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
