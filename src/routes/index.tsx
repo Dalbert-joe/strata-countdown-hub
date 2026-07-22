@@ -80,18 +80,19 @@ function Index() {
       <div aria-hidden className="pointer-events-none absolute inset-0 bg-black/60" />
 
       {/* Top nav */}
-      <header className="relative z-10 flex items-center justify-between px-6 py-5 md:px-12">
-        <div className="text-sm font-semibold tracking-[0.3em] text-[#c9a961]">STRATA '26</div>
+      <header className="relative z-10 flex items-center justify-between px-4 py-4 sm:px-6 sm:py-5 md:px-10 lg:px-12">
+        <div className="text-xs font-semibold tracking-[0.25em] text-[#c9a961] sm:text-sm sm:tracking-[0.3em]">STRATA '26</div>
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
             <Button
               variant="outline"
-              className="border-[#c9a961]/60 bg-transparent text-[#e8dcc0] hover:bg-[#c9a961] hover:text-black transition-all"
+              size="sm"
+              className="border-[#c9a961]/60 bg-transparent text-xs text-[#e8dcc0] hover:bg-[#c9a961] hover:text-black transition-all sm:text-sm"
             >
               Login
             </Button>
           </DialogTrigger>
-          <DialogContent className="bg-[#111] border-[#c9a961]/30 text-[#e8dcc0]">
+          <DialogContent className="bg-[#111] border-[#c9a961]/30 text-[#e8dcc0] w-[calc(100%-2rem)] max-w-sm rounded-lg">
             <DialogHeader>
               <DialogTitle className="text-[#c9a961] tracking-wider">Login to STRATA '26</DialogTitle>
               <DialogDescription className="text-[#e8dcc0]/70">
@@ -126,34 +127,34 @@ function Index() {
       </header>
 
       {/* Main */}
-      <main className="relative z-10 flex flex-col items-center justify-center px-6 pt-8 pb-20 text-center md:pt-16">
+      <main className="relative z-10 flex flex-col items-center justify-center px-4 pt-6 pb-12 text-center sm:px-6 sm:pt-8 sm:pb-16 md:px-10 md:pt-12 md:pb-20 lg:px-12">
         <h1 className="sr-only">STRATA '26 — AI & DS Symposium</h1>
 
-        <div className="mb-10 animate-[fadeIn_0.9s_ease-out]">
+        <div className="mb-6 animate-[fadeIn_0.9s_ease-out] sm:mb-8 md:mb-10">
           <img
             src={logoAsset.url}
             alt="STRATA '26 logo"
-            className="mx-auto h-64 w-64 object-contain drop-shadow-[0_0_40px_rgba(201,169,97,0.25)] md:h-96 md:w-96"
+            className="mx-auto h-48 w-48 object-contain drop-shadow-[0_0_30px_rgba(201,169,97,0.25)] sm:h-60 sm:w-60 md:h-80 md:w-80 lg:h-[26rem] lg:w-[26rem] xl:h-[30rem] xl:w-[30rem]"
           />
         </div>
 
-        <p className="mb-3 text-xs font-medium uppercase tracking-[0.4em] text-[#c9a961]/80 md:text-sm">
+        <p className="mb-2 max-w-xl text-[10px] font-medium uppercase leading-relaxed tracking-[0.3em] text-[#c9a961]/80 sm:text-xs sm:tracking-[0.4em] md:mb-3 md:text-sm">
           Artificial Intelligence and Data Science Symposium
         </p>
 
         <div
           key={countdown}
-          className="animate-[fadeUp_0.7s_ease-out] text-3xl font-bold tracking-tight text-[#e8dcc0] md:text-5xl"
+          className="animate-[fadeUp_0.7s_ease-out] text-2xl font-bold tracking-tight text-[#e8dcc0] sm:text-3xl md:text-4xl lg:text-5xl"
         >
           {countdown || "\u00A0"}
         </div>
 
-        <p className="mt-6 text-sm text-[#e8dcc0]/60 md:text-base">
+        <p className="mt-5 text-xs text-[#e8dcc0]/60 sm:text-sm md:mt-6 md:text-base">
           August 8, 2026
         </p>
       </main>
 
-      <footer className="relative z-10 border-t border-[#c9a961]/10 py-6 text-center text-xs text-[#e8dcc0]/40">
+      <footer className="relative z-10 mt-auto border-t border-[#c9a961]/10 py-5 text-center text-[10px] text-[#e8dcc0]/40 sm:py-6 sm:text-xs">
         © 2026 STRATA — AI &amp; DS Symposium
       </footer>
 
