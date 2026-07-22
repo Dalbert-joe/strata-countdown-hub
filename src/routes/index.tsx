@@ -75,7 +75,7 @@ function Index() {
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 bg-cover bg-center blur-sm"
-        style={{ backgroundImage: `url(${backgroundAsset.url})` }}
+        style={{ backgroundImage: `url(${background})` }}
       />
       <div aria-hidden className="pointer-events-none absolute inset-0 bg-black/60" />
 
@@ -132,7 +132,7 @@ function Index() {
 
         <div className="mb-6 animate-[fadeIn_0.9s_ease-out] sm:mb-8 md:mb-10">
           <img
-            src={logoAsset.url}
+            src={logo}
             alt="STRATA '26 logo"
             className="mx-auto h-48 w-48 object-contain drop-shadow-[0_0_30px_rgba(201,169,97,0.25)] sm:h-60 sm:w-60 md:h-80 md:w-80 lg:h-[26rem] lg:w-[26rem] xl:h-[30rem] xl:w-[30rem]"
           />
