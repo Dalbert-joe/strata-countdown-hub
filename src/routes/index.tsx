@@ -137,7 +137,7 @@ function Index() {
         </div>
 
         <p className="mb-3 text-xs font-medium uppercase tracking-[0.4em] text-[#c9a961]/80 md:text-sm">
-          AI &amp; Data Science Symposium
+          Artificial Intelligence and Data Science Symposium
         </p>
 
         <div
