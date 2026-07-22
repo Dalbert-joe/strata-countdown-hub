@@ -83,6 +83,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:description", content: "STRATA '26: The annual AI & Data Science Symposium. Join us on 8 August 2026." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "STRATA '26 — AI & DS Symposium" },
+      { name: "twitter:description", content: "STRATA '26: The annual AI & Data Science Symposium. Join us on 8 August 2026." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/a2cfdea3-36ef-4b91-aa6e-ba5e527913ee/id-preview-132d5dba--bec12086-71a7-4261-9011-7951b0708d45.lovable.app-1784721084828.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/a2cfdea3-36ef-4b91-aa6e-ba5e527913ee/id-preview-132d5dba--bec12086-71a7-4261-9011-7951b0708d45.lovable.app-1784721084828.png" },
     ],
     links: [
       {
