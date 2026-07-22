@@ -1,24 +1,167 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger, DialogFooter } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { toast } from "sonner";
+import { Toaster } from "@/components/ui/sonner";
+import logoAsset from "@/assets/strata-logo.png.asset.json";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "STRATA '26 — AI & DS Symposium" },
+      { name: "description", content: "STRATA '26: The annual AI & Data Science Symposium. Join us on 8 August 2026." },
+      { property: "og:title", content: "STRATA '26 — AI & DS Symposium" },
+      { property: "og:description", content: "STRATA '26: The annual AI & Data Science Symposium. Join us on 8 August 2026." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
+const EVENT_DATE = new Date(2026, 7, 8); // Aug 8, 2026 (month is 0-indexed)
+
+function getCountdownText(): string {
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const target = new Date(EVENT_DATE.getFullYear(), EVENT_DATE.getMonth(), EVENT_DATE.getDate());
+  const diffMs = target.getTime() - today.getTime();
+  const days = Math.round(diffMs / (1000 * 60 * 60 * 24));
+  if (days > 0) return `${days} Day${days === 1 ? "" : "s"} to Go!`;
+  if (days === 0) return "Today is STRATA!";
+  return "STRATA has begun!";
+}
+
+function msUntilNextMidnight(): number {
+  const now = new Date();
+  const next = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 1);
+  return next.getTime() - now.getTime();
+}
+
 function Index() {
+  const [countdown, setCountdown] = useState<string>("");
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    setCountdown(getCountdownText());
+    let timeoutId: ReturnType<typeof setTimeout>;
+    let intervalId: ReturnType<typeof setInterval>;
+    const scheduleMidnight = () => {
+      timeoutId = setTimeout(() => {
+        setCountdown(getCountdownText());
+        intervalId = setInterval(() => setCountdown(getCountdownText()), 24 * 60 * 60 * 1000);
+      }, msUntilNextMidnight());
+    };
+    scheduleMidnight();
+    return () => {
+      clearTimeout(timeoutId);
+      clearInterval(intervalId);
+    };
+  }, []);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    toast.success("Login Successful!");
+    setOpen(false);
+  };
+
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
+    <div className="relative min-h-screen overflow-hidden bg-[#0a0a0a] text-[#e8dcc0]">
+      {/* Blurred background logo */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-center bg-no-repeat bg-contain opacity-20 blur-2xl scale-125"
+        style={{ backgroundImage: `url(${logoAsset.url})` }}
       />
+      <div aria-hidden className="pointer-events-none absolute inset-0 bg-black/70" />
+
+      {/* Top nav */}
+      <header className="relative z-10 flex items-center justify-between px-6 py-5 md:px-12">
+        <div className="text-sm font-semibold tracking-[0.3em] text-[#c9a961]">STRATA '26</div>
+        <Dialog open={open} onOpenChange={setOpen}>
+          <DialogTrigger asChild>
+            <Button
+              variant="outline"
+              className="border-[#c9a961]/60 bg-transparent text-[#e8dcc0] hover:bg-[#c9a961] hover:text-black transition-all"
+            >
+              Login
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="bg-[#111] border-[#c9a961]/30 text-[#e8dcc0]">
+            <DialogHeader>
+              <DialogTitle className="text-[#c9a961] tracking-wider">Login to STRATA '26</DialogTitle>
+              <DialogDescription className="text-[#e8dcc0]/70">
+                Enter your details to register for the symposium.
+              </DialogDescription>
+            </DialogHeader>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="name">Name</Label>
+                <Input id="name" className="bg-black/40 border-[#c9a961]/30" />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="email">Email Address</Label>
+                <Input id="email" type="email" className="bg-black/40 border-[#c9a961]/30" />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="phone">Phone Number</Label>
+                <Input id="phone" type="tel" className="bg-black/40 border-[#c9a961]/30" />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="password">Password</Label>
+                <Input id="password" type="password" className="bg-black/40 border-[#c9a961]/30" />
+              </div>
+              <DialogFooter>
+                <Button type="submit" className="w-full bg-[#c9a961] text-black hover:bg-[#d4b872]">
+                  Submit
+                </Button>
+              </DialogFooter>
+            </form>
+          </DialogContent>
+        </Dialog>
+      </header>
+
+      {/* Main */}
+      <main className="relative z-10 flex flex-col items-center justify-center px-6 pt-8 pb-20 text-center md:pt-16">
+        <h1 className="sr-only">STRATA '26 — AI & DS Symposium</h1>
+
+        <div className="mb-10 animate-[fadeIn_0.9s_ease-out]">
+          <img
+            src={logoAsset.url}
+            alt="STRATA '26 logo"
+            className="mx-auto h-64 w-64 object-contain drop-shadow-[0_0_40px_rgba(201,169,97,0.25)] md:h-96 md:w-96"
+          />
+        </div>
+
+        <p className="mb-3 text-xs font-medium uppercase tracking-[0.4em] text-[#c9a961]/80 md:text-sm">
+          AI &amp; Data Science Symposium
+        </p>
+
+        <div
+          key={countdown}
+          className="animate-[fadeUp_0.7s_ease-out] text-3xl font-bold tracking-tight text-[#e8dcc0] md:text-5xl"
+        >
+          {countdown || "\u00A0"}
+        </div>
+
+        <p className="mt-6 text-sm text-[#e8dcc0]/60 md:text-base">
+          August 8, 2026
+        </p>
+      </main>
+
+      <footer className="relative z-10 border-t border-[#c9a961]/10 py-6 text-center text-xs text-[#e8dcc0]/40">
+        © 2026 STRATA — AI &amp; DS Symposium
+      </footer>
+
+      <Toaster theme="dark" />
+
+      <style>{`
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+      `}</style>
     </div>
   );
 }
