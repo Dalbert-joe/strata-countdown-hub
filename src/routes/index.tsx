@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
 import logoAsset from "../strata26Logo.png";
-import videoAsset from "@/assets/hero-bg.mp4";
+import videoAsset from "../hero-bg.mp4";
 import batAsset from "../button.png";
 
 export const Route = createFileRoute("/")({
