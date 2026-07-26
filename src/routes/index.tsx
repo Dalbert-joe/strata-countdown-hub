@@ -68,7 +68,7 @@ function Index() {
         <img
           src={logoAsset.url}
           alt="STRATA '26"
-          className="w-[min(92vw,860px)] animate-[heroIn_1.1s_ease-out] object-contain drop-shadow-[0_0_60px_rgba(220,38,38,0.35)]"
+          className="mt-16 w-[min(92vw,860px)] animate-[heroIn_1.1s_ease-out] object-contain drop-shadow-[0_0_60px_rgba(220,38,38,0.35)] md:mt-20"
         />
 
         {/* Bat-shaped Events button */}
