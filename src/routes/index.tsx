@@ -47,17 +47,28 @@ function Index() {
       {/* Nav */}
       <header className="relative z-10 flex items-center justify-end px-6 py-6 md:px-12">
         <nav className="flex items-center gap-6 md:gap-10">
-          {NAV.map((item) => (
-            <a
-              key={item}
-              href={`#${item.toLowerCase()}`}
-              className="text-xs font-semibold uppercase tracking-[0.25em] text-white/70 transition-colors duration-300 hover:text-red-500 md:text-sm"
-            >
-              {item}
-            </a>
-          ))}
+          {NAV.map((item) =>
+            item === "Events" ? (
+              <Link
+                key={item}
+                to="/events"
+                className="text-xs font-semibold uppercase tracking-[0.25em] text-white/70 transition-colors duration-300 hover:text-red-500 md:text-sm"
+              >
+                {item}
+              </Link>
+            ) : (
+              <a
+                key={item}
+                href={`#${item.toLowerCase()}`}
+                className="text-xs font-semibold uppercase tracking-[0.25em] text-white/70 transition-colors duration-300 hover:text-red-500 md:text-sm"
+              >
+                {item}
+              </a>
+            ),
+          )}
         </nav>
       </header>
+
       {/* Hero content */}
       <div className="relative z-10 flex h-[calc(100vh-5.5rem)] flex-col items-center justify-center px-6 pb-44 md:pb-52">
         <h1 className="sr-only">STRATA '26</h1>
