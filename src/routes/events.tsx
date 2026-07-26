@@ -1,5 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import bgAsset from "../assets/events-bg.jpg.asset.json";
+import bgAsset from "../Events.jpg";
+
+import arkhamEscape from "../ArkhamEscape.jpg";
+import leagueOfShadows from "../LeagueOfShadows.jpg";
+import operationKnightfall from "../OperationKnightfall.jpg";
+import gothamsLedger from "../Paperpresentation.jpg";
+import riddlersEscape from "../Riddler.jpg";
+import rogueAi from "../RougeAI.jpg";
+import whySoSerious from "../WhySoSerious.jpg";
+import batmanRobin from "../BatmanRobin.jpg";
 
 export const Route = createFileRoute("/events")({
   head: () => ({
@@ -30,14 +39,14 @@ const NAV = [
 ];
 
 const EVENTS = [
-  { title: "Arkham Escape", tag: "Event 01" },
-  { title: "League of Shadows", tag: "Event 02" },
-  { title: "Operation Knightfall", tag: "Event 03" },
-  { title: "Gotham's Ledger", tag: "Event 04" },
-  { title: "Riddler's Escape", tag: "Event 05" },
-  { title: "Rouge AI", tag: "Event 06" },
-  { title: "Why So Serious?", tag: "Event 07" },
-  { title: "Batman & Robin", tag: "Event 08" },
+  { title: "Arkham Escape", tag: "Event 01", poster: arkhamEscape },
+  { title: "League of Shadows", tag: "Event 02", poster: leagueOfShadows },
+  { title: "Operation Knightfall", tag: "Event 03", poster: operationKnightfall },
+  { title: "Gotham's Ledger", tag: "Event 04", poster: gothamsLedger },
+  { title: "Riddler's Escape", tag: "Event 05", poster: riddlersEscape },
+  { title: "Rouge AI", tag: "Event 06", poster: rogueAi },
+  { title: "Why So Serious?", tag: "Event 07", poster: whySoSerious },
+  { title: "Batman & Robin", tag: "Event 08", poster: batmanRobin },
 ];
 
 function EventsPage() {
@@ -47,7 +56,7 @@ function EventsPage() {
       <div
         aria-hidden
         className="fixed inset-0 scale-110 bg-cover bg-center blur-[6px]"
-        style={{ backgroundImage: `url(${bgAsset.url})` }}
+        style={{ backgroundImage: `url(${bgAsset})` }}
       />
       <div aria-hidden className="fixed inset-0 bg-black/70" />
       <div
@@ -96,27 +105,29 @@ function EventsPage() {
           <article
             key={ev.title}
             style={{ animationDelay: `${i * 70}ms` }}
-            className="group relative animate-[cardIn_0.7s_ease-out_both] overflow-hidden rounded-xl border border-white/10 bg-white/[0.03] backdrop-blur-sm transition-all duration-500 hover:-translate-y-2 hover:border-red-600/60 hover:shadow-[0_0_40px_-8px_rgba(220,38,38,0.55)]"
+            className="group relative flex h-full flex-col animate-[cardIn_0.7s_ease-out_both] overflow-hidden rounded-xl border border-white/10 bg-white/[0.03] backdrop-blur-sm transition-all duration-500 hover:-translate-y-2 hover:border-red-600/60 hover:shadow-[0_0_40px_-8px_rgba(220,38,38,0.55)]"
           >
-            {/* Poster placeholder */}
-            <div className="relative flex aspect-[3/4] items-center justify-center overflow-hidden bg-gradient-to-b from-neutral-900 to-black">
-              <span className="text-[0.6rem] font-semibold uppercase tracking-[0.35em] text-white/25">
-                Poster
-              </span>
+            {/* Poster image — fixed aspect ratio keeps every card the same size regardless of source image dimensions */}
+            <div className="relative aspect-[3/4] w-full shrink-0 overflow-hidden bg-gradient-to-b from-neutral-900 to-black">
+              <img
+                src={ev.poster}
+                alt={ev.title}
+                className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+              />
               <div
                 aria-hidden
-                className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"
+                className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent"
               />
-              <span className="absolute left-3 top-3 rounded-full border border-red-600/50 px-2 py-0.5 text-[0.55rem] font-bold uppercase tracking-[0.2em] text-red-500">
+              <span className="absolute left-3 top-3 rounded-full border border-red-600/50 bg-black/40 px-2 py-0.5 text-[0.55rem] font-bold uppercase tracking-[0.2em] text-red-500 backdrop-blur-sm">
                 {ev.tag}
               </span>
             </div>
 
-            <div className="relative p-4">
+            <div className="relative flex flex-1 flex-col p-4">
               <h2 className="text-sm font-bold uppercase tracking-[0.15em] text-white transition-colors duration-300 group-hover:text-red-500 md:text-base">
                 {ev.title}
               </h2>
-              <p className="mt-2 text-xs leading-relaxed text-white/45">
+              <p className="mt-2 flex-1 text-xs leading-relaxed text-white/45">
                 Placeholder — event description goes here.
               </p>
               <button
