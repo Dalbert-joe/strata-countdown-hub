@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { toast } from "sonner";
+
 import { Toaster } from "@/components/ui/sonner";
 import logoAsset from "../strata26Logo.png";
 import videoAsset from "../herobg.mp4";
