@@ -68,7 +68,7 @@ function Index() {
         <img
           src={logoAsset.url}
           alt="STRATA '26"
-          className="w-[min(80vw,620px)] animate-[heroIn_1.1s_ease-out] object-contain drop-shadow-[0_0_60px_rgba(220,38,38,0.35)]"
+          className="w-[min(92vw,860px)] animate-[heroIn_1.1s_ease-out] object-contain drop-shadow-[0_0_60px_rgba(220,38,38,0.35)]"
         />
 
         {/* Bat-shaped Events button */}
@@ -78,14 +78,14 @@ function Index() {
           aria-label="Events"
           className="group absolute bottom-8 left-1/2 -translate-x-1/2 focus:outline-none md:bottom-12"
         >
-          <span className="relative block w-[min(80vw,420px)] transition-transform duration-500 ease-out group-hover:scale-105">
+          <span className="relative block w-[min(64vw,280px)] transition-transform duration-500 ease-out group-hover:scale-105">
             <img
               src={batAsset.url}
               alt=""
               aria-hidden
               className="w-full drop-shadow-[0_0_28px_rgba(220,38,38,0.55)]"
             />
-            <span className="pointer-events-none absolute inset-x-0 top-[38%] text-center text-[clamp(0.7rem,2.2vw,1.15rem)] font-extrabold uppercase tracking-[0.45em] text-red-600 transition-colors duration-300 group-hover:text-red-400">
+            <span className="pointer-events-none absolute inset-x-0 top-[38%] text-center text-[clamp(0.65rem,2vw,1rem)] font-extrabold uppercase tracking-[0.45em] text-white transition-colors duration-300 group-hover:text-white/90">
               Events
             </span>
           </span>
