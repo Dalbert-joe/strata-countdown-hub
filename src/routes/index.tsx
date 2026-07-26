@@ -71,7 +71,7 @@ function Index() {
           type="button"
           onClick={() => toast("EVENTS — lineup coming soon.")}
           aria-label="Events"
-          className="group absolute bottom-0 left-1/2 -translate-x-1/2 focus:outline-none md:bottom-2"
+          className="group absolute bottom-0 left-1/2 -translate-x-1/2 focus:outline-none md:bottom-0"
         >
           <span className="relative block w-[min(64vw,280px)] transition-transform duration-500 ease-out group-hover:scale-105">
             <img
