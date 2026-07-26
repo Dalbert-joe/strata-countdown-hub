@@ -1,9 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
-import logoAsset from "@/assets/strata26-logo.png.asset.json";
-import videoAsset from "@/assets/hero-bg.mp4.asset.json";
-import batAsset from "@/assets/bat-shape.png.asset.json";
+import logoAsset from "../strata26Logo.png";
+import videoAsset from "@/assets/hero-bg.mp4";
+import batAsset from "../button.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -26,16 +26,14 @@ export const Route = createFileRoute("/")({
   }),
   component: Index,
 });
-
 const NAV = ["Home", "Events", "Contact"];
-
 function Index() {
   return (
     <section className="relative h-screen w-full overflow-hidden bg-black">
       {/* Background video */}
       <video
         className="absolute inset-0 h-full w-full object-cover"
-        src={videoAsset.url}
+        src={videoAsset}
         autoPlay
         loop
         muted
@@ -46,7 +44,6 @@ function Index() {
         aria-hidden
         className="absolute inset-0 bg-gradient-to-b from-black/70 via-transparent to-black"
       />
-
       {/* Nav */}
       <header className="relative z-10 flex items-center justify-end px-6 py-6 md:px-12">
         <nav className="flex items-center gap-6 md:gap-10">
@@ -61,16 +58,14 @@ function Index() {
           ))}
         </nav>
       </header>
-
       {/* Hero content */}
       <div className="relative z-10 flex h-[calc(100vh-5.5rem)] flex-col items-center justify-center px-6 pb-44 md:pb-52">
         <h1 className="sr-only">STRATA '26</h1>
         <img
-          src={logoAsset.url}
+          src={logoAsset}
           alt="STRATA '26"
           className="mt-32 w-[min(92vw,860px)] animate-[heroIn_1.1s_ease-out] object-contain drop-shadow-[0_0_60px_rgba(220,38,38,0.35)] md:mt-40"
         />
-
         {/* Bat-shaped Events button */}
         <button
           type="button"
@@ -80,7 +75,7 @@ function Index() {
         >
           <span className="relative block w-[min(64vw,280px)] transition-transform duration-500 ease-out group-hover:scale-105">
             <img
-              src={batAsset.url}
+              src={batAsset}
               alt=""
               aria-hidden
               className="w-full drop-shadow-[0_0_28px_rgba(220,38,38,0.55)]"
@@ -91,9 +86,7 @@ function Index() {
           </span>
         </button>
       </div>
-
       <Toaster theme="dark" />
-
       <style>{`
         @keyframes heroIn { from { opacity: 0; transform: scale(0.94); filter: blur(6px); } to { opacity: 1; transform: scale(1); filter: blur(0); } }
       `}</style>
