@@ -39,14 +39,62 @@ const NAV = [
 ];
 
 const EVENTS = [
-  { title: "Arkham Escape", tag: "Event 01", poster: arkhamEscape },
-  { title: "League of Shadows", tag: "Event 02", poster: leagueOfShadows },
-  { title: "Operation Knightfall", tag: "Event 03", poster: operationKnightfall },
-  { title: "Gotham's Ledger", tag: "Event 04", poster: gothamsLedger },
-  { title: "Riddler's Escape", tag: "Event 05", poster: riddlersEscape },
-  { title: "Rouge AI", tag: "Event 06", poster: rogueAi },
-  { title: "Why So Serious?", tag: "Event 07", poster: whySoSerious },
-  { title: "Batman & Robin", tag: "Event 08", poster: batmanRobin },
+  {
+    title: "Arkham Escape",
+    tag: "Event 01",
+    poster: arkhamEscape,
+    description:
+      "Escape the virtual Arkham Asylum by solving AI & DS challenges in SQL, machine learning, data cleaning, and image classification.",
+  },
+  {
+    title: "League of Shadows",
+    tag: "Event 02",
+    poster: leagueOfShadows,
+    description:
+      "Crack ciphers, decode encrypted messages, analyze digital evidence, and master cybersecurity challenges.",
+  },
+  {
+    title: "Operation Knightfall",
+    tag: "Event 03",
+    poster: operationKnightfall,
+    description:
+      "Restore Gotham's AI network by solving challenges in cybersecurity, machine learning, deepfake detection, and data analysis.",
+  },
+  {
+    title: "Gotham's Ledger",
+    tag: "Event 04",
+    poster: gothamsLedger,
+    description:
+      "Present your research and technical innovations to an expert panel. Defend your ideas and earn your place in Gotham's Ledger.",
+  },
+  {
+    title: "Riddler's Escape",
+    tag: "Event 05",
+    poster: riddlersEscape,
+    description:
+      "Solve riddles, coding problems, AI puzzles, and data challenges to unlock clues before time runs out.",
+  },
+  {
+    title: "Rouge AI",
+    tag: "Event 06",
+    poster: rogueAi,
+    description:
+      "Track and contain a rogue AI through challenges in AI, prompt engineering, computer vision, NLP, and logical reasoning.",
+  },
+  {
+    title: "Why So Serious?",
+    tag: "Event 07",
+    poster: whySoSerious,
+    description:
+      "Battle Joker by solving coding challenges that deal damage based on difficulty. Highest total damage wins.",
+  },
+  {
+    title: "Batman & Robin",
+    tag: "Event 08",
+    poster: batmanRobin,
+    description:
+      "A 2-member coding duel where teammates swap between problem-solving and coding every 5 minutes.",
+  },
 ];
 
 function EventsPage() {
@@ -94,8 +142,8 @@ function EventsPage() {
           Events
         </h1>
         <p className="mx-auto mt-4 max-w-xl text-sm text-white/60 md:text-base">
-          Placeholder description — add your event details, rules and
-          registration links here.
+          Step into Gotham and prove your skills across coding, AI,
+          cybersecurity, research, and problem-solving challenges.
         </p>
       </section>
 
@@ -128,7 +176,7 @@ function EventsPage() {
                 {ev.title}
               </h2>
               <p className="mt-2 flex-1 text-xs leading-relaxed text-white/45">
-                Placeholder — event description goes here.
+                {ev.description}
               </p>
               <button
                 type="button"
