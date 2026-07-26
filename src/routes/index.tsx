@@ -78,9 +78,8 @@ function Index() {
           className="mt-32 w-[min(92vw,860px)] animate-[heroIn_1.1s_ease-out] object-contain drop-shadow-[0_0_60px_rgba(220,38,38,0.35)] md:mt-40"
         />
         {/* Bat-shaped Events button */}
-        <button
-          type="button"
-          onClick={() => toast("EVENTS — lineup coming soon.")}
+        <Link
+          to="/events"
           aria-label="Events"
           className="group absolute -bottom-10 left-1/2 -translate-x-1/2 focus:outline-none md:-bottom-14"
         >
@@ -95,7 +94,8 @@ function Index() {
               Events
             </span>
           </span>
-        </button>
+        </Link>
+
       </div>
       <Toaster theme="dark" />
       <style>{`
