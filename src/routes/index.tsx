@@ -55,9 +55,9 @@ function Index() {
                 {item}
               </Link>
             ) : (
-
+              <a
                 key={item}
-                href={#${item.toLowerCase()}}
+                href={`#${item.toLowerCase()}`}
                 className="text-xs font-semibold uppercase tracking-[0.25em] text-white/70 transition-colors duration-300 hover:text-red-500 md:text-sm"
               >
                 {item}
@@ -67,12 +67,18 @@ function Index() {
         </nav>
       </header>
       {/* Hero content */}
-      <div className="relative z-10 flex h-[calc(100vh-5.5rem)] flex-col items-center justify-center px-6 pb-44 md:pb-52">
+      <div className="relative z-10 flex h-[calc(100vh-5.5rem)] flex-col items-center justify-center px-6 pb-16 md:pb-20">
         <h1 className="sr-only">STRATA '26</h1>
         <img
           src={logoAsset}
           alt="STRATA '26"
-          className="mt-32 w-[min(92vw,860px)] animate-[heroIn_1.1s_ease-out] object-contain drop-shadow-[0_0_60px_rgba(220,38,38,0.35)] md:mt-40"
+          className="mt-4 w-[min(92vw,860px)] animate-[heroIn_1.1s_ease-out] object-contain mix-blend-screen drop-shadow-[0_0_60px_rgba(220,38,38,0.35)] md:mt-6"
+          style={{
+            WebkitMaskImage:
+              "radial-gradient(ellipse 70% 70% at center, black 55%, transparent 100%)",
+            maskImage:
+              "radial-gradient(ellipse 70% 70% at center, black 55%, transparent 100%)",
+          }}
         />
         {/* Bat-shaped Events button */}
         <Link
@@ -94,9 +100,9 @@ function Index() {
         </Link>
       </div>
       <Toaster theme="dark" />
-      <style>{
+      <style>{`
         @keyframes heroIn { from { opacity: 0; transform: scale(0.94); filter: blur(6px); } to { opacity: 1; transform: scale(1); filter: blur(0); } }
-      }</style>
+      `}</style>
     </section>
   );
 }
