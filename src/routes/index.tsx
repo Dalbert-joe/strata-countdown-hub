@@ -63,12 +63,12 @@ function Index() {
       </header>
 
       {/* Hero content */}
-      <div className="relative z-10 flex h-[calc(100vh-5.5rem)] flex-col items-center justify-center px-6">
+      <div className="relative z-10 flex h-[calc(100vh-5.5rem)] flex-col items-center justify-center px-6 pb-44 md:pb-52">
         <h1 className="sr-only">STRATA '26</h1>
         <img
           src={logoAsset.url}
           alt="STRATA '26"
-          className="w-[min(88vw,760px)] animate-[heroIn_1.1s_ease-out] object-contain drop-shadow-[0_0_60px_rgba(220,38,38,0.35)]"
+          className="w-[min(80vw,620px)] animate-[heroIn_1.1s_ease-out] object-contain drop-shadow-[0_0_60px_rgba(220,38,38,0.35)]"
         />
 
         {/* Bat-shaped Events button */}
@@ -85,7 +85,7 @@ function Index() {
               aria-hidden
               className="w-full drop-shadow-[0_0_28px_rgba(220,38,38,0.55)]"
             />
-            <span className="pointer-events-none absolute inset-x-0 top-[46%] text-center text-[clamp(0.7rem,2.2vw,1.15rem)] font-extrabold uppercase tracking-[0.45em] text-red-600 transition-colors duration-300 group-hover:text-red-400">
+            <span className="pointer-events-none absolute inset-x-0 top-[38%] text-center text-[clamp(0.7rem,2.2vw,1.15rem)] font-extrabold uppercase tracking-[0.45em] text-red-600 transition-colors duration-300 group-hover:text-red-400">
               Events
             </span>
           </span>
