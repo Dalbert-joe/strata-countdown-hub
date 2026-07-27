@@ -72,7 +72,7 @@ function Index() {
         <img
           src={logoAsset}
           alt="STRATA '26"
-          className="mt-4 w-[min(92vw,860px)] animate-[heroIn_1.1s_ease-out] object-contain mix-blend-screen drop-shadow-[0_0_60px_rgba(220,38,38,0.35)] md:mt-6"
+          className="mt-4 w-[min(92vw,860px)] animate-[heroIn_1.1s_ease-out] object-contain mix-blend-lighten drop-shadow-[0_0_60px_rgba(220,38,38,0.35)] md:mt-6"
           style={{
             WebkitMaskImage:
               "radial-gradient(ellipse 78% 78% at center, black 28%, transparent 100%)",
