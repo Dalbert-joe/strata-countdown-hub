@@ -37,10 +37,10 @@ function Index() {
         muted
         playsInline
       />
-      <div aria-hidden className="absolute inset-0 bg-black/60" />
+      <div aria-hidden className="absolute inset-0 bg-black/40" />
       <div
         aria-hidden
-        className="absolute inset-0 bg-gradient-to-b from-black/70 via-transparent to-black"
+        className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/80"
       />
       {/* Nav */}
       <header className="relative z-10 flex items-center justify-end px-6 py-6 md:px-12">
@@ -72,13 +72,7 @@ function Index() {
         <img
           src={logoAsset}
           alt="STRATA '26"
-          className="mt-4 w-[min(92vw,860px)] animate-[heroIn_1.1s_ease-out] object-contain mix-blend-screen drop-shadow-[0_0_60px_rgba(220,38,38,0.35)] md:mt-6"
-          style={{
-            WebkitMaskImage:
-              "radial-gradient(ellipse 70% 70% at center, black 55%, transparent 100%)",
-            maskImage:
-              "radial-gradient(ellipse 70% 70% at center, black 55%, transparent 100%)",
-          }}
+          className="mt-4 w-[min(92vw,860px)] animate-[heroIn_1.1s_ease-out] object-contain drop-shadow-[0_0_60px_rgba(220,38,38,0.45)] md:mt-6"
         />
         {/* Bat-shaped Events button */}
         <Link
