@@ -69,19 +69,11 @@ function Index() {
       {/* Hero content */}
       <div className="relative z-10 flex h-[calc(100vh-5.5rem)] flex-col items-center justify-center px-6 pb-16 md:pb-20">
         <h1 className="sr-only">STRATA '26</h1>
-        <div className="relative mt-4 w-[min(92vw,860px)] md:mt-6">
-          <img
-            src={logoAsset}
-            alt="STRATA '26"
-            className="w-full animate-[heroIn_1.1s_ease-out] object-contain mix-blend-screen contrast-[1.25] drop-shadow-[0_0_60px_rgba(220,38,38,0.35)]"
-            style={{
-              WebkitMaskImage:
-                "radial-gradient(ellipse 92% 92% at center, black 62%, transparent 100%)",
-              maskImage:
-                "radial-gradient(ellipse 92% 92% at center, black 62%, transparent 100%)",
-            }}
-          />
-        </div>
+        <img
+          src={logoAsset}
+          alt="STRATA '26"
+          className="mt-4 w-[min(92vw,860px)] animate-[heroIn_1.1s_ease-out] object-contain mix-blend-screen contrast-[1.25] drop-shadow-[0_0_60px_rgba(220,38,38,0.35)] md:mt-6"
+        />
         {/* Bat-shaped Events button */}
         <Link
           to="/events"
