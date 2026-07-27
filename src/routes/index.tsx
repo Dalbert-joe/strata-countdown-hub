@@ -76,17 +76,9 @@ function Index() {
             className="animate-[heroIn_1.1s_ease-out] object-contain mix-blend-screen contrast-[1.25] drop-shadow-[0_0_60px_rgba(220,38,38,0.35)]"
             style={{
               WebkitMaskImage:
-                "radial-gradient(ellipse 82% 82% at center, black 55%, transparent 100%)",
+                "radial-gradient(ellipse 92% 92% at center, black 62%, transparent 100%)",
               maskImage:
-                "radial-gradient(ellipse 82% 82% at center, black 55%, transparent 100%)",
-            }}
-          />
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0 rounded-[45%]"
-            style={{
-              background:
-                "radial-gradient(ellipse 80% 80% at center, transparent 55%, rgba(0,0,0,0.7) 100%)",
+                "radial-gradient(ellipse 92% 92% at center, black 62%, transparent 100%)",
             }}
           />
         </div>
