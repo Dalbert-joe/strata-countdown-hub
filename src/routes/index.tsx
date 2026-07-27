@@ -37,10 +37,10 @@ function Index() {
         muted
         playsInline
       />
-      <div aria-hidden className="absolute inset-0 bg-black/60" />
+      <div aria-hidden className="absolute inset-0 bg-black/40" />
       <div
         aria-hidden
-        className="absolute inset-0 bg-gradient-to-b from-black/70 via-transparent to-black"
+        className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/80"
       />
       {/* Nav */}
       <header className="relative z-10 flex items-center justify-end px-6 py-6 md:px-12">
