@@ -14,12 +14,7 @@ export function LoadingScreen() {
       role="status"
       aria-label="Loading"
     >
-      <img
-        src={batAsset}
-        alt=""
-        aria-hidden
-        className="bat-pulse h-20 w-auto md:h-28"
-      />
+      <img src={batAsset} alt="" aria-hidden className="bat-pulse h-20 w-auto md:h-28" />
 
       <style>{`
         .bat-pulse {
@@ -35,4 +30,4 @@ export function LoadingScreen() {
   );
 }
 
-export default LoadingScreen;  
+export default LoadingScreen;

@@ -77,16 +77,35 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
+      // NOTE: the date was previously hard-coded here as "8 August 2026" but has
+      // never been confirmed, so it is deliberately left out of the description.
+      // Add it back via SITE.date once verified — see src/data/site.ts.
+      // Description is repeated verbatim rather than pulled from a shared const:
+      // TanStack's route splitter hoists imports into the split chunk but not
+      // module-scope consts, so a const here throws at runtime.
       { title: "STRATA '26 — AI & DS Symposium" },
-      { name: "description", content: "STRATA '26: The annual AI & Data Science Symposium. Join us on 8 August 2026." },
+      {
+        name: "description",
+        content:
+          "STRATA '26 — the annual Artificial Intelligence & Data Science Symposium. Six events across research, coding, AI development, video generation, prompt engineering and databases.",
+      },
       { property: "og:title", content: "STRATA '26 — AI & DS Symposium" },
-      { property: "og:description", content: "STRATA '26: The annual AI & Data Science Symposium. Join us on 8 August 2026." },
+      {
+        property: "og:description",
+        content:
+          "STRATA '26 — the annual Artificial Intelligence & Data Science Symposium. Six events across research, coding, AI development, video generation, prompt engineering and databases.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "STRATA '26 — AI & DS Symposium" },
-      { name: "twitter:description", content: "STRATA '26: The annual AI & Data Science Symposium. Join us on 8 August 2026." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/a2cfdea3-36ef-4b91-aa6e-ba5e527913ee/id-preview-132d5dba--bec12086-71a7-4261-9011-7951b0708d45.lovable.app-1784721084828.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/a2cfdea3-36ef-4b91-aa6e-ba5e527913ee/id-preview-132d5dba--bec12086-71a7-4261-9011-7951b0708d45.lovable.app-1784721084828.png" },
+      {
+        name: "twitter:description",
+        content:
+          "STRATA '26 — the annual Artificial Intelligence & Data Science Symposium. Six events across research, coding, AI development, video generation, prompt engineering and databases.",
+      },
+      // TODO: og:image previously pointed at a Lovable preview R2 URL that will
+      // 404 once deployed elsewhere. Add a real 1200x630 share image to public/
+      // and reference it with the deployed absolute URL.
     ],
     links: [
       {
@@ -103,11 +122,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    // `dark` is explicit here so any shadcn component relying on the dark
+    // variant behaves. The tokens in styles.css are dark at :root regardless.
+    <html lang="en" className="dark">
       <head>
         <HeadContent />
       </head>
-      <body>
+      <body className="bg-background text-foreground">
         {children}
         <Scripts />
       </body>
