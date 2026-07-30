@@ -4,6 +4,7 @@ import videoAsset from "../herobg.mp4";
 import posterAsset from "../Events.jpg";
 import loyolaIcamLogo from "../Loyola_ICAM.png";
 import nexusLogo from "../NEXUS.png";
+import introVideoAsset from "../BATMAN_26.mp4";
 import { CountdownTimer } from "./CountdownTimer";
 import { useHeroSpotlight } from "../hooks/use-hero-spotlight";
 
@@ -35,11 +36,25 @@ const POOL_GRADIENT =
  * paint (via `invisible`, not `hidden`, so layout never has to recompute)
  * whenever the hero itself isn't on screen, which is where most of a visit's
  * scroll time is actually spent.
+ *
+ * Ahead of all of that sits an intro splash (BATMAN_26.mp4). It's rendered
+ * as an opaque, full-screen overlay layered on top of everything else in
+ * this section rather than gating the section's mount — the hero's own
+ * video/logos/spotlight are already mounted and warming up underneath while
+ * the intro plays, so there's no extra load-in delay once the intro clears.
+ * The intro fades out and unmounts on its own `ended` event, or immediately
+ * if the user hits Skip.
  */
 export function HeroSection() {
   const spotlight = useHeroSpotlight();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [heroVisible, setHeroVisible] = useState(true);
+
+  // --- Intro splash state ---
+  const introVideoRef = useRef<HTMLVideoElement>(null);
+  const [introDone, setIntroDone] = useState(false);
+  const [introClosing, setIntroClosing] = useState(false);
+  const [needsSoundTap, setNeedsSoundTap] = useState(false);
 
   useEffect(() => {
     const el = spotlight.sectionRef.current;
@@ -58,12 +73,83 @@ export function HeroSection() {
     else video.pause();
   }, [heroVisible]);
 
+  // Try the intro with sound first. Browsers that block autoplay-with-audio
+  // reject the play() promise with NotAllowedError — fall back to muted
+  // playback and surface a small "tap for sound" affordance instead of
+  // silently failing.
+  useEffect(() => {
+    const video = introVideoRef.current;
+    if (!video) return;
+
+    video.muted = false;
+    video.volume = 1;
+
+    video.play().catch(() => {
+      video.muted = true;
+      setNeedsSoundTap(true);
+      video.play().catch(() => {});
+    });
+  }, []);
+
+  const finishIntro = () => {
+    if (introClosing) return;
+    setIntroClosing(true);
+    window.setTimeout(() => setIntroDone(true), 500);
+  };
+
+  const enableIntroSound = () => {
+    const video = introVideoRef.current;
+    if (!video) return;
+    video.muted = false;
+    video.play().catch(() => {});
+    setNeedsSoundTap(false);
+  };
+
   return (
     <section
       id="home"
       ref={spotlight.sectionRef}
       className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-black px-6 py-8 md:py-10"
     >
+      {/* --- Part A: intro splash overlay --- */}
+      {!introDone && (
+        <div
+          className={`fixed inset-0 z-[100] flex items-center justify-center bg-black transition-opacity duration-500 ${
+            introClosing ? "pointer-events-none opacity-0" : "opacity-100"
+          }`}
+        >
+          <video
+            ref={introVideoRef}
+            className="h-full w-full object-cover"
+            src={introVideoAsset}
+            onEnded={finishIntro}
+            autoPlay
+            playsInline
+          />
+
+          {needsSoundTap && (
+            <button
+              type="button"
+              onClick={enableIntroSound}
+              className="absolute bottom-6 left-6 rounded-full border border-white/30 bg-black/40 px-4 py-2 text-xs font-medium uppercase tracking-wider text-white/80 backdrop-blur-sm transition-colors hover:bg-black/60"
+            >
+              Tap for sound
+            </button>
+          )}
+
+          <button
+            type="button"
+            onClick={finishIntro}
+            aria-label="Skip intro"
+            className="absolute bottom-6 right-6 rounded-full border border-white/30 bg-black/40 px-5 py-2 text-xs font-semibold uppercase tracking-wider text-white/90 backdrop-blur-sm transition-colors hover:bg-black/60"
+          >
+            Skip
+          </button>
+        </div>
+      )}
+
+      {/* --- Part B: the existing hero, unchanged --- */}
+
       {/* preload="metadata" keeps the file from blocking first paint; the
           poster covers the gap on slow connections. Darkened + desaturated
           so the logo separates from it and the spotlight below has
