@@ -170,8 +170,8 @@ export function HeroSection() {
           <CountdownTimer />
         </div>
 
-       {/* Scroll cue — clicking it jumps to the events section */}
-        
+        {/* Scroll cue — clicking it jumps to the events section */}
+        <a
           href="#events"
           aria-label="Jump to events"
           className="group mt-2 flex flex-col items-center gap-2 focus:outline-none"
