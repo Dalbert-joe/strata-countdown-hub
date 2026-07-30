@@ -4,6 +4,7 @@ import rogueAi from "../RougeAI.jpg";
 import gothamTimes from "../OperationKnightfall.jpg";
 import batmanRobin from "../BatmanRobin.jpg";
 import riddlersEscape from "../Riddler.jpg";
+import { PLACEHOLDER_PHONE } from "./site";
 
 /**
  * The STRATA '26 event lineup.
@@ -28,6 +29,8 @@ export type StrataEvent = {
   description: string[];
   /** Format facts rendered as a small key/value table. */
   highlights: { label: string; value: string }[];
+  /** Student coordinators for this event. Empty array renders as "To be announced". */
+  coordinators: { name: string; phone: string }[];
 };
 
 export const EVENTS: StrataEvent[] = [
@@ -51,6 +54,10 @@ export const EVENTS: StrataEvent[] = [
       { label: "Viva / Q&A", value: "2 minutes" },
       { label: "Submission", value: "Paper due one day prior" },
     ],
+    coordinators: [
+      { name: "Asmita", phone: PLACEHOLDER_PHONE },
+      { name: "Bharath", phone: PLACEHOLDER_PHONE },
+    ],
   },
   {
     slug: "why-so-serious",
@@ -71,6 +78,10 @@ export const EVENTS: StrataEvent[] = [
       { label: "Scoring", value: "Damage per solved problem" },
       { label: "Twist", value: "Random Joker hazards" },
       { label: "Win condition", value: "First to clear, else highest damage" },
+    ],
+    coordinators: [
+      { name: "Uwais", phone: PLACEHOLDER_PHONE },
+      { name: "Preetha", phone: PLACEHOLDER_PHONE },
     ],
   },
   {
@@ -93,6 +104,10 @@ export const EVENTS: StrataEvent[] = [
       { label: "Twist", value: "Peer-assigned constraints" },
       { label: "Judged on", value: "Robustness and adaptability" },
     ],
+    coordinators: [
+      { name: "Sri Lekha", phone: PLACEHOLDER_PHONE },
+      { name: "Nandhini", phone: PLACEHOLDER_PHONE },
+    ],
   },
   {
     slug: "the-gotham-times",
@@ -113,6 +128,10 @@ export const EVENTS: StrataEvent[] = [
       { label: "Tool", value: "Google Flow" },
       { label: "Deliverable", value: "Short cinematic news video" },
       { label: "Judged on", value: "Prompt quality and continuity" },
+    ],
+    coordinators: [
+      { name: "Marie", phone: PLACEHOLDER_PHONE },
+      { name: "Nisha", phone: PLACEHOLDER_PHONE },
     ],
   },
   {
@@ -135,6 +154,10 @@ export const EVENTS: StrataEvent[] = [
       { label: "Evaluated", value: "Prompt text only" },
       { label: "Focus", value: "Prompt engineering, responsible AI" },
     ],
+    coordinators: [
+      { name: "Ananya", phone: PLACEHOLDER_PHONE },
+      { name: "Reny", phone: PLACEHOLDER_PHONE },
+    ],
   },
   {
     slug: "riddlers-escape",
@@ -156,5 +179,6 @@ export const EVENTS: StrataEvent[] = [
       { label: "Tech", value: "SQL, NoSQL, PL/SQL, MongoDB" },
       { label: "Win condition", value: "First to escape" },
     ],
+    coordinators: [],
   },
 ];

@@ -102,11 +102,11 @@ otherwise black site.
 - Dark theme tokens, smooth scrolling, reduced-motion support
 
 **Confirmed open items**
-- Event date is **unconfirmed** — page metadata claims 8 August 2026, never verified
-- No college or department name displayed anywhere on the site
-- No registration mechanism decided (Google Form vs custom form vs on-spot)
-- No contact details, coordinator numbers, or social links
-- No venue or schedule
+- Event date **confirmed**: 8 August 2026, 09:00 IST — set in `SITE.date` / `SITE.dateISO`
+- Venue **confirmed**: Loyola ICAM College of Engineering and Technology, Chennai — `SITE.venue`
+- Registration is a single Google Form for all six events — `REGISTER_URL` in `src/data/site.ts` is the switch, still `"#"` pending the actual form link
+- Overall coordinators (Dhana Kishore, Dalbert Joe) and per-event coordinators are in place
+- No social links yet
 - The Gotham Times has no poster of its own
 
 **Known technical debt**
@@ -131,8 +131,9 @@ otherwise black site.
    single-page design. If shareable per-event links are ever needed (Instagram bios,
    posters), the data is already keyed by `slug`, so dedicated routes could be added
    alongside the dialogs without touching `src/data/events.ts`.
-2. **Registration** — nothing is wired. `registrationUrl` in `src/data/site.ts` is the
-   single switch: fill it and the CTAs activate.
+2. **Registration** — the Google Form itself isn't wired yet. `REGISTER_URL` in
+   `src/data/site.ts` is the single switch: paste the form link and every register button
+   site-wide activates.
 3. **Deployment** — Lovable, Vercel, or college hosting. Affects whether the repo can be
    restructured freely or must stay Lovable-compatible.
 

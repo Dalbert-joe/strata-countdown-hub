@@ -108,6 +108,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       // and reference it with the deployed absolute URL.
     ],
     links: [
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      {
+        rel: "stylesheet",
+        // Anton: heavy condensed display face for the hero countdown digits.
+        href: "https://fonts.googleapis.com/css2?family=Anton&display=swap",
+      },
       {
         rel: "stylesheet",
         href: appCss,

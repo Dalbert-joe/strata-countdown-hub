@@ -4,17 +4,18 @@
  * Every field below is rendered conditionally: an empty string renders nothing
  * at all rather than a visible placeholder. Fill values in as they are confirmed
  * and the corresponding UI appears on its own.
- *
- * Nothing here is invented — blanks mean "not yet supplied".
  */
 type SiteConfig = {
   name: string;
   tagline: string;
   date: string;
+  /** ISO 8601, timezone-explicit — the countdown target. IST is UTC+05:30. */
+  dateISO: string;
   venue: string;
+  venueShort: string;
   department: string;
   college: string;
-  registrationUrl: string;
+  fee: string;
   contact: {
     email: string;
     coordinators: { name: string; role: string; phone: string }[];
@@ -22,28 +23,24 @@ type SiteConfig = {
   socials: { instagram: string; linkedin: string };
 };
 
-// Explicitly typed rather than `as const`: literal types would make every
-// `SITE.x !== ""` emptiness check a TS error on the fields that are filled in.
 export const SITE: SiteConfig = {
   name: "STRATA '26",
   tagline: "Artificial Intelligence & Data Science Symposium",
 
-  /** e.g. "8 August 2026". Metadata currently claims this date but it is UNCONFIRMED. */
-  date: "",
-  /** e.g. "Main Auditorium" */
-  venue: "",
-  /** e.g. "Department of Artificial Intelligence and Data Science" */
+  date: "8 August 2026",
+  dateISO: "2026-08-08T09:00:00+05:30",
+  venue: "Loyola ICAM College of Engineering and Technology, Chennai",
+  venueShort: "LICET, Chennai",
   department: "Department of Artificial Intelligence & Data Science",
-  /** College / institution name. */
-  college: "",
-
-  /** Fill this to activate every "Register" call to action across the site. */
-  registrationUrl: "",
+  college: "Loyola ICAM College of Engineering and Technology",
+  fee: "Free — all events, no registration fee",
 
   contact: {
     email: "",
-    /** [{ name: "...", role: "Student Coordinator", phone: "+91..." }] */
-    coordinators: [],
+    coordinators: [
+      { name: "Dhana Kishore", role: "Overall Coordinator", phone: "+91 93425 03004" },
+      { name: "Dalbert Joe", role: "Overall Coordinator", phone: "+91 95666 87085" },
+    ],
   },
 
   socials: {
@@ -52,5 +49,16 @@ export const SITE: SiteConfig = {
   },
 };
 
-/** True when there is at least one real contact detail worth rendering. */
-export const hasContactInfo = SITE.contact.email !== "" || SITE.contact.coordinators.length > 0;
+/**
+ * Single Google Form for all six events. Every register button on the site
+ * imports this constant — there is exactly one place to change it later.
+ */
+// TODO: paste Google Form URL
+export const REGISTER_URL = "#";
+
+/**
+ * Per-event coordinator phone numbers aren't supplied yet. Every event
+ * coordinator uses this single placeholder so all six can be swapped for
+ * real numbers in one pass later.
+ */
+export const PLACEHOLDER_PHONE = "00000 00000";

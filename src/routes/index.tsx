@@ -4,7 +4,6 @@ import { SiteNav } from "../components/SiteNav";
 import { HeroSection } from "../components/HeroSection";
 import { EventsSection } from "../components/EventsSection";
 import { ContactSection } from "../components/ContactSection";
-import bgAsset from "../Events.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -39,18 +38,17 @@ function Index() {
 
       <HeroSection />
 
-      {/* Shared backdrop for everything below the hero. Absolute rather than
-          fixed so it doesn't bleed through the hero video above it. */}
-      <div className="relative overflow-hidden">
+      {/* The hero video sits fixed behind the whole page (see HeroSection), so
+          it keeps playing under everything below rather than scrolling away
+          with the hero. This wrapper is what makes it read as "background"
+          again once the events content arrives: a frosted, darkened pane
+          (backdrop-blur) over the still-playing video, instead of stopping
+          it dead and swapping in a static image. */}
+      <div className="relative z-10 overflow-hidden">
+        <div aria-hidden className="absolute inset-0 bg-black/55 backdrop-blur-md" />
         <div
           aria-hidden
-          className="absolute inset-0 scale-110 bg-cover bg-center blur-[6px]"
-          style={{ backgroundImage: `url(${bgAsset})` }}
-        />
-        <div aria-hidden className="absolute inset-0 bg-black/75" />
-        <div
-          aria-hidden
-          className="absolute inset-0 bg-gradient-to-b from-black via-black/50 to-black"
+          className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/60"
         />
 
         <div className="relative z-10">

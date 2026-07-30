@@ -14,6 +14,7 @@ if you change an event here, update the data file, and vice versa.
 - **Category:** Technical Paper Presentation
 - **Participation:** Individual
 - **Poster:** `src/Paperpresentation.jpg`
+- **Coordinators:** Asmita & Bharath
 
 WayneTech Research Summit is a technical paper presentation event where participants are
 required to submit their research paper prior to the competition (preferably one day before
@@ -46,6 +47,7 @@ innovation, and the ability to answer questions effectively.
 - **Category:** Solo Technical Coding Challenge
 - **Participation:** Individual
 - **Poster:** `src/WhySoSerious.jpg`
+- **Coordinators:** Uwais & Preetha
 
 Why So Serious? is an interactive coding competition where participants solve a series of
 programming challenges to inflict "damage" on the Joker.
@@ -77,6 +79,7 @@ winner.
 - **Category:** Team AI Development Challenge
 - **Participation:** 3–4 Members
 - **Poster:** `src/RougeAI.jpg`
+- **Coordinators:** Sri Lekha & Nandhini
 
 > Note: spelled **Rogue AI**. The old site said "Rouge AI" — that was a typo and is now fixed.
 > The image filename is still `RougeAI.jpg`; renaming it is optional cleanup.
@@ -109,6 +112,7 @@ to deliver a robust chatbot despite unpredictable conditions.
 - **Category:** Team AI Video Generation
 - **Participation:** 2 Members
 - **Poster:** ⚠️ **NONE — using `src/OperationKnightfall.jpg` as a temporary stand-in**
+- **Coordinators:** Marie & Nisha
 
 The Gotham Times is a two-member AI video generation competition inspired by Gotham City from
 the DC Universe.
@@ -138,6 +142,7 @@ editing is permitted, it does not guarantee additional evaluation points.
 - **Category:** Technical Duo Event — Prompt Engineering
 - **Participation:** 2 Members
 - **Poster:** `src/BatmanRobin.jpg`
+- **Coordinators:** Ananya & Reny
 
 Batman & Robin is a two-member prompt engineering challenge designed to evaluate communication
 and AI prompting skills.
@@ -168,6 +173,7 @@ knowledge, and responsible AI practices.
 - **Category:** Solo Database Challenge
 - **Participation:** Individual
 - **Poster:** `src/Riddler.jpg`
+- **Coordinators:** To be announced
 
 Riddler's Escape is a gamified database problem-solving event where participants navigate through
 a virtual environment consisting of five sequential rooms.
@@ -208,12 +214,10 @@ Freed poster images still in the repo: `ArkhamEscape.jpg`, `LeagueOfShadows.jpg`
 
 ## Still needed per event
 
-None of the following were supplied. Each is currently absent from the site:
-
 - [ ] Duration / time slot for each event
 - [ ] Venue or lab per event
 - [ ] Prize details
-- [ ] Registration fee (if any)
-- [ ] Student coordinator name + phone per event
-- [ ] Registration link (Google Form or otherwise)
+- [x] Registration fee — confirmed free, all events (see `src/data/site.ts` `SITE.fee`)
+- [x] Student coordinator name per event (see table above / `coordinators` field in `src/data/events.ts`) — phone numbers not supplied per-event, only for the two overall coordinators
+- [ ] Registration link (Google Form or otherwise) — `REGISTER_URL` in `src/data/site.ts` is the single switch, currently `"#"`
 - [ ] Custom poster for **The Gotham Times**

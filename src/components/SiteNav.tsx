@@ -1,4 +1,7 @@
 import { useEffect, useState } from "react";
+import { Menu, X } from "lucide-react";
+import logoAsset from "../strata26Logo.png";
+import { REGISTER_URL } from "../data/site";
 
 const SECTIONS = [
   { id: "home", label: "Home" },
@@ -10,7 +13,8 @@ const SECTIONS = [
  * Fixed single-page nav.
  *
  * Transparent while sitting over the hero video, then picks up a blurred bar
- * once the page scrolls so the links stay legible over the event grid.
+ * once the page scrolls past ~80px so the links stay legible over the event
+ * grid.
  *
  * Active section is derived from scroll position rather than an
  * IntersectionObserver: with a reference line the logic is easy to reason
@@ -20,6 +24,7 @@ const SECTIONS = [
 export function SiteNav() {
   const [active, setActive] = useState("home");
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     let frame = 0;
@@ -27,7 +32,7 @@ export function SiteNav() {
     const update = () => {
       frame = 0;
       const y = window.scrollY;
-      setScrolled(y > 40);
+      setScrolled(y > 80);
 
       // Once the page is scrolled to the bottom the last section is active,
       // even if it is too short to reach the reference line.
@@ -68,46 +73,117 @@ export function SiteNav() {
     };
   }, []);
 
-  return (
-    <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
-        scrolled
-          ? "border-b border-white/10 bg-black/70 py-4 backdrop-blur-md"
-          : "border-b border-transparent py-6"
-      }`}
-    >
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 md:px-12">
-        <a
-          href="#home"
-          className={`text-xs font-extrabold uppercase tracking-[0.4em] transition-all duration-500 hover:text-red-400 md:text-sm ${
-            scrolled ? "text-red-600 opacity-100" : "pointer-events-none opacity-0"
-          }`}
-        >
-          Strata '26
-        </a>
+  // Lock body scroll while the full-screen mobile menu is open; Escape closes it.
+  useEffect(() => {
+    if (!menuOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMenuOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [menuOpen]);
 
-        <nav className="ml-auto flex items-center gap-6 md:gap-10">
+  const registerLinkProps = { href: REGISTER_URL, target: "_blank", rel: "noopener noreferrer" } as const;
+
+  return (
+    <>
+      <header
+        className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
+          scrolled
+            ? "border-b border-red-900/40 bg-[rgba(10,3,4,0.85)] py-3 backdrop-blur-[12px]"
+            : "border-b border-transparent bg-transparent py-6"
+        }`}
+      >
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 md:px-12">
+          <a
+            href="#home"
+            aria-label="STRATA '26 home"
+            className={`transition-opacity duration-300 ${
+              scrolled ? "opacity-100" : "pointer-events-none opacity-0"
+            }`}
+          >
+            <img src={logoAsset} alt="STRATA '26" className="h-8 w-auto object-contain md:h-9" />
+          </a>
+
+          {/* Desktop links */}
+          <nav className="ml-auto hidden items-center gap-6 md:flex md:gap-10">
+            {SECTIONS.map((s) => (
+              <a
+                key={s.id}
+                href={`#${s.id}`}
+                aria-current={active === s.id ? "true" : undefined}
+                className={`relative text-xs font-semibold uppercase tracking-[0.25em] transition-colors duration-300 hover:text-red-500 md:text-sm ${
+                  active === s.id ? "text-red-500" : "text-white/70"
+                }`}
+              >
+                {s.label}
+                <span
+                  aria-hidden
+                  className={`absolute -bottom-1.5 left-0 h-px bg-red-600 transition-all duration-300 ${
+                    active === s.id ? "w-full" : "w-0"
+                  }`}
+                />
+              </a>
+            ))}
+            <a
+              {...registerLinkProps}
+              className="rounded-md bg-red-600 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.25em] text-white shadow-[0_0_20px_-6px_rgba(220,38,38,0.8)] transition-colors duration-300 hover:bg-red-500 md:text-sm"
+            >
+              Register
+            </a>
+          </nav>
+
+          {/* Mobile: register stays visible in the collapsed bar, not hidden inside the menu.
+              The nav register button is the only above-the-fold CTA now that the hero's own
+              register button is gone, so it stays solid rather than outlined. */}
+          <div className="ml-auto flex items-center gap-3 md:hidden">
+            <a
+              {...registerLinkProps}
+              className="rounded-md bg-red-600 px-3 py-1.5 text-[0.65rem] font-bold uppercase tracking-[0.2em] text-white shadow-[0_0_20px_-6px_rgba(220,38,38,0.8)] transition-colors duration-300 hover:bg-red-500"
+            >
+              Register
+            </a>
+            <button
+              type="button"
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={menuOpen}
+              onClick={() => setMenuOpen((v) => !v)}
+              className="rounded-sm text-white/80 transition-colors hover:text-red-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-600"
+            >
+              {menuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* Mobile full-screen overlay menu */}
+      {menuOpen && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Site menu"
+          className="fixed inset-0 z-40 flex flex-col items-center justify-center gap-10 bg-[rgba(10,3,4,0.98)] backdrop-blur-md md:hidden"
+        >
           {SECTIONS.map((s) => (
             <a
               key={s.id}
               href={`#${s.id}`}
-              aria-current={active === s.id ? "true" : undefined}
-              className={`relative text-xs font-semibold uppercase tracking-[0.25em] transition-colors duration-300 hover:text-red-500 md:text-sm ${
-                active === s.id ? "text-red-500" : "text-white/70"
+              onClick={() => setMenuOpen(false)}
+              className={`text-2xl font-bold uppercase tracking-[0.3em] transition-colors ${
+                active === s.id ? "text-red-500" : "text-white/80"
               }`}
             >
               {s.label}
-              <span
-                aria-hidden
-                className={`absolute -bottom-1.5 left-0 h-px bg-red-600 transition-all duration-300 ${
-                  active === s.id ? "w-full" : "w-0"
-                }`}
-              />
             </a>
           ))}
-        </nav>
-      </div>
-    </header>
+        </div>
+      )}
+    </>
   );
 }
 
