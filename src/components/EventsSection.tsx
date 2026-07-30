@@ -1,5 +1,6 @@
 import { useRef, useState, type RefObject } from "react";
 import { ArrowRight } from "lucide-react";
+import bgAsset from "../Events.jpg";
 import { EVENTS, type StrataEvent } from "../data/events";
 import { REGISTER_URL } from "../data/site";
 import { spawnCardBurst } from "./CardBurst";
@@ -12,6 +13,11 @@ const MODAL_OPEN_DELAY_MS = 250;
 /**
  * The event lineup. `scroll-mt-24` offsets the anchor target so the fixed nav
  * doesn't cover the heading when jumping here from the nav.
+ *
+ * Background: `absolute` (not `fixed`, unlike the hero) so it scrolls away
+ * with this section rather than pinning to the viewport — this section has
+ * its own image instead of inheriting the hero's video once the hero is
+ * scrolled out of view and its fixed layers are hidden.
  */
 export function EventsSection() {
   const [active, setActive] = useState<StrataEvent | null>(null);
@@ -37,8 +43,20 @@ export function EventsSection() {
   };
 
   return (
-    <section id="events" className="relative scroll-mt-24 px-6 py-20 md:px-12 md:py-24">
-      <div className="mx-auto max-w-6xl">
+    <section id="events" className="relative scroll-mt-24 overflow-hidden bg-black px-6 py-20 md:px-12 md:py-24">
+      {/* Background layer — sits behind everything in this section only */}
+      <div
+        aria-hidden
+        className="absolute inset-0 z-0 scale-110 bg-cover bg-center blur-[6px]"
+        style={{ backgroundImage: `url(${bgAsset})` }}
+      />
+      <div aria-hidden className="absolute inset-0 z-0 bg-black/70" />
+      <div
+        aria-hidden
+        className="absolute inset-0 z-0 bg-gradient-to-b from-black/80 via-black/40 to-black"
+      />
+
+      <div className="relative z-10 mx-auto max-w-6xl">
         {/* Heading */}
         <div className="text-center">
           <p className="font-batman text-[0.65rem] font-semibold uppercase tracking-[0.5em] text-sodium-glow md:text-xs">
