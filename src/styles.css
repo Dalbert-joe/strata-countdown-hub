@@ -59,6 +59,21 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Gotham palette. See the :root block below for what each token is for. */
+  --color-gotham-void: var(--gotham-void);
+  --color-gotham-asphalt: var(--gotham-asphalt);
+  --color-gotham-concrete: var(--gotham-concrete);
+  --color-gotham-steel: var(--gotham-steel);
+  --color-gotham-night: var(--gotham-night);
+  --color-gotham-slate: var(--gotham-slate);
+  --color-sodium-core: var(--sodium-core);
+  --color-sodium-glow: var(--sodium-glow);
+  --color-sodium-deep: var(--sodium-deep);
+  --color-sodium-ember: var(--sodium-ember);
+  --color-blood-oxblood: var(--blood-oxblood);
+  --color-blood-crimson: var(--blood-crimson);
+  --color-signal-yellow: var(--signal-yellow);
 }
 
 /*
@@ -105,6 +120,52 @@
   --sidebar-accent-foreground: oklch(0.97 0 0);
   --sidebar-border: oklch(1 0 0 / 12%);
   --sidebar-ring: oklch(0.577 0.245 27.325);
+
+  /*
+   * GOTHAM PALETTE
+   *
+   * The governing idea: Gotham is not "dark grey with an accent colour". It is
+   * near-total darkness with scarce, motivated light carved into it — sodium
+   * streetlamps, headlights on wet asphalt, a signal in the sky. So the base
+   * tokens are genuinely near-black and slightly COOL, and the accent tokens
+   * are all one WARM light source at different distances from its centre.
+   * Warm-on-cool is what makes the dark read as cold night air rather than as
+   * an empty div.
+   *
+   * Zoning rule (decided 2026-07-30, from the DC / Dark Knight reference
+   * boards): the hero keeps its red wash. Everything BELOW the hero is black +
+   * white + sodium gold/amber with no red at all — including the Register
+   * buttons, which go gold down there.
+   */
+
+  /* Base — the dark. Cool-shifted, never neutral grey. */
+  --gotham-void: oklch(0.03 0.004 250); /* page base below the hero */
+  --gotham-asphalt: oklch(0.09 0.008 252); /* raised surface, cards */
+  --gotham-concrete: oklch(0.16 0.01 254); /* borders, dividers, insets */
+  --gotham-steel: oklch(0.28 0.014 256); /* muted strokes */
+
+  /* Night air — the cold. Fog, distance, inactive state. */
+  --gotham-night: oklch(0.27 0.03 258); /* fog bands, haze */
+  --gotham-slate: oklch(0.55 0.04 257); /* secondary text, inactive */
+
+  /*
+   * Sodium — the light. One lamp, four distances from its centre. These are
+   * deliberately a single hue family (~55-88) so they read as one light source
+   * rather than as two competing accents: the gold of the DC board and the
+   * amber of the Dark Knight board are the same lamp, seen hot and seen dim.
+   * `glow` is the workhorse accent.
+   */
+  --sodium-core: oklch(0.9 0.08 88); /* hot centre, near-white gold */
+  --sodium-glow: oklch(0.8 0.16 82); /* THE accent — lamp gold */
+  --sodium-deep: oklch(0.65 0.15 62); /* amber falloff, orange edge */
+  --sodium-ember: oklch(0.46 0.11 55); /* dim warm border, lit edge */
+
+  /* Blood — alarm only, and only above the fold. */
+  --blood-oxblood: oklch(0.37 0.13 27);
+  --blood-crimson: oklch(0.577 0.245 27.325); /* = red-600 */
+
+  /* Signal — held back for one bat-signal moment. Not a general accent. */
+  --signal-yellow: oklch(0.86 0.18 95);
 }
 
 .dark {
@@ -140,6 +201,22 @@
   --sidebar-accent-foreground: oklch(0.97 0 0);
   --sidebar-border: oklch(1 0 0 / 12%);
   --sidebar-ring: oklch(0.577 0.245 27.325);
+
+  /* Identical to :root — the site is dark-only, so .dark exists purely to make
+     the class harmless wherever shadcn variants put it. */
+  --gotham-void: oklch(0.03 0.004 250);
+  --gotham-asphalt: oklch(0.09 0.008 252);
+  --gotham-concrete: oklch(0.16 0.01 254);
+  --gotham-steel: oklch(0.28 0.014 256);
+  --gotham-night: oklch(0.27 0.03 258);
+  --gotham-slate: oklch(0.55 0.04 257);
+  --sodium-core: oklch(0.9 0.08 88);
+  --sodium-glow: oklch(0.8 0.16 82);
+  --sodium-deep: oklch(0.65 0.15 62);
+  --sodium-ember: oklch(0.46 0.11 55);
+  --blood-oxblood: oklch(0.37 0.13 27);
+  --blood-crimson: oklch(0.577 0.245 27.325);
+  --signal-yellow: oklch(0.86 0.18 95);
 }
 
 @layer base {

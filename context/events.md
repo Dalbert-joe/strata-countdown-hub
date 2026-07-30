@@ -2,9 +2,20 @@
 
 Source of truth for all event content on the site.
 Provided by Jabin on 2026-07-29. Supersedes the original 8-event placeholder lineup.
+Last Updated: 2026-07-30
 
 The code mirrors this file at `src/data/events.ts`. **Edit both together** —
 if you change an event here, update the data file, and vice versa.
+
+Event descriptions below are **verbatim from the department**. Do not reword a
+rule to make it read better — only genuine typo fixes (and note them when you do).
+
+> ⚠️ **All per-event coordinator phone numbers are placeholders.**
+> Every event's coordinators use `PLACEHOLDER_PHONE` (`"00000 00000"`) from
+> `src/data/site.ts`. The **names are real**; the **numbers are not**. The live
+> site currently displays `00000 00000` with click-to-copy. This is a P0 item —
+> see `backlog.md`. Only the two _overall_ coordinators (Dhana Kishore, Dalbert
+> Joe, in `src/data/site.ts`) have real numbers.
 
 ---
 
@@ -29,14 +40,14 @@ innovation, and the ability to answer questions effectively.
 
 **Format facts**
 
-| | |
-| --- | --- |
-| Participation | Individual |
-| Presentation | 5 minutes |
-| Viva / Q&A | 2 minutes |
-| Submission | Paper due one day prior |
+|               |                         |
+| ------------- | ----------------------- |
+| Participation | Individual              |
+| Presentation  | 5 minutes               |
+| Viva / Q&A    | 2 minutes               |
+| Submission    | Paper due one day prior |
 
-> ⚠️ **Open question:** the source text says *"Each team will be allotted 5 minutes"* while the
+> ⚠️ **Open question:** the source text says _"Each team will be allotted 5 minutes"_ while the
 > category is Individual. Site currently says "Each participant". Confirm which is right.
 
 ---
@@ -64,11 +75,11 @@ winner.
 
 **Format facts**
 
-| | |
-| --- | --- |
-| Participation | Individual |
-| Scoring | Damage per solved problem |
-| Twist | Random Joker hazards |
+|               |                                     |
+| ------------- | ----------------------------------- |
+| Participation | Individual                          |
+| Scoring       | Damage per solved problem           |
+| Twist         | Random Joker hazards                |
 | Win condition | First to clear, else highest damage |
 
 ---
@@ -97,11 +108,11 @@ to deliver a robust chatbot despite unpredictable conditions.
 
 **Format facts**
 
-| | |
-| --- | --- |
-| Team size | 3–4 members |
-| Build | AI chatbot |
-| Twist | Peer-assigned constraints |
+|           |                             |
+| --------- | --------------------------- |
+| Team size | 3–4 members                 |
+| Build     | AI chatbot                  |
+| Twist     | Peer-assigned constraints   |
 | Judged on | Robustness and adaptability |
 
 ---
@@ -127,12 +138,12 @@ editing is permitted, it does not guarantee additional evaluation points.
 
 **Format facts**
 
-| | |
-| --- | --- |
-| Team size | 2 members |
-| Tool | Google Flow |
-| Deliverable | Short cinematic news video |
-| Judged on | Prompt quality, continuity, creativity |
+|             |                                        |
+| ----------- | -------------------------------------- |
+| Team size   | 2 members                              |
+| Tool        | Google Flow                            |
+| Deliverable | Short cinematic news video             |
+| Judged on   | Prompt quality, continuity, creativity |
 
 ---
 
@@ -158,12 +169,12 @@ knowledge, and responsible AI practices.
 
 **Format facts**
 
-| | |
-| --- | --- |
-| Team size | 2 members |
-| Roles | Batman describes, Robin prompts |
-| Evaluated | Prompt text only |
-| Focus | Prompt engineering, responsible AI |
+|           |                                    |
+| --------- | ---------------------------------- |
+| Team size | 2 members                          |
+| Roles     | Batman describes, Robin prompts    |
+| Evaluated | Prompt text only                   |
+| Focus     | Prompt engineering, responsible AI |
 
 ---
 
@@ -188,12 +199,12 @@ problem-solving ability, and speed under pressure.
 
 **Format facts**
 
-| | |
-| --- | --- |
-| Participation | Individual |
-| Rooms | 5 sequential |
-| Tech | SQL, NoSQL, PL/SQL, MongoDB |
-| Win condition | First to escape |
+|               |                             |
+| ------------- | --------------------------- |
+| Participation | Individual                  |
+| Rooms         | 5 sequential                |
+| Tech          | SQL, NoSQL, PL/SQL, MongoDB |
+| Win condition | First to escape             |
 
 ---
 
@@ -201,23 +212,60 @@ problem-solving ability, and speed under pressure.
 
 These were on the original placeholder site and are **no longer part of the lineup**:
 
-| Event | Fate |
-| --- | --- |
-| Arkham Escape | Removed |
-| League of Shadows | Removed |
-| Operation Knightfall | Removed — poster reused as Gotham Times stand-in |
-| Gotham's Ledger | Replaced by WayneTech Research Summit (same paper-presentation slot) |
+| Event                | Fate                                                                 |
+| -------------------- | -------------------------------------------------------------------- |
+| Arkham Escape        | Removed                                                              |
+| League of Shadows    | Removed                                                              |
+| Operation Knightfall | Removed — poster reused as Gotham Times stand-in                     |
+| Gotham's Ledger      | Replaced by WayneTech Research Summit (same paper-presentation slot) |
 
 Freed poster images still in the repo: `ArkhamEscape.jpg`, `LeagueOfShadows.jpg`.
 
 ---
 
+## Coordinator summary
+
+| Event                     | Coordinators               | Phone numbers  |
+| ------------------------- | -------------------------- | -------------- |
+| WayneTech Research Summit | Asmita, Bharath            | ❌ placeholder |
+| Why So Serious?           | Uwais, Preetha             | ❌ placeholder |
+| Rogue AI                  | Sri Lekha, Nandhini        | ❌ placeholder |
+| The Gotham Times          | Marie, Nisha               | ❌ placeholder |
+| Batman & Robin            | Ananya, Reny               | ❌ placeholder |
+| Riddler's Escape          | ❌ **none assigned**       | —              |
+| _Overall_                 | Dhana Kishore, Dalbert Joe | ✅ real        |
+
+---
+
+## Data shape
+
+Each event in `src/data/events.ts` carries:
+
+| Field                       | Notes                                                              |
+| --------------------------- | ------------------------------------------------------------------ |
+| `slug`                      | Unique, URL-safe. Ready for `/events/$slug` routes if ever needed. |
+| `title`, `tag`              | `tag` is the "Event 0X" badge                                      |
+| `category`, `participation` | Both render as badges on the card                                  |
+| `poster`                    | Imported image module, not a path string                           |
+| `summary`                   | One-liner for the card — keep to ~2 lines at card width            |
+| `description[]`             | One string per paragraph, verbatim from the department             |
+| `highlights[]`              | `{ label, value }` — the format-facts table in the modal           |
+| `coordinators[]`            | `{ name, phone }` — empty array renders "To be announced"          |
+
+---
+
 ## Still needed per event
 
-- [ ] Duration / time slot for each event
-- [ ] Venue or lab per event
+- [ ] **Per-event coordinator phone numbers** (10 total) — currently all placeholders
+- [ ] **Coordinators for Riddler's Escape** — the only event with none assigned
+- [ ] **Registration link** — `REGISTER_URL` in `src/data/site.ts` is the single
+      switch for all five register buttons, currently `"#"`
+- [ ] **Custom poster for The Gotham Times** — currently reusing the cut
+      Operation Knightfall art
+- [ ] Duration / time slot for each event — would need a new `StrataEvent` field
+- [ ] Venue or lab per event — same
 - [ ] Prize details
-- [x] Registration fee — confirmed free, all events (see `src/data/site.ts` `SITE.fee`)
-- [x] Student coordinator name per event (see table above / `coordinators` field in `src/data/events.ts`) — phone numbers not supplied per-event, only for the two overall coordinators
-- [ ] Registration link (Google Form or otherwise) — `REGISTER_URL` in `src/data/site.ts` is the single switch, currently `"#"`
-- [ ] Custom poster for **The Gotham Times**
+- [ ] Resolve the WayneTech "team vs. participant" contradiction flagged above
+- [x] Registration fee — confirmed free, all events (`SITE.fee`)
+- [x] Student coordinator **names** per event (see summary table above)
+- [x] Event date and venue — 8 August 2026, LICET Chennai (`SITE.date` / `SITE.venue`)

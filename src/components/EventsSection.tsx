@@ -4,12 +4,7 @@ import { EVENTS, type StrataEvent } from "../data/events";
 import { REGISTER_URL } from "../data/site";
 import { spawnCardBurst } from "./CardBurst";
 import { PhoneNumber } from "./PhoneNumber";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
 const MODAL_OPEN_DELAY_MS = 250;
@@ -46,10 +41,13 @@ export function EventsSection() {
       <div className="mx-auto max-w-6xl">
         {/* Heading */}
         <div className="text-center">
-          <p className="text-[0.65rem] font-semibold uppercase tracking-[0.5em] text-red-600 md:text-xs">
+          <p className="text-[0.65rem] font-semibold uppercase tracking-[0.5em] text-sodium-glow md:text-xs">
             The Lineup
           </p>
-          <h2 className="mt-4 text-4xl font-black uppercase tracking-[0.15em] text-white drop-shadow-[0_0_30px_rgba(220,38,38,0.4)] md:text-6xl">
+          {/* Warm halation rather than a red drop-shadow: the heading should
+              look lit by the same sodium lamp as everything else in this
+              section, not like it is emitting its own colour. */}
+          <h2 className="mt-4 text-4xl font-black uppercase tracking-[0.15em] text-white drop-shadow-[0_0_34px_rgba(238,178,44,0.3)] md:text-6xl">
             Events
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-sm text-white/70 md:text-base">
@@ -87,7 +85,7 @@ export function EventsSection() {
                     }
                   }}
                   style={{ animationDelay: `${i * 70}ms` }}
-                  className="group relative z-10 flex h-full animate-[cardIn_0.7s_ease-out_both] cursor-pointer flex-col overflow-hidden rounded-xl border border-white/10 bg-white/[0.03] backdrop-blur-sm transition-all duration-500 hover:-translate-y-2 hover:border-red-600/60 hover:shadow-[0_0_40px_-8px_rgba(220,38,38,0.55)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-600 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                  className="group relative z-10 flex h-full animate-[cardIn_0.7s_ease-out_both] cursor-pointer flex-col overflow-hidden rounded-xl border border-white/10 bg-white/[0.03] backdrop-blur-sm transition-all duration-500 hover:-translate-y-2 hover:border-sodium-glow/60 hover:shadow-[0_0_40px_-8px_rgba(238,178,44,0.4)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sodium-glow focus-visible:ring-offset-2 focus-visible:ring-offset-black"
                 >
                   {/* Fixed aspect ratio keeps every card identical regardless of source image dimensions */}
                   <div className="relative aspect-[3/4] w-full shrink-0 overflow-hidden bg-gradient-to-b from-neutral-900 to-black">
@@ -102,7 +100,7 @@ export function EventsSection() {
                       aria-hidden
                       className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent"
                     />
-                    <span className="absolute left-3 top-3 rounded-full border border-red-600/50 bg-black/40 px-2 py-0.5 text-[0.55rem] font-bold uppercase tracking-[0.2em] text-red-500 backdrop-blur-sm">
+                    <span className="absolute left-3 top-3 rounded-full border border-sodium-deep/50 bg-black/40 px-2 py-0.5 text-[0.55rem] font-bold uppercase tracking-[0.2em] text-sodium-glow backdrop-blur-sm">
                       {ev.tag}
                     </span>
                     <span className="absolute right-3 top-3 rounded-full border border-white/20 bg-black/50 px-2 py-0.5 text-[0.55rem] font-bold uppercase tracking-[0.15em] text-white/80 backdrop-blur-sm">
@@ -111,13 +109,19 @@ export function EventsSection() {
                   </div>
 
                   <div className="relative flex flex-1 flex-col p-4">
-                    <p className="text-[0.55rem] font-semibold uppercase tracking-[0.25em] text-red-500/80">
+                    {/* Category sits one step further from the lamp than the
+                        title does — deep amber reads as the dimmer falloff, so
+                        the two warm elements have a hierarchy instead of
+                        competing at the same brightness. */}
+                    <p className="text-[0.55rem] font-semibold uppercase tracking-[0.25em] text-sodium-deep">
                       {ev.category}
                     </p>
-                    <h3 className="mt-1.5 text-sm font-bold uppercase tracking-[0.15em] text-white transition-colors duration-300 group-hover:text-red-500 md:text-base">
+                    <h3 className="mt-1.5 text-sm font-bold uppercase tracking-[0.15em] text-white transition-colors duration-300 group-hover:text-sodium-glow md:text-base">
                       {ev.title}
                     </h3>
-                    <p className="mt-2 flex-1 text-xs leading-relaxed text-white/65">{ev.summary}</p>
+                    <p className="mt-2 flex-1 text-xs leading-relaxed text-white/65">
+                      {ev.summary}
+                    </p>
 
                     <p
                       className={`mt-3 text-[0.6rem] font-semibold uppercase tracking-[0.15em] ${
@@ -128,17 +132,22 @@ export function EventsSection() {
                     </p>
 
                     <div className="mt-4 flex items-center justify-between gap-3">
-                      <span className="inline-flex items-center gap-1 text-[0.6rem] font-bold uppercase tracking-[0.2em] text-red-500 transition-transform duration-300 group-hover:translate-x-1">
+                      <span className="inline-flex items-center gap-1 text-[0.6rem] font-bold uppercase tracking-[0.2em] text-sodium-glow transition-transform duration-300 group-hover:translate-x-1">
                         View Details
                         <ArrowRight className="h-3 w-3" aria-hidden="true" />
                       </span>
+                      {/* Gold, not crimson: below the hero there is no red at
+                          all, so the CTA earns its prominence from being the
+                          only *filled* warm block on a black card rather than
+                          from being a different hue. Black text on gold also
+                          out-contrasts the old white-on-red. */}
                       <a
                         href={REGISTER_URL}
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={(e) => e.stopPropagation()}
                         aria-label={`Register for ${ev.title}`}
-                        className="rounded-md bg-red-600 px-5 py-2 text-center text-[0.6rem] font-bold uppercase tracking-[0.25em] text-white transition-colors duration-300 hover:bg-red-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-600"
+                        className="rounded-md bg-sodium-glow px-5 py-2 text-center text-[0.6rem] font-bold uppercase tracking-[0.25em] text-black transition-colors duration-300 hover:bg-sodium-core focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sodium-glow"
                       >
                         Register
                       </a>
@@ -186,7 +195,7 @@ function EventDialog({
           <>
             {/* 1. Event name */}
             <DialogHeader>
-              <p className="text-[0.6rem] font-semibold uppercase tracking-[0.35em] text-red-500">
+              <p className="text-[0.6rem] font-semibold uppercase tracking-[0.35em] text-sodium-glow">
                 {event.tag} — {event.category}
               </p>
               <DialogTitle className="mt-2 text-2xl font-black uppercase tracking-[0.1em] text-white md:text-3xl">
@@ -242,7 +251,7 @@ function EventDialog({
               href={REGISTER_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex w-full items-center justify-center rounded-md bg-red-600 px-4 py-3 text-[0.65rem] font-bold uppercase tracking-[0.3em] text-white transition-colors hover:bg-red-500"
+              className="inline-flex w-full items-center justify-center rounded-md bg-sodium-glow px-4 py-3 text-[0.65rem] font-bold uppercase tracking-[0.3em] text-black transition-colors hover:bg-sodium-core"
             >
               Register
             </a>

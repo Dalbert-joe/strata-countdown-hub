@@ -88,14 +88,32 @@ export function SiteNav() {
     };
   }, [menuOpen]);
 
-  const registerLinkProps = { href: REGISTER_URL, target: "_blank", rel: "noopener noreferrer" } as const;
+  const registerLinkProps = {
+    href: REGISTER_URL,
+    target: "_blank",
+    rel: "noopener noreferrer",
+  } as const;
+
+  // Zone rule (see the Gotham palette block in styles.css): the hero keeps its
+  // red wash, everything past it is sodium gold. The nav is the one element
+  // that crosses that boundary, because it is fixed. So it re-colours at the
+  // same 80px threshold that raises the scrolled bar — meaning the nav and the
+  // section directly behind it are always in the same palette, and the switch
+  // is hidden inside a transition the user already expects.
+  const accentText = scrolled ? "text-sodium-glow" : "text-red-500";
+  const accentHover = scrolled ? "hover:text-sodium-glow" : "hover:text-red-500";
+  const accentUnderline = scrolled ? "bg-sodium-glow" : "bg-red-600";
+  const accentRing = scrolled ? "focus-visible:ring-sodium-glow" : "focus-visible:ring-red-600";
+  const ctaClasses = scrolled
+    ? "bg-sodium-glow text-black shadow-[0_0_20px_-6px_rgba(238,178,44,0.8)] hover:bg-sodium-core"
+    : "bg-red-600 text-white shadow-[0_0_20px_-6px_rgba(220,38,38,0.8)] hover:bg-red-500";
 
   return (
     <>
       <header
         className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
           scrolled
-            ? "border-b border-red-900/40 bg-[rgba(10,3,4,0.85)] py-3 backdrop-blur-[12px]"
+            ? "border-b border-sodium-ember/40 bg-[rgba(4,4,6,0.9)] py-3 backdrop-blur-[12px]"
             : "border-b border-transparent bg-transparent py-6"
         }`}
       >
@@ -117,14 +135,14 @@ export function SiteNav() {
                 key={s.id}
                 href={`#${s.id}`}
                 aria-current={active === s.id ? "true" : undefined}
-                className={`relative text-xs font-semibold uppercase tracking-[0.25em] transition-colors duration-300 hover:text-red-500 md:text-sm ${
-                  active === s.id ? "text-red-500" : "text-white/70"
+                className={`relative text-xs font-semibold uppercase tracking-[0.25em] transition-colors duration-300 md:text-sm ${accentHover} ${
+                  active === s.id ? accentText : "text-white/70"
                 }`}
               >
                 {s.label}
                 <span
                   aria-hidden
-                  className={`absolute -bottom-1.5 left-0 h-px bg-red-600 transition-all duration-300 ${
+                  className={`absolute -bottom-1.5 left-0 h-px transition-all duration-300 ${accentUnderline} ${
                     active === s.id ? "w-full" : "w-0"
                   }`}
                 />
@@ -132,7 +150,7 @@ export function SiteNav() {
             ))}
             <a
               {...registerLinkProps}
-              className="rounded-md bg-red-600 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.25em] text-white shadow-[0_0_20px_-6px_rgba(220,38,38,0.8)] transition-colors duration-300 hover:bg-red-500 md:text-sm"
+              className={`rounded-md px-4 py-1.5 text-xs font-bold uppercase tracking-[0.25em] transition-colors duration-300 md:text-sm ${ctaClasses}`}
             >
               Register
             </a>
@@ -144,7 +162,7 @@ export function SiteNav() {
           <div className="ml-auto flex items-center gap-3 md:hidden">
             <a
               {...registerLinkProps}
-              className="rounded-md bg-red-600 px-3 py-1.5 text-[0.65rem] font-bold uppercase tracking-[0.2em] text-white shadow-[0_0_20px_-6px_rgba(220,38,38,0.8)] transition-colors duration-300 hover:bg-red-500"
+              className={`rounded-md px-3 py-1.5 text-[0.65rem] font-bold uppercase tracking-[0.2em] transition-colors duration-300 ${ctaClasses}`}
             >
               Register
             </a>
@@ -153,7 +171,7 @@ export function SiteNav() {
               aria-label={menuOpen ? "Close menu" : "Open menu"}
               aria-expanded={menuOpen}
               onClick={() => setMenuOpen((v) => !v)}
-              className="rounded-sm text-white/80 transition-colors hover:text-red-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-600"
+              className={`rounded-sm text-white/80 transition-colors focus-visible:outline-none focus-visible:ring-2 ${accentHover} ${accentRing}`}
             >
               {menuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
@@ -167,7 +185,7 @@ export function SiteNav() {
           role="dialog"
           aria-modal="true"
           aria-label="Site menu"
-          className="fixed inset-0 z-40 flex flex-col items-center justify-center gap-10 bg-[rgba(10,3,4,0.98)] backdrop-blur-md md:hidden"
+          className="fixed inset-0 z-40 flex flex-col items-center justify-center gap-10 bg-[rgba(4,4,6,0.98)] backdrop-blur-md md:hidden"
         >
           {SECTIONS.map((s) => (
             <a
@@ -175,7 +193,7 @@ export function SiteNav() {
               href={`#${s.id}`}
               onClick={() => setMenuOpen(false)}
               className={`text-2xl font-bold uppercase tracking-[0.3em] transition-colors ${
-                active === s.id ? "text-red-500" : "text-white/80"
+                active === s.id ? accentText : "text-white/80"
               }`}
             >
               {s.label}

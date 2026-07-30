@@ -7,7 +7,7 @@ function PhoneIcon({ copied }: { copied: boolean }) {
     <svg
       aria-hidden="true"
       viewBox="0 0 16 16"
-      className="h-[14px] w-[14px] shrink-0 text-red-800 transition-colors duration-200 group-hover:text-red-500"
+      className="h-[14px] w-[14px] shrink-0 text-sodium-ember transition-colors duration-200 group-hover:text-sodium-glow"
       fill="none"
     >
       {copied ? (
@@ -87,7 +87,9 @@ export function PhoneNumber({ phone, className = "" }: { phone: string; classNam
     [],
   );
 
-  const sharedClasses = `group inline-flex items-center gap-2 underline decoration-red-800/50 decoration-dotted underline-offset-4 transition-colors duration-200 hover:text-red-500 hover:decoration-red-500 ${className}`;
+  // PhoneNumber only ever renders below the hero (contact block + event
+  // modals), so it follows the below-the-fold rule: sodium, never red.
+  const sharedClasses = `group inline-flex items-center gap-2 underline decoration-sodium-ember/60 decoration-dotted underline-offset-4 transition-colors duration-200 hover:text-sodium-glow hover:decoration-sodium-glow ${className}`;
 
   if (!canHover) {
     return (

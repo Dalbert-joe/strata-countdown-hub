@@ -5,7 +5,12 @@ const MAPS_URL = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
 
 function MapPinIcon() {
   return (
-    <svg aria-hidden="true" viewBox="0 0 24 24" className="h-6 w-6 shrink-0 text-red-500" fill="none">
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      className="h-6 w-6 shrink-0 text-sodium-glow"
+      fill="none"
+    >
       <path
         d="M12 21s7-6.5 7-12a7 7 0 10-14 0c0 5.5 7 12 7 12z"
         stroke="currentColor"
@@ -30,10 +35,10 @@ export function ContactSection() {
       <div className="mx-auto max-w-6xl">
         {/* Heading */}
         <div className="text-center">
-          <p className="text-[0.65rem] font-semibold uppercase tracking-[0.5em] text-red-600 md:text-xs">
+          <p className="text-[0.65rem] font-semibold uppercase tracking-[0.5em] text-sodium-glow md:text-xs">
             Get In Touch
           </p>
-          <h2 className="mt-4 text-4xl font-black uppercase tracking-[0.15em] text-white drop-shadow-[0_0_30px_rgba(220,38,38,0.4)] md:text-6xl">
+          <h2 className="mt-4 text-4xl font-black uppercase tracking-[0.15em] text-white drop-shadow-[0_0_34px_rgba(238,178,44,0.3)] md:text-6xl">
             Contact
           </h2>
         </div>
@@ -41,7 +46,7 @@ export function ContactSection() {
         <div className="mt-16 grid gap-10 md:grid-cols-3">
           {/* 1. Brand block */}
           <div>
-            <p className="text-lg font-black uppercase tracking-[0.3em] text-red-600">
+            <p className="text-lg font-black uppercase tracking-[0.3em] text-sodium-glow">
               {SITE.name}
             </p>
             <p className="mt-3 text-sm leading-relaxed text-white/60">{SITE.tagline}</p>
@@ -56,7 +61,7 @@ export function ContactSection() {
             <div className="mt-4 space-y-1.5 text-sm text-white/70">
               <p>{SITE.date}</p>
               <p>{SITE.venue}</p>
-              <p className="text-red-500/90">{SITE.fee}</p>
+              <p className="text-sodium-glow">{SITE.fee}</p>
             </div>
           </div>
 
@@ -77,7 +82,7 @@ export function ContactSection() {
         </div>
 
         {/* 4. Location box */}
-        <div className="mx-auto mt-16 max-w-xl rounded-[20px] border border-red-900/40 bg-white/[0.03] p-6 sm:p-8">
+        <div className="mx-auto mt-16 max-w-xl rounded-[20px] border border-sodium-ember/40 bg-white/[0.03] p-6 sm:p-8">
           <div className="flex items-start gap-4">
             <MapPinIcon />
             <div>
@@ -89,7 +94,7 @@ export function ContactSection() {
             href={MAPS_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-6 inline-flex w-full items-center justify-center rounded-md border border-red-600 px-6 py-3 text-[0.65rem] font-bold uppercase tracking-[0.3em] text-red-500 transition-colors duration-300 hover:bg-red-600 hover:text-white"
+            className="mt-6 inline-flex w-full items-center justify-center rounded-md border border-sodium-glow px-6 py-3 text-[0.65rem] font-bold uppercase tracking-[0.3em] text-sodium-glow transition-colors duration-300 hover:bg-sodium-glow hover:text-black"
           >
             Open in Maps
           </a>
@@ -101,7 +106,7 @@ export function ContactSection() {
             href={REGISTER_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center rounded-md bg-red-600 px-10 py-4 text-[0.7rem] font-bold uppercase tracking-[0.35em] text-white transition-all duration-300 hover:bg-red-500 hover:shadow-[0_0_40px_-8px_rgba(220,38,38,0.8)]"
+            className="inline-flex items-center justify-center rounded-md bg-sodium-glow px-10 py-4 text-[0.7rem] font-bold uppercase tracking-[0.35em] text-black transition-all duration-300 hover:bg-sodium-core hover:shadow-[0_0_44px_-8px_rgba(238,178,44,0.75)]"
           >
             Register Now
           </a>
@@ -120,7 +125,7 @@ export function ContactSection() {
                   href={SITE.socials.instagram}
                   target="_blank"
                   rel="noreferrer"
-                  className="text-[0.6rem] uppercase tracking-[0.3em] text-white/40 transition-colors hover:text-red-500"
+                  className="text-[0.6rem] uppercase tracking-[0.3em] text-white/40 transition-colors hover:text-sodium-glow"
                 >
                   Instagram
                 </a>
@@ -130,7 +135,7 @@ export function ContactSection() {
                   href={SITE.socials.linkedin}
                   target="_blank"
                   rel="noreferrer"
-                  className="text-[0.6rem] uppercase tracking-[0.3em] text-white/40 transition-colors hover:text-red-500"
+                  className="text-[0.6rem] uppercase tracking-[0.3em] text-white/40 transition-colors hover:text-sodium-glow"
                 >
                   LinkedIn
                 </a>

@@ -1,148 +1,239 @@
-# STRATA '26 Website — Project Context
+# STRATA '26 Website — Architecture & Status
 
-Paste-ready context for any AI tool working on this site.
-Last Updated: 2026-07-29
+Technical context. Read `README.md` first for orientation and ground rules.
+Last Updated: 2026-07-30
 
 ---
 
-## What this is
+## The event itself
 
-The website for **STRATA '26**, the annual Artificial Intelligence & Data Science
-department symposium. Batman / Gotham themed. Six competitive events.
+|                      |                                                                    |
+| -------------------- | ------------------------------------------------------------------ |
+| Name                 | STRATA '26                                                         |
+| Tagline              | Artificial Intelligence & Data Science Symposium                   |
+| Date                 | **8 August 2026**, 09:00 IST                                       |
+| Venue                | Loyola ICAM College of Engineering and Technology (LICET), Chennai |
+| Department           | Department of Artificial Intelligence & Data Science               |
+| Entry fee            | **Free** — all events, no registration fee                         |
+| Events               | 6 (see `events.md`)                                                |
+| Registration         | One Google Form for all six events — **URL not yet supplied**      |
+| Overall coordinators | Dhana Kishore (+91 93425 03004), Dalbert Joe (+91 95666 87085)     |
+| Theme                | Batman / Gotham (see `design-system.md`)                           |
 
-Owner: Jabin (B.Tech AI & DS, 5th semester).
+All of the above is encoded in **`src/data/site.ts`** — that file is the single
+source of truth for site-wide facts, and every component reads from it.
 
 ---
 
 ## Stack
 
-| Layer | Choice |
-| --- | --- |
-| Framework | TanStack Start (file-based routing, SSR) |
-| UI | React 19 |
-| Build | Vite 8 |
-| Styling | Tailwind CSS v4 (`@theme inline` tokens in `src/styles.css`) |
-| Components | shadcn/ui — full set installed under `src/components/ui/` |
-| Origin | Scaffolded in [Lovable](https://lovable.dev), synced via `.lovable/project.json` |
-| Package manager | npm (a `bun.lock` also exists from the Lovable scaffold) |
+| Layer           | Choice                                       | Notes                                                                  |
+| --------------- | -------------------------------------------- | ---------------------------------------------------------------------- |
+| Framework       | **TanStack Start**                           | File-based routing, SSR                                                |
+| UI              | **React 19**                                 |                                                                        |
+| Build           | **Vite 8**                                   | Config is thin on purpose — see below                                  |
+| Styling         | **Tailwind CSS v4**                          | `@theme inline` tokens in `src/styles.css`, `oklch` colors             |
+| Components      | **shadcn/ui**                                | Full 47-component set under `src/components/ui/`                       |
+| Icons           | **lucide-react**                             |                                                                        |
+| Fonts           | **Anton** via Google Fonts                   | Preconnect + stylesheet in `__root.tsx`; used for countdown digits     |
+| Data fetching   | **TanStack Query**                           | Provider wired in `__root.tsx`; nothing uses it yet                    |
+| Toasts          | **sonner**                                   | `<Toaster theme="dark" />` mounted in `index.tsx`; nothing uses it yet |
+| Origin          | Scaffolded in [Lovable](https://lovable.dev) | `.lovable/project.json`, git-synced                                    |
+| Package manager | **npm**                                      | A `bun.lock` also exists from the Lovable scaffold                     |
 
-Run locally:
+### Vite config warning
 
-```
-npm run dev
-```
-
-Serves on **http://localhost:5173**. A Claude Code launch config exists at
-`.claude/launch.json` under the name `strata`.
+`vite.config.ts` uses `@lovable.dev/vite-tanstack-config`, which **already
+includes** the TanStack Start plugin, nitro, `@tailwindcss/vite`, tsconfig-paths,
+and the devtools. **Do not add any of those manually** — duplicate registration
+breaks the build.
 
 ---
 
-## Structure — SINGLE PAGE
+## Architecture — ONE SCROLLING PAGE
 
-The site is **one scrolling page**, not multiple routes. Home / Events / Contact are
-sections on `/`, reached by hash anchors and smooth scrolling.
+This is the most important structural fact. The site is **not** multi-page.
+Home / Events / Contact are **sections on `/`**, reached by hash anchors with
+CSS smooth scrolling.
 
-| File | Role |
-| --- | --- |
-| `src/routes/__root.tsx` | app shell (wraps everything, holds `<Outlet />`) |
-| `src/routes/index.tsx` | `/` — composes all three sections |
-| `src/routes/events.tsx` | redirect only: `/events` → `/#events` |
-| `src/components/SiteNav.tsx` | fixed nav, smooth-scroll anchors, active-section tracking |
-| `src/components/HeroSection.tsx` | `#home` — video hero |
-| `src/components/EventsSection.tsx` | `#events` — event grid + detail dialogs |
-| `src/components/ContactSection.tsx` | `#contact` — contact block + footer |
+### Routes
 
-`/events` is kept purely as a redirect so links already shared out (posters, Instagram
-bios, WhatsApp forwards) don't 404.
+| File                    | Role                                                                                                              |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| `src/routes/__root.tsx` | App shell. `<html>`/`<body>`, all `<meta>`, font links, QueryClientProvider, 404 + error components, `<Outlet />` |
+| `src/routes/index.tsx`  | `/` — composes the three sections and the shared backdrop                                                         |
+| `src/routes/events.tsx` | **Redirect only:** `/events` → `/#events`                                                                         |
+| `src/routeTree.gen.ts`  | **Auto-generated. Never edit.**                                                                                   |
+| `src/router.tsx`        | Router instance + QueryClient                                                                                     |
 
-**To add a new section:** create a component with an `id`, give it `scroll-mt-24` so the
-fixed nav doesn't cover its heading, render it in `index.tsx`, and add it to the
-`SECTIONS` array in `SiteNav.tsx`.
+`/events` exists purely as a redirect so links already shared out — posters,
+Instagram bios, WhatsApp forwards — don't 404.
 
-Active-section tracking measures with `getBoundingClientRect().top`, **not** `offsetTop` —
-the lower sections sit inside a `relative` wrapper, so `offsetTop` would measure from that
-wrapper and report 0 for every one of them.
+### Components
 
-TanStack Start file-based routing still applies to `src/routes/`. `src/routeTree.gen.ts`
-is auto-generated — never hand-edit it. Do **not** create `src/pages/` or `app/layout.tsx`;
-those are Next.js/Remix conventions and will not work here.
+| File                          | Section    | Role                                                                                                                                                                                                                      |
+| ----------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `SiteNav.tsx`                 | fixed      | Nav bar. Transparent over hero, blurred bar past 80px. Active-section underline. Mobile hamburger → full-screen overlay. Register CTA.                                                                                    |
+| `HeroSection.tsx`             | `#home`    | Full-viewport. Background video (desktop) / poster image (mobile), vignette layers, logo with interactive searchlight, countdown, scroll cue.                                                                             |
+| `CountdownTimer.tsx`          | in hero    | Live D/H/M/S countdown to `SITE.dateISO`. SSR-safe. Pauses when tab hidden.                                                                                                                                               |
+| `EventsSection.tsx`           | `#events`  | 3-across grid of six event cards + the detail `Dialog`. Whole card is the click target.                                                                                                                                   |
+| `CardBurst.ts`                | in events  | Fire-and-forget particle burst (bat / joker / card / question-mark silhouettes) on card open. Plain DOM + Web Animations API, deliberately outside React.                                                                 |
+| `PhoneNumber.tsx`             | shared     | Click-to-copy phone number; `tel:` link on touch devices.                                                                                                                                                                 |
+| `ContactSection.tsx`          | `#contact` | Identity, when/where, overall coordinators, location card with Maps link, final register CTA, footer bar. Doubles as the footer.                                                                                          |
+| `hooks/use-hero-spotlight.ts` | in hero    | Desktop-only searchlight. Writes only `transform` per frame so the static blur is rasterized once.                                                                                                                        |
+| `Atmosphere.tsx`              | whole page | Film grain + cool night haze + low fog. Fixed at `z-60` so it lays over the nav and every section — grain belongs to the frame, not to elements. `pointer-events-none`. Static, so nothing to disable for reduced-motion. |
+
+### Adding a new section
+
+1. Create the component with an `id` and `scroll-mt-24` (offsets the fixed nav so
+   the heading isn't covered on anchor jump).
+2. Render it inside `index.tsx`.
+3. Add `{ id, label }` to the `SECTIONS` array in `SiteNav.tsx` — the nav links,
+   the mobile menu, and active tracking all derive from that one array.
 
 ---
 
 ## Data flow
 
-All site content is centralized so components stay presentational:
+Content is centralized so components stay purely presentational.
 
-- `src/data/events.ts` — the six events (mirrors `context/events.md`)
-- `src/data/site.ts` — symposium identity, date, contact slots, nav
+```
+src/data/site.ts    ──►  SiteNav, HeroSection, CountdownTimer,
+                         EventsSection, ContactSection
+src/data/events.ts  ──►  EventsSection   (imports PLACEHOLDER_PHONE from site.ts)
+```
 
-Empty strings in `site.ts` render nothing, so unconfirmed details simply don't appear
-rather than showing placeholders. Fill them in as information is confirmed.
+### `src/data/site.ts` exports
 
----
+| Export              | Purpose                                                                                                                                                   |
+| ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `SITE`              | Typed `SiteConfig` object — name, tagline, date, `dateISO`, venue, department, college, fee, contact, socials                                             |
+| `REGISTER_URL`      | **The single switch for every register button on the site.** Currently `"#"`. Paste the Google Form URL here and all five register CTAs activate at once. |
+| `PLACEHOLDER_PHONE` | `"00000 00000"` — used by every per-event coordinator so all can be swapped in one pass                                                                   |
 
-## Design language
+**Empty-string convention:** every field is rendered conditionally. An empty
+string renders _nothing_ rather than a visible placeholder. This is intentional —
+fill values in as they're confirmed and the corresponding UI appears on its own.
+`SiteConfig` is typed with plain `string` fields (not `as const`) specifically so
+`!== ""` comparisons compile; see `decisions.md`.
 
-Dark-only. Black base, `red-600` accent, heavy uppercase letter-spacing, Gotham mood.
+### `src/data/events.ts`
 
-Theme tokens live in `src/styles.css`. `:root` is defined **dark** because the site has
-no light mode — this is what keeps the 404 and error pages from rendering white on an
-otherwise black site.
+Exports `StrataEvent` type and `EVENTS` array of six. Each event carries:
+`slug`, `title`, `tag`, `category`, `participation`, `poster`, `summary`,
+`description[]`, `highlights[]`, `coordinators[]`.
 
----
-
-## Current status (2026-07-29)
-
-**Done**
-- Converted from multi-page to a **single scrolling page** (Home / Events / Contact)
-- Fixed nav: transparent over the hero, blurred bar once scrolled, active-section underline
-- Hero section with autoplaying background video, bat scroll-cue and scroll indicator
-- Events section with all six real events and full detail dialogs
-- Contact section with footer; `/events` kept as a redirect
-- Dark theme tokens, smooth scrolling, reduced-motion support
-
-**Confirmed open items**
-- Event date **confirmed**: 8 August 2026, 09:00 IST — set in `SITE.date` / `SITE.dateISO`
-- Venue **confirmed**: Loyola ICAM College of Engineering and Technology, Chennai — `SITE.venue`
-- Registration is a single Google Form for all six events — `REGISTER_URL` in `src/data/site.ts` is the switch, still `"#"` pending the actual form link
-- Overall coordinators (Dhana Kishore, Dalbert Joe) and per-event coordinators are in place
-- No social links yet
-- The Gotham Times has no poster of its own
-
-**Known technical debt**
-- `src/herobg.mp4` is **5.3 MB** and autoplays. Needs compression (ffmpeg is not
-  installed on this machine) and a poster frame. This is the main mobile-performance risk.
-- `LeagueOfShadows.jpg` is 964 KB, unoptimized, and now unused.
-- Images live loose in `src/` root rather than `src/assets/`.
-- `src/assets/*.asset.json` are orphaned Lovable metadata stubs pointing at files that
-  no longer exist under those names.
-- `og:image` in `__root.tsx` points at a Lovable preview R2 URL that will break once
-  deployed elsewhere. No favicon.
-- Event posters are official Warner Bros. / DC Batman promotional art, not original
-  artwork. Standard practice for college fests, but it is licensed material.
-- **The project is not a git repository.** No local version control or backup; history
-  exists only in Lovable.
+`slug` is already unique and URL-safe, so migrating from the current modal to
+real `/events/$slug` routes would need **no data changes**.
 
 ---
 
-## Undecided — needs Jabin
+## Assets
 
-1. **Event details presentation** — currently a modal dialog per event, which suits the
-   single-page design. If shareable per-event links are ever needed (Instagram bios,
-   posters), the data is already keyed by `slug`, so dedicated routes could be added
-   alongside the dialogs without touching `src/data/events.ts`.
-2. **Registration** — the Google Form itself isn't wired yet. `REGISTER_URL` in
-   `src/data/site.ts` is the single switch: paste the form link and every register button
-   site-wide activates.
-3. **Deployment** — Lovable, Vercel, or college hosting. Affects whether the repo can be
-   restructured freely or must stay Lovable-compatible.
+Images live **loose in `src/` root** (not `src/assets/`) — a Lovable scaffold
+artifact. Imported directly by Vite, so they get hashed and bundled correctly.
+
+| File                                   | Used for                                                                          | Size note                           |
+| -------------------------------------- | --------------------------------------------------------------------------------- | ----------------------------------- |
+| `strata26Logo.png`                     | Logo, nav + hero, spotlight mask                                                  | 487 KB                              |
+| `herobg.mp4`                           | Hero background video (desktop only)                                              | **2.1 MB** (compressed from 5.5 MB) |
+| `Events.jpg`                           | Hero video poster (and the mobile hero still, since mobile never loads the video) |                                     |
+| `Paperpresentation.jpg`                | WayneTech Research Summit                                                         |                                     |
+| `WhySoSerious.jpg`                     | Why So Serious?                                                                   |                                     |
+| `RougeAI.jpg`                          | Rogue AI (filename keeps the old typo)                                            |                                     |
+| `OperationKnightfall.jpg`              | **Stand-in** for The Gotham Times                                                 |                                     |
+| `BatmanRobin.jpg`                      | Batman & Robin                                                                    |                                     |
+| `Riddler.jpg`                          | Riddler's Escape                                                                  |                                     |
+| `ArkhamEscape.jpg`                     | **Unused** — event removed                                                        |                                     |
+| `LeagueOfShadows.jpg`                  | **Unused** — event removed                                                        | 964 KB dead weight                  |
+| `BAT.jpg`, `bgSite.jpeg`, `button.png` | **Unused** scaffold leftovers                                                     |                                     |
+| `src/assets/*.asset.json`              | **Orphaned** Lovable metadata stubs pointing at filenames that no longer exist    |                                     |
+
+Event posters are official Warner Bros. / DC promotional art, not original
+artwork. Standard practice for college fests, but it is licensed material — worth
+Jabin knowing before anything goes wide.
 
 ---
 
-## Working rules
+## Performance choices already made
 
-- Keep `context/events.md` and `src/data/events.ts` in sync.
-- Don't invent event details, dates, or contact information — leave the slot empty and
-  ask instead.
-- Avoid rewriting published git history if the project is later connected to Lovable's
-  git sync.
+- **Mobile never loads the video.** `HeroSection` starts from `isDesktop = false`
+  and only mounts `<video>` after a `matchMedia` check passes, so a real mobile
+  visitor never fires the 2.1 MB request — not even for one frame.
+- `preload="metadata"` + `poster` so the video doesn't block first paint.
+- Event posters: first three `loading="eager"`, rest `lazy`.
+- Countdown `setInterval` is cleared on `visibilitychange` when the tab hides.
+- Spotlight writes only `transform` per frame; the blurred gradient is static so
+  the browser rasterizes it once and re-transforms a cached bitmap.
+- Nav scroll handler is `requestAnimationFrame`-throttled and `passive`.
+- Card burst animates detached DOM nodes via the Web Animations API instead of
+  React state — no render per shape per frame.
+
+---
+
+## Accessibility choices already made
+
+- `prefers-reduced-motion: reduce` block in `styles.css` neutralizes animations
+  and smooth scroll site-wide; `EventsSection` also skips the burst entirely.
+- Event cards are `role="button"` with `tabIndex={0}` and Enter/Space handlers.
+- Dialog is fully controlled (no `DialogTrigger`), so focus return is handled
+  manually via `triggerRef` + `onCloseAutoFocus`.
+- Mobile menu locks body scroll and closes on Escape.
+- `aria-current` on the active nav link, `aria-hidden` on every decorative layer,
+  `sr-only` `<h1>` in the hero (the visible wordmark is an image).
+- Focus-visible rings on cards, register buttons, and the menu toggle.
+
+---
+
+## Current status — 2026-07-30
+
+### Done
+
+- Single scrolling page (Home / Events / Contact) with hash-anchor nav
+- Fixed nav: transparent → blurred, active-section underline, mobile overlay menu
+- Hero: video/poster background, vignette stack, interactive logo searchlight
+- Live countdown to 8 Aug 2026 09:00 IST, SSR-safe, tab-aware
+- All six real events with full verbatim rules in detail modals
+- Whole-card click affordance + themed particle burst
+- Per-event and overall coordinators with click-to-copy phone numbers
+- Contact section with Google Maps deep link, doubles as footer
+- Dark-only theme tokens, smooth scroll, reduced-motion support
+- Hero video compressed 5.5 MB → 2.1 MB
+- Git repo initialized and pushed to <https://github.com/strata2k25/strata-countdown-hub>
+
+### Blocking launch
+
+- **`REGISTER_URL` is `"#"`** — the Google Form link has not been supplied. Five
+  register buttons currently go nowhere.
+- **Per-event coordinator phone numbers are all `PLACEHOLDER_PHONE`** — the site
+  publicly displays `00000 00000` six times over.
+- **Riddler's Escape has no coordinators** (`coordinators: []` → renders "To be
+  announced").
+- No favicon.
+- No `og:image` — the original Lovable R2 URL was removed as it would 404 after
+  deployment. Link previews currently have no image.
+- Not deployed anywhere.
+
+### Known debt
+
+- Unused assets still in the repo: `ArkhamEscape.jpg`, `LeagueOfShadows.jpg`
+  (964 KB), `BAT.jpg`, `bgSite.jpeg`, `button.png`.
+- Orphaned `src/assets/*.asset.json` metadata stubs.
+- Images loose in `src/` root instead of `src/assets/`.
+- The Gotham Times uses `OperationKnightfall.jpg` as a poster stand-in.
+- Event posters are licensed WB/DC material.
+- `logoAsset` is a 487 KB PNG used at `h-8` in the nav — wildly oversized for
+  that usage.
+- TanStack Query and sonner are both wired up but unused.
+- No tests, no CI.
+
+### Open questions for Jabin
+
+1. **WayneTech Research Summit** — source text says _"Each team will be allotted
+   5 minutes"_ but the category is Individual. Site currently says "Each
+   participant." Which is correct?
+2. **Deployment target** — Vercel, Lovable hosting, or college hosting? Affects
+   whether the repo can be restructured freely or must stay Lovable-compatible.
+3. **Per-event detail links** — modals work well for the single-page design, but
+   if shareable per-event URLs are wanted for Instagram bios, the `slug` data is
+   already in place to add routes alongside the modals.

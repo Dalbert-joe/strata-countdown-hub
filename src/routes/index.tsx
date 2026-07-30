@@ -4,6 +4,7 @@ import { SiteNav } from "../components/SiteNav";
 import { HeroSection } from "../components/HeroSection";
 import { EventsSection } from "../components/EventsSection";
 import { ContactSection } from "../components/ContactSection";
+import { Atmosphere } from "../components/Atmosphere";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -38,24 +39,34 @@ function Index() {
 
       <HeroSection />
 
-      {/* The hero video sits fixed behind the whole page (see HeroSection), so
-          it keeps playing under everything below rather than scrolling away
-          with the hero. This wrapper is what makes it read as "background"
-          again once the events content arrives: a frosted, darkened pane
-          (backdrop-blur) over the still-playing video, instead of stopping
-          it dead and swapping in a static image. */}
-      <div className="relative z-10 overflow-hidden">
-        <div aria-hidden className="absolute inset-0 bg-black/55 backdrop-blur-md" />
-        <div
-          aria-hidden
-          className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/60"
-        />
+      {/* The hero video is `fixed` (see HeroSection), so it stays pinned to the
+          viewport and keeps playing behind the whole page rather than scrolling
+          away with the hero.
 
+          This wrapper is fully OPAQUE on purpose. It used to be a translucent
+          pane (bg-black/55 + backdrop-blur) which let 45% of the red-washed
+          video bleed up through every section below the hero — so the events
+          and contact sections read reddish-brown no matter what colour their
+          own elements were. The palette below the fold is black + sodium
+          amber, and amber cannot read as *light* on a surface that is already
+          glowing red. The video is now a hero-only moment.
+
+          --gotham-void rather than pure #000: it is a hair above black and
+          very slightly cool, which is what lets the sodium gold below read as
+          *warm* light rather than as a yellow shape on a neutral field. Grain
+          and haze still sit over it via <Atmosphere />, so it is textured
+          darkness rather than a dead flat rectangle. */}
+      <div className="relative z-10 overflow-hidden bg-gotham-void">
         <div className="relative z-10">
           <EventsSection />
           <ContactSection />
         </div>
       </div>
+
+      {/* Last child, but z-60 — grain and haze belong to the whole frame, so
+          this lays over the nav and every section rather than sitting inside
+          one of them. */}
+      <Atmosphere />
 
       <Toaster theme="dark" />
     </main>
