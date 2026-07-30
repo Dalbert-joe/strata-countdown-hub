@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 /**
  * Film grain + night haze, laid over the entire page.
  *
@@ -16,10 +18,28 @@
  * prefers-reduced-motion.
  */
 
+const FINE_POINTER_QUERY = "(pointer: fine)";
+
 const GRAIN_URI =
   "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E\")";
 
 export function Atmosphere() {
+  // The grain layer's mix-blend-overlay is the one part of this component
+  // that's genuinely expensive to recomposite — fixed, full-viewport, and
+  // alive for the entire session. Touch devices (usually the weaker GPU in
+  // the room) skip it and keep just the two plain gradients; defaulting to
+  // `false` until confirmed means a real touch visitor never pays for it,
+  // even for a single frame.
+  const [showGrain, setShowGrain] = useState(false);
+
+  useEffect(() => {
+    const mql = window.matchMedia(FINE_POINTER_QUERY);
+    const update = () => setShowGrain(mql.matches);
+    update();
+    mql.addEventListener("change", update);
+    return () => mql.removeEventListener("change", update);
+  }, []);
+
   return (
     <div aria-hidden className="pointer-events-none fixed inset-0 z-[60]">
       {/* Cool night air pooling at the top — lifts flat black just enough to
@@ -31,10 +51,12 @@ export function Atmosphere() {
 
       {/* The grain itself. mix-blend-overlay lets it bite into both the dark
           areas and the lit ones instead of just greying everything out. */}
-      <div
-        className="absolute inset-0 opacity-[0.055] mix-blend-overlay"
-        style={{ backgroundImage: GRAIN_URI, backgroundRepeat: "repeat" }}
-      />
+      {showGrain && (
+        <div
+          className="absolute inset-0 opacity-[0.055] mix-blend-overlay"
+          style={{ backgroundImage: GRAIN_URI, backgroundRepeat: "repeat" }}
+        />
+      )}
     </div>
   );
 }

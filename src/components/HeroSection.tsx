@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import logoAsset from "../strata26Logo.png";
 import videoAsset from "../herobg.mp4";
 import posterAsset from "../Events.jpg";
@@ -22,9 +23,38 @@ const POOL_GRADIENT =
  *
  * The video plays on every viewport size, mobile included — there is no
  * static-poster fallback standing in for it below a breakpoint.
+ *
+ * Because the video and its overlay stack are `fixed`, they never leave the
+ * DOM as the page scrolls — without this, a phone would keep decoding video
+ * frames and recompositing the blur/gradient layers on top of it for as long
+ * as the tab is open, even though the opaque events/contact wrapper is
+ * covering all of it the moment the hero scrolls out of view. An
+ * IntersectionObserver pauses the video and drops the overlay stack from
+ * paint (via `invisible`, not `hidden`, so layout never has to recompute)
+ * whenever the hero itself isn't on screen, which is where most of a visit's
+ * scroll time is actually spent.
  */
 export function HeroSection() {
   const spotlight = useHeroSpotlight();
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [heroVisible, setHeroVisible] = useState(true);
+
+  useEffect(() => {
+    const el = spotlight.sectionRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(([entry]) => setHeroVisible(entry.isIntersecting), {
+      threshold: 0,
+    });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (heroVisible) video.play().catch(() => {});
+    else video.pause();
+  }, [heroVisible]);
 
   return (
     <section
@@ -37,7 +67,8 @@ export function HeroSection() {
           so the logo separates from it and the spotlight below has
           somewhere to land — at near-full brightness neither would read. */}
       <video
-        className="fixed inset-0 z-0 h-screen w-full object-cover"
+        ref={videoRef}
+        className={`fixed inset-0 z-0 h-screen w-full object-cover ${heroVisible ? "" : "invisible"}`}
         style={{ filter: "brightness(0.45) saturate(0.9)" }}
         src={videoAsset}
         poster={posterAsset}
@@ -50,15 +81,18 @@ export function HeroSection() {
       />
       {/* Slight blur instead of a dark tint — keeps the video bright and legible-under-text
           without flattening it to black. */}
-      <div aria-hidden className="fixed inset-0 z-0 backdrop-blur-[2px]" />
+      <div
+        aria-hidden
+        className={`fixed inset-0 z-0 backdrop-blur-[2px] ${heroVisible ? "" : "invisible"}`}
+      />
       {/* Radial vignette: darkens the edges so the frame doesn't read as a flat rectangle */}
       <div
         aria-hidden
-        className="fixed inset-0 z-0 bg-[radial-gradient(ellipse_at_center,transparent_35%,rgba(0,0,0,0.65)_100%)]"
+        className={`fixed inset-0 z-0 bg-[radial-gradient(ellipse_at_center,transparent_35%,rgba(0,0,0,0.65)_100%)] ${heroVisible ? "" : "invisible"}`}
       />
       <div
         aria-hidden
-        className="fixed inset-0 z-0 bg-gradient-to-b from-black/25 via-transparent to-black/70"
+        className={`fixed inset-0 z-0 bg-gradient-to-b from-black/25 via-transparent to-black/70 ${heroVisible ? "" : "invisible"}`}
       />
 
       {/* Spotlight beam + background pool — behind the logo (z-5), clipped to the hero */}
