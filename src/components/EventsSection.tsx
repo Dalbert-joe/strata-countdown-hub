@@ -41,13 +41,13 @@ export function EventsSection() {
       <div className="mx-auto max-w-6xl">
         {/* Heading */}
         <div className="text-center">
-          <p className="text-[0.65rem] font-semibold uppercase tracking-[0.5em] text-sodium-glow md:text-xs">
+          <p className="font-batman text-[0.65rem] font-semibold uppercase tracking-[0.5em] text-sodium-glow md:text-xs">
             The Lineup
           </p>
           {/* Warm halation rather than a red drop-shadow: the heading should
               look lit by the same sodium lamp as everything else in this
               section, not like it is emitting its own colour. */}
-          <h2 className="mt-4 text-4xl font-black uppercase tracking-[0.15em] text-white drop-shadow-[0_0_34px_rgba(238,178,44,0.3)] md:text-6xl">
+          <h2 className="font-batman mt-4 text-4xl uppercase tracking-[0.15em] text-white drop-shadow-[0_0_34px_rgba(238,178,44,0.3)] md:text-6xl">
             Events
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-sm text-white/70 md:text-base">
@@ -116,7 +116,7 @@ export function EventsSection() {
                     <p className="text-[0.55rem] font-semibold uppercase tracking-[0.25em] text-sodium-deep">
                       {ev.category}
                     </p>
-                    <h3 className="mt-1.5 text-sm font-bold uppercase tracking-[0.15em] text-white transition-colors duration-300 group-hover:text-sodium-glow md:text-base">
+                    <h3 className="font-batman mt-1.5 text-sm uppercase tracking-[0.15em] text-white transition-colors duration-300 group-hover:text-sodium-glow md:text-base">
                       {ev.title}
                     </h3>
                     <p className="mt-2 flex-1 text-xs leading-relaxed text-white/65">
@@ -185,7 +185,7 @@ function EventDialog({
   return (
     <Dialog open={event !== null} onOpenChange={onOpenChange}>
       <DialogContent
-        className="max-h-[85vh] overflow-y-auto border-white/15 bg-neutral-950 sm:max-w-2xl"
+        className="scrollbar-none max-h-[85vh] overflow-y-auto border-white/15 bg-neutral-950 sm:max-w-2xl"
         onCloseAutoFocus={(e) => {
           e.preventDefault();
           triggerRef.current?.focus();
@@ -195,10 +195,10 @@ function EventDialog({
           <>
             {/* 1. Event name */}
             <DialogHeader>
-              <p className="text-[0.6rem] font-semibold uppercase tracking-[0.35em] text-sodium-glow">
-                {event.tag} — {event.category}
+              <p className="font-batman text-[0.6rem] font-semibold uppercase tracking-[0.35em] text-sodium-glow">
+                {event.tag} · {event.category}
               </p>
-              <DialogTitle className="mt-2 text-2xl font-black uppercase tracking-[0.1em] text-white md:text-3xl">
+              <DialogTitle className="font-batman mt-2 text-2xl uppercase tracking-[0.1em] text-white md:text-3xl">
                 {event.title}
               </DialogTitle>
               <p className="text-sm text-white/70">{event.summary}</p>

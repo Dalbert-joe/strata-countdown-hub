@@ -83,25 +83,25 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       // Description is repeated verbatim rather than pulled from a shared const:
       // TanStack's route splitter hoists imports into the split chunk but not
       // module-scope consts, so a const here throws at runtime.
-      { title: "STRATA '26 — AI & DS Symposium" },
+      { title: "STRATA '26: AI & DS Symposium" },
       {
         name: "description",
         content:
-          "STRATA '26 — the annual Artificial Intelligence & Data Science Symposium. Six events across research, coding, AI development, video generation, prompt engineering and databases.",
+          "STRATA '26 is the annual Artificial Intelligence & Data Science Symposium. Six events across research, coding, AI development, video generation, prompt engineering and databases.",
       },
-      { property: "og:title", content: "STRATA '26 — AI & DS Symposium" },
+      { property: "og:title", content: "STRATA '26: AI & DS Symposium" },
       {
         property: "og:description",
         content:
-          "STRATA '26 — the annual Artificial Intelligence & Data Science Symposium. Six events across research, coding, AI development, video generation, prompt engineering and databases.",
+          "STRATA '26 is the annual Artificial Intelligence & Data Science Symposium. Six events across research, coding, AI development, video generation, prompt engineering and databases.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "STRATA '26 — AI & DS Symposium" },
+      { name: "twitter:title", content: "STRATA '26: AI & DS Symposium" },
       {
         name: "twitter:description",
         content:
-          "STRATA '26 — the annual Artificial Intelligence & Data Science Symposium. Six events across research, coding, AI development, video generation, prompt engineering and databases.",
+          "STRATA '26 is the annual Artificial Intelligence & Data Science Symposium. Six events across research, coding, AI development, video generation, prompt engineering and databases.",
       },
       // TODO: og:image previously pointed at a Lovable preview R2 URL that will
       // 404 once deployed elsewhere. Add a real 1200x630 share image to public/
@@ -112,8 +112,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        // Anton: heavy condensed display face for the hero countdown digits.
-        href: "https://fonts.googleapis.com/css2?family=Anton&display=swap",
+        // Anton: heavy condensed display face, used for the hero fallback text.
+        // Orbitron: the countdown clock's digital-panel digits and colons.
+        href: "https://fonts.googleapis.com/css2?family=Anton&family=Orbitron:wght@500;700;900&display=swap",
       },
       {
         rel: "stylesheet",

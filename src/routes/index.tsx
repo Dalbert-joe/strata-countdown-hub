@@ -5,21 +5,22 @@ import { HeroSection } from "../components/HeroSection";
 import { EventsSection } from "../components/EventsSection";
 import { ContactSection } from "../components/ContactSection";
 import { Atmosphere } from "../components/Atmosphere";
+import { FloatingBlobs } from "../components/FloatingBlobs";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "STRATA '26 — AI & DS Symposium" },
+      { title: "STRATA '26: AI & DS Symposium" },
       {
         name: "description",
         content:
-          "STRATA '26 — the Artificial Intelligence & Data Science symposium. Six events across research, coding, AI development, video generation, prompt engineering and databases.",
+          "STRATA '26 is the Artificial Intelligence & Data Science symposium. Six events across research, coding, AI development, video generation, prompt engineering and databases.",
       },
-      { property: "og:title", content: "STRATA '26 — AI & DS Symposium" },
+      { property: "og:title", content: "STRATA '26: AI & DS Symposium" },
       {
         property: "og:description",
         content:
-          "STRATA '26 — the Artificial Intelligence & Data Science symposium. Six events across research, coding, AI development, video generation, prompt engineering and databases.",
+          "STRATA '26 is the Artificial Intelligence & Data Science symposium. Six events across research, coding, AI development, video generation, prompt engineering and databases.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -57,6 +58,7 @@ function Index() {
           and haze still sit over it via <Atmosphere />, so it is textured
           darkness rather than a dead flat rectangle. */}
       <div className="relative z-10 overflow-hidden bg-gotham-void">
+        <FloatingBlobs />
         <div className="relative z-10">
           <EventsSection />
           <ContactSection />

@@ -144,7 +144,7 @@ Not blocking, but the site is thinner than it could be without them.
 - [ ] **Contact email** — `SITE.contact.email` is empty.
 - [x] **Registration fee** — confirmed free, in `SITE.fee`.
 - [x] **Event date and venue** — confirmed, in `SITE.date` / `SITE.venue`.
-- [x] **Overall coordinators** — Dhana Kishore, Dalbert Joe, with real numbers.
+- [x] **Overall coordinators** — Thana Kishore, Dalbert Joe, with real numbers.
 
 ---
 

@@ -14,7 +14,7 @@ rule to make it read better — only genuine typo fixes (and note them when you 
 > Every event's coordinators use `PLACEHOLDER_PHONE` (`"00000 00000"`) from
 > `src/data/site.ts`. The **names are real**; the **numbers are not**. The live
 > site currently displays `00000 00000` with click-to-copy. This is a P0 item —
-> see `backlog.md`. Only the two _overall_ coordinators (Dhana Kishore, Dalbert
+> see `backlog.md`. Only the two _overall_ coordinators (Thana Kishore, Dalbert
 > Joe, in `src/data/site.ts`) have real numbers.
 
 ---
@@ -233,7 +233,7 @@ Freed poster images still in the repo: `ArkhamEscape.jpg`, `LeagueOfShadows.jpg`
 | The Gotham Times          | Marie, Nisha               | ❌ placeholder |
 | Batman & Robin            | Ananya, Reny               | ❌ placeholder |
 | Riddler's Escape          | ❌ **none assigned**       | —              |
-| _Overall_                 | Dhana Kishore, Dalbert Joe | ✅ real        |
+| _Overall_                 | Thana Kishore, Dalbert Joe | ✅ real        |
 
 ---
 

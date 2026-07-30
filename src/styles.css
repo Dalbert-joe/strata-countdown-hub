@@ -4,6 +4,17 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* BAT MEN_G display face — headings and section eyebrows only. Body copy,
+   badges, buttons, form controls etc. stay on the system font stack; only
+   the small set of elements using `font-batman` below opt in. */
+@font-face {
+  font-family: "BatMenG";
+  src: url("./fonts/BatMenG-v5JA.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 /*
  * Design system definition.
  *
@@ -19,6 +30,9 @@
  */
 
 @theme inline {
+  /* Display face for headings/eyebrows only — see the @font-face above. */
+  --font-batman: "BatMenG", "Anton", sans-serif;
+
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -250,4 +264,43 @@
       scroll-behavior: auto !important;
     }
   }
+
+  /* The stock OS scrollbar (a light, boxy column with buttons) reads as a UI
+     glitch on an all-black Gotham page. Thin it down and recolour it to sit
+     inside the palette instead of standing out from it. */
+  html {
+    scrollbar-width: thin;
+    scrollbar-color: var(--gotham-steel) transparent;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--gotham-steel);
+    border-radius: 9999px;
+    border: 2px solid var(--gotham-void);
+    background-clip: padding-box;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: var(--sodium-ember);
+  }
+}
+
+/* Fully hidden scrollbar — for panels (the event-details modal) that should
+   stay scrollable without any visible track/thumb at all. */
+.scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
 }

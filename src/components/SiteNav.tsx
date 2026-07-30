@@ -96,15 +96,18 @@ export function SiteNav() {
 
   // Zone rule (see the Gotham palette block in styles.css): the hero keeps its
   // red wash, everything past it is sodium gold. The nav is the one element
-  // that crosses that boundary, because it is fixed. So it re-colours at the
-  // same 80px threshold that raises the scrolled bar — meaning the nav and the
-  // section directly behind it are always in the same palette, and the switch
-  // is hidden inside a transition the user already expects.
-  const accentText = scrolled ? "text-sodium-glow" : "text-red-500";
-  const accentHover = scrolled ? "hover:text-sodium-glow" : "hover:text-red-500";
-  const accentUnderline = scrolled ? "bg-sodium-glow" : "bg-red-600";
-  const accentRing = scrolled ? "focus-visible:ring-sodium-glow" : "focus-visible:ring-red-600";
-  const ctaClasses = scrolled
+  // that crosses that boundary, because it is fixed. It used to re-colour at
+  // the same 80px threshold that raises the scrolled bar, but that fired the
+  // instant you nudged the page — before the hero had actually given way to
+  // anything gold behind the nav. Gating on `active` instead means the swap
+  // only happens once the events section (or beyond) has actually scrolled
+  // into place, so the nav's colour always matches what's really behind it.
+  const inGoldZone = active !== "home";
+  const accentText = inGoldZone ? "text-sodium-glow" : "text-red-500";
+  const accentHover = inGoldZone ? "hover:text-sodium-glow" : "hover:text-red-500";
+  const accentUnderline = inGoldZone ? "bg-sodium-glow" : "bg-red-600";
+  const accentRing = inGoldZone ? "focus-visible:ring-sodium-glow" : "focus-visible:ring-red-600";
+  const ctaClasses = inGoldZone
     ? "bg-sodium-glow text-black shadow-[0_0_20px_-6px_rgba(238,178,44,0.8)] hover:bg-sodium-core"
     : "bg-red-600 text-white shadow-[0_0_20px_-6px_rgba(220,38,38,0.8)] hover:bg-red-500";
 

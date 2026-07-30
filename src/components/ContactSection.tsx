@@ -35,18 +35,18 @@ export function ContactSection() {
       <div className="mx-auto max-w-6xl">
         {/* Heading */}
         <div className="text-center">
-          <p className="text-[0.65rem] font-semibold uppercase tracking-[0.5em] text-sodium-glow md:text-xs">
+          <p className="font-batman text-[0.65rem] font-semibold uppercase tracking-[0.5em] text-sodium-glow md:text-xs">
             Get In Touch
           </p>
-          <h2 className="mt-4 text-4xl font-black uppercase tracking-[0.15em] text-white drop-shadow-[0_0_34px_rgba(238,178,44,0.3)] md:text-6xl">
+          <h2 className="font-batman mt-4 text-4xl uppercase tracking-[0.15em] text-white drop-shadow-[0_0_34px_rgba(238,178,44,0.3)] md:text-6xl">
             Contact
           </h2>
         </div>
 
-        <div className="mt-16 grid gap-10 md:grid-cols-3">
+        <div className="mt-16 grid gap-10 text-center md:grid-cols-3">
           {/* 1. Brand block */}
           <div>
-            <p className="text-lg font-black uppercase tracking-[0.3em] text-sodium-glow">
+            <p className="font-batman text-lg uppercase tracking-[0.3em] text-sodium-glow">
               {SITE.name}
             </p>
             <p className="mt-3 text-sm leading-relaxed text-white/60">{SITE.tagline}</p>
@@ -112,10 +112,13 @@ export function ContactSection() {
           </a>
         </div>
 
-        {/* Footer bar */}
-        <div className="mt-20 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-6 sm:flex-row">
+        {/* Footer bar — centred rather than spread edge-to-edge: with no
+            social links filled in yet (see SITE.socials) a `justify-between`
+            row leaves the copyright line stranded on the left with nothing
+            to balance it. */}
+        <div className="mt-20 flex flex-col items-center gap-4 border-t border-white/10 pt-6 text-center">
           <p className="text-[0.6rem] uppercase tracking-[0.3em] text-white/30">
-            © {year} {SITE.name}
+            © {year} {SITE.name}. All rights reserved.
           </p>
 
           {(SITE.socials.instagram !== "" || SITE.socials.linkedin !== "") && (

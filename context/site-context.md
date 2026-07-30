@@ -17,7 +17,7 @@ Last Updated: 2026-07-30
 | Entry fee            | **Free** — all events, no registration fee                         |
 | Events               | 6 (see `events.md`)                                                |
 | Registration         | One Google Form for all six events — **URL not yet supplied**      |
-| Overall coordinators | Dhana Kishore (+91 93425 03004), Dalbert Joe (+91 95666 87085)     |
+| Overall coordinators | Thana Kishore (+91 93425 03004), Dalbert Joe (+91 95666 87085)     |
 | Theme                | Batman / Gotham (see `design-system.md`)                           |
 
 All of the above is encoded in **`src/data/site.ts`** — that file is the single

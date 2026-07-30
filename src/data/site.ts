@@ -33,12 +33,12 @@ export const SITE: SiteConfig = {
   venueShort: "LICET, Chennai",
   department: "Department of Artificial Intelligence & Data Science",
   college: "Loyola ICAM College of Engineering and Technology",
-  fee: "Free — all events, no registration fee",
+  fee: "Free for all events, no registration fee",
 
   contact: {
     email: "",
     coordinators: [
-      { name: "Dhana Kishore", role: "Overall Coordinator", phone: "+91 93425 03004" },
+      { name: "Thana Kishore", role: "Overall Coordinator", phone: "+91 93425 03004" },
       { name: "Dalbert Joe", role: "Overall Coordinator", phone: "+91 95666 87085" },
     ],
   },
