@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import logoAsset from "../strata26Logo.png";
 import videoAsset from "../herobg.mp4";
 import posterAsset from "../Events.jpg";
+import loyolaIcamLogo from "../Loyola_ICAM.png";
+import nexusLogo from "../NEXUS.png";
 import { CountdownTimer } from "./CountdownTimer";
 import { useHeroSpotlight } from "../hooks/use-hero-spotlight";
 
@@ -95,6 +97,19 @@ export function HeroSection() {
         className={`fixed inset-0 z-0 bg-gradient-to-b from-black/25 via-transparent to-black/70 ${heroVisible ? "" : "invisible"}`}
       />
 
+      {/* Top-left and top-right institution logos — fixed so they stay put
+          above the video/overlay stack like the rest of the hero furniture. */}
+      <img
+        src={loyolaIcamLogo}
+        alt="Loyola ICAM"
+        className="fixed left-4 top-4 z-20 h-12 w-auto object-contain sm:left-6 sm:top-6 sm:h-14"
+      />
+      <img
+        src={nexusLogo}
+        alt="NEXUS"
+        className="fixed right-4 top-4 z-20 h-12 w-auto object-contain sm:right-6 sm:top-6 sm:h-14"
+      />
+
       {/* Spotlight beam + background pool — behind the logo (z-5), clipped to the hero */}
       {spotlight.enabled && (
         <div aria-hidden className="pointer-events-none absolute inset-0 z-[5] overflow-hidden">
@@ -156,7 +171,7 @@ export function HeroSection() {
         </div>
 
         {/* Scroll cue — clicking it jumps to the events section */}
-        <a
+        
           href="#events"
           aria-label="Jump to events"
           className="group mt-2 flex flex-col items-center gap-2 focus:outline-none"
