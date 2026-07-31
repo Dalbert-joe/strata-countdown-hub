@@ -6,6 +6,7 @@ import { EventsSection } from "../components/EventsSection";
 import { ContactSection } from "../components/ContactSection";
 import { Atmosphere } from "../components/Atmosphere";
 import { FloatingBlobs } from "../components/FloatingBlobs";
+import { REGISTER_URL } from "../data/site";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -61,6 +62,21 @@ function Index() {
         <FloatingBlobs />
         <div className="relative z-10">
           <EventsSection />
+
+          {/* Register CTA — sits between Events and Contact rather than
+              buried at the bottom of the page, so it's the thing a visitor
+              hits right after browsing the lineup. */}
+          <div className="px-6 py-16 text-center md:px-12">
+            <a
+              href={REGISTER_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center rounded-md bg-sodium-glow px-14 py-5 text-sm font-bold uppercase tracking-[0.35em] text-black transition-all duration-300 hover:bg-sodium-core hover:shadow-[0_0_44px_-8px_rgba(238,178,44,0.75)]"
+            >
+              Register Now
+            </a>
+          </div>
+
           <ContactSection />
         </div>
       </div>

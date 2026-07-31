@@ -1,4 +1,4 @@
-import { SITE, REGISTER_URL } from "../data/site";
+import { SITE } from "../data/site";
 import { PhoneNumber } from "./PhoneNumber";
 
 const MAPS_URL = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(SITE.venue)}`;
@@ -23,9 +23,10 @@ function MapPinIcon() {
 }
 
 /**
- * Closing section: identity, when/where, overall coordinators, a location
- * card, and a final register CTA. Per-event coordinators now live on the
- * event cards and their modals instead of a footer grid here.
+ * Closing section: identity, when/where, overall coordinators, and a
+ * location card. The register CTA sits above this section (see index.tsx)
+ * rather than inside it. Per-event coordinators now live on the event cards
+ * and their modals instead of a footer grid here.
  */
 export function ContactSection() {
   const year = new Date().getFullYear();
@@ -97,18 +98,6 @@ export function ContactSection() {
             className="mt-6 inline-flex w-full items-center justify-center rounded-md border border-sodium-glow px-6 py-3 text-[0.65rem] font-bold uppercase tracking-[0.3em] text-sodium-glow transition-colors duration-300 hover:bg-sodium-glow hover:text-black"
           >
             Open in Maps
-          </a>
-        </div>
-
-        {/* 5. Register CTA */}
-        <div className="mt-16 text-center">
-          <a
-            href={REGISTER_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center rounded-md bg-sodium-glow px-14 py-5 text-sm font-bold uppercase tracking-[0.35em] text-black transition-all duration-300 hover:bg-sodium-core hover:shadow-[0_0_44px_-8px_rgba(238,178,44,0.75)]"
-          >
-            Register Now
           </a>
         </div>
 
