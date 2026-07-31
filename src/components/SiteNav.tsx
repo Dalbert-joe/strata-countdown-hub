@@ -165,16 +165,19 @@ export function SiteNav() {
           <div className="ml-auto flex items-center gap-3 md:hidden">
             <a
               {...registerLinkProps}
-              className={`rounded-md px-3 py-1.5 text-[0.65rem] font-bold uppercase tracking-[0.2em] transition-colors duration-300 ${ctaClasses}`}
+              className={`rounded-md px-3.5 py-2.5 text-[0.65rem] font-bold uppercase tracking-[0.2em] transition-colors duration-300 ${ctaClasses}`}
             >
               Register
             </a>
+            {/* -m-2 p-2 keeps the icon the same size on screen while growing
+                the hit area to 40px — a bare 24px icon is well under the
+                ~44px minimum comfortable touch target. */}
             <button
               type="button"
               aria-label={menuOpen ? "Close menu" : "Open menu"}
               aria-expanded={menuOpen}
               onClick={() => setMenuOpen((v) => !v)}
-              className={`rounded-sm text-white/80 transition-colors focus-visible:outline-none focus-visible:ring-2 ${accentHover} ${accentRing}`}
+              className={`-m-2 rounded-sm p-2 text-white/80 transition-colors focus-visible:outline-none focus-visible:ring-2 ${accentHover} ${accentRing}`}
             >
               {menuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>

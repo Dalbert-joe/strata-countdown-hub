@@ -183,17 +183,27 @@ export function HeroSection() {
         className={`fixed inset-0 z-0 bg-gradient-to-b from-black/25 via-transparent to-black/70 ${heroVisible ? "" : "invisible"}`}
       />
 
-      {/* Top-left and top-right institution logos — fixed so they stay put
-          above the video/overlay stack like the rest of the hero furniture. */}
+      {/* Institution logos.
+          `absolute`, not `fixed`: as fixed elements they were pinned to the
+          viewport for the whole session, so they stayed on screen over the
+          events and contact sections and poked out from under the nav bar on
+          scroll. They belong to the hero, so they scroll away with it.
+
+          Sitting BELOW the nav rather than level with it: the nav's own
+          content is capped at max-w-6xl, so at any viewport narrower than
+          ~1236px a top-corner logo runs into the nav — the mobile Register
+          button and menu toggle on small screens, the desktop links on
+          mid-size ones. Clearing the bar vertically is the one placement that
+          holds at every width. */}
       <img
         src={loyolaIcamLogo}
         alt="Loyola ICAM"
-        className="fixed left-4 top-4 z-20 h-12 w-auto object-contain sm:left-6 sm:top-6 sm:h-14"
+        className="absolute left-4 top-24 z-20 h-10 w-auto object-contain sm:left-6 sm:h-12 md:h-14"
       />
       <img
         src={nexusLogo}
         alt="NEXUS"
-        className="fixed right-4 top-4 z-20 h-12 w-auto object-contain sm:right-6 sm:top-6 sm:h-14"
+        className="absolute right-4 top-24 z-20 h-10 w-auto object-contain sm:right-6 sm:h-12 md:h-14"
       />
 
       {/* Spotlight beam + background pool — behind the logo (z-5), clipped to the hero */}
