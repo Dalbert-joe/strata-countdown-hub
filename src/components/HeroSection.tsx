@@ -3,8 +3,6 @@ import { Volume2, VolumeX } from "lucide-react";
 import logoAsset from "../strata26Logo.png";
 import videoAsset from "../herobg.mp4";
 import posterAsset from "../Events.jpg";
-import loyolaIcamLogo from "../Loyola_ICAM.png";
-import nexusLogo from "../NEXUS.png";
 import introVideoAsset from "../BATMAN_26.mp4";
 import { CountdownTimer } from "./CountdownTimer";
 import { useHeroSpotlight } from "../hooks/use-hero-spotlight";
@@ -76,7 +74,6 @@ export function HeroSection() {
   const spotlight = useHeroSpotlight();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [heroVisible, setHeroVisible] = useState(true);
-  const [logoOpacity, setLogoOpacity] = useState(1);
 
   // --- Intro splash state ---
   const introVideoRef = useRef<HTMLVideoElement>(null);
@@ -95,12 +92,6 @@ export function HeroSection() {
     });
     observer.observe(el);
     return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    const onScroll = () => setLogoOpacity(Math.max(0, 1 - window.scrollY / 200));
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   useEffect(() => {
@@ -254,19 +245,6 @@ export function HeroSection() {
           button and menu toggle on small screens, the desktop links on
           mid-size ones. Clearing the bar vertically is the one placement that
           holds at every width. */}
-      {/* Institution logos floated inside the nav bar area — top-6 matches
-          the nav's own py-6, so logos align vertically with the nav links.
-          Hidden on mobile where Register + hamburger already fill the bar.
-          Opacity fades out over the first 200px of scroll. */}
-      <div
-        className="pointer-events-none absolute inset-x-0 top-6 z-20 hidden md:block"
-        style={{ opacity: logoOpacity, transition: "opacity 100ms linear" }}
-      >
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-12">
-          <img src={loyolaIcamLogo} alt="Loyola ICAM" className="h-12 w-auto object-contain md:h-14" />
-          <img src={nexusLogo} alt="NEXUS" className="h-12 w-auto object-contain md:h-14" />
-        </div>
-      </div>
 
       {/* Spotlight beam + background pool — behind the logo (z-5), clipped to the hero */}
       {spotlight.enabled && (

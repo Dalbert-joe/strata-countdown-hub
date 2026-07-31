@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import logoAsset from "../strata26Logo.png";
+import loyolaIcamLogo from "../Loyola_ICAM.png";
+import nexusLogo from "../NEXUS.png";
 import { REGISTER_URL } from "../data/site";
 
 const SECTIONS = [
@@ -121,15 +123,27 @@ export function SiteNav() {
         }`}
       >
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 md:px-12">
-          <a
-            href="#home"
-            aria-label="STRATA '26 home"
-            className={`transition-opacity duration-300 ${
-              scrolled ? "opacity-100" : "pointer-events-none opacity-0"
-            }`}
-          >
-            <img src={logoAsset} alt="STRATA '26" className="h-8 w-auto object-contain md:h-9" />
-          </a>
+          {/* Left slot: Loyola ICAM when unscrolled (desktop only), STRATA logo when scrolled.
+              Both live at the same position and cross-fade so layout never shifts. */}
+          <div className="relative flex items-center">
+            <a
+              href="#home"
+              aria-label="STRATA '26 home"
+              className={`transition-opacity duration-300 ${
+                scrolled ? "opacity-100" : "pointer-events-none opacity-0"
+              }`}
+            >
+              <img src={logoAsset} alt="STRATA '26" className="h-8 w-auto object-contain md:h-9" />
+            </a>
+            {/* Desktop only — mobile nav is already full with Register + hamburger */}
+            <img
+              src={loyolaIcamLogo}
+              alt="Loyola ICAM"
+              className={`absolute left-0 top-1/2 hidden -translate-y-1/2 object-contain md:block md:h-9 transition-opacity duration-300 ${
+                scrolled ? "pointer-events-none opacity-0" : "opacity-100"
+              }`}
+            />
+          </div>
 
           {/* Desktop links */}
           <nav className="ml-auto hidden items-center gap-6 md:flex md:gap-10">
@@ -151,6 +165,15 @@ export function SiteNav() {
                 />
               </a>
             ))}
+            {/* NEXUS sits directly left of Register — fades when scrolled so both
+                institution logos disappear together once the user leaves the hero. */}
+            <img
+              src={nexusLogo}
+              alt="NEXUS"
+              className={`h-8 w-auto object-contain md:h-9 transition-opacity duration-300 ${
+                scrolled ? "pointer-events-none opacity-0" : "opacity-100"
+              }`}
+            />
             <a
               {...registerLinkProps}
               className={`rounded-md px-4 py-1.5 text-xs font-bold uppercase tracking-[0.25em] transition-colors duration-300 md:text-sm ${ctaClasses}`}
