@@ -124,9 +124,10 @@ export const EVENTS: StrataEvent[] = [
     category: "Team AI Video Generation",
     participation: "2 Members",
     poster: gothamTimes,
-    // Front page is taller than the frame; centring it would crop the
-    // masthead away. Bias upward so "The Gotham Times" stays readable.
-    posterPosition: "50% 12%",
+    // Newspaper is more portrait than the 3:4 card frame — cover would
+    // crop both masthead and footer. Contain shows the full front page
+    // with dark gutters on the sides, which suits the noir aesthetic.
+    posterFit: "contain",
     summary:
       "Turn a fictional Gotham news scenario into a short cinematic news video using Google Flow.",
     description: [
