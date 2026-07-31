@@ -34,7 +34,10 @@ function buildShape(): SVGSVGElement {
   svg.style.position = "absolute";
   svg.style.left = "50%";
   svg.style.top = "50%";
-  svg.style.color = Math.random() > 0.5 ? "#dc2626" : "#7f1d1d";
+  // Sodium, not red. Below the hero the palette carries no red at all (see the
+  // zoning rule in styles.css), and this burst is the one card animation every
+  // visitor is guaranteed to see, since it fires on the primary interaction.
+  svg.style.color = Math.random() > 0.5 ? "var(--sodium-glow)" : "var(--sodium-ember)";
   svg.style.willChange = "transform, opacity";
 
   const path = document.createElementNS("http://www.w3.org/2000/svg", "path");

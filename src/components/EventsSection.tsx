@@ -1,4 +1,4 @@
-import { useRef, useState, type RefObject } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type RefObject } from "react";
 import { ArrowRight } from "lucide-react";
 import bgAsset from "../Events.jpg";
 import { EVENTS, type StrataEvent } from "../data/events";
@@ -24,6 +24,62 @@ export function EventsSection() {
   // return focus to on close — track it ourselves and refocus explicitly.
   const triggerRef = useRef<HTMLElement | null>(null);
   const burstRefs = useRef<Record<string, HTMLDivElement | null>>({});
+  const cardRefs = useRef<(HTMLElement | null)[]>([]);
+
+  /**
+   * Reveal each card as it scrolls into view.
+   *
+   * The entrance used to be a bare CSS animation on mount. Because the hero is
+   * min-h-screen, all six cards finished animating in the first second of page
+   * life while the viewport was still showing the hero — so in practice nobody
+   * ever saw it. Gating on an IntersectionObserver is what makes the animation
+   * we were already paying for actually visible.
+   *
+   * The hidden state is applied here, from JS, rather than in the JSX: this app
+   * server-renders, so baking opacity-0 into the markup would ship six
+   * permanently invisible cards to anyone whose JS fails to run.
+   */
+  useEffect(() => {
+    if (window.matchMedia(REDUCED_MOTION_QUERY).matches) return;
+    // Without an observer to un-hide them again, hiding the cards would strand
+    // the entire lineup at opacity 0. Never enter that state unless the thing
+    // that undoes it is known to exist.
+    if (typeof IntersectionObserver === "undefined") return;
+
+    const cards = cardRefs.current.filter(Boolean) as HTMLElement[];
+    cards.forEach((el) => el.setAttribute("data-reveal", "pending"));
+
+    let delivered = false;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        delivered = true;
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          entry.target.setAttribute("data-reveal", "on");
+          // One-shot: scrolling back up must not replay it.
+          observer.unobserve(entry.target);
+        }
+      },
+      { rootMargin: "200px 0px -10% 0px", threshold: 0.15 },
+    );
+
+    cards.forEach((el) => observer.observe(el));
+
+    // An observer always delivers an initial callback for what it observes,
+    // intersecting or not. If nothing arrives, observation is not working in
+    // this environment and the cards would sit at opacity 0 forever — so show
+    // them unconditionally. Losing the animation is a far better failure than
+    // losing the lineup.
+    const failsafe = window.setTimeout(() => {
+      if (delivered) return;
+      cards.forEach((el) => el.setAttribute("data-reveal", "on"));
+    }, 2000);
+
+    return () => {
+      window.clearTimeout(failsafe);
+      observer.disconnect();
+    };
+  }, []);
 
   const openEvent = (ev: StrataEvent, triggerEl: HTMLElement) => {
     triggerRef.current = triggerEl;
@@ -101,8 +157,11 @@ export function EventsSection() {
                       openEvent(ev, e.currentTarget);
                     }
                   }}
-                  style={{ animationDelay: `${i * 70}ms` }}
-                  className="group relative z-10 flex h-full animate-[cardIn_0.7s_ease-out_both] cursor-pointer flex-col overflow-hidden rounded-xl border border-white/10 bg-white/[0.03] backdrop-blur-sm transition-all duration-500 hover:-translate-y-2 hover:border-sodium-glow/60 hover:shadow-[0_0_40px_-8px_rgba(238,178,44,0.4)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sodium-glow focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                  ref={(el) => {
+                    cardRefs.current[i] = el;
+                  }}
+                  style={{ "--reveal-delay": `${(i % 3) * 80}ms` } as CSSProperties}
+                  className="group relative z-10 flex h-full cursor-pointer flex-col overflow-hidden rounded-none border border-gotham-concrete bg-gotham-asphalt transition-[transform,border-color] duration-300 ease-out hover:-translate-y-[3px] hover:border-sodium-ember focus-visible:-translate-y-[3px] focus-visible:border-sodium-ember focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sodium-glow focus-visible:ring-offset-2 focus-visible:ring-offset-black"
                 >
                   {/* Fixed aspect ratio keeps every card identical regardless of source image dimensions */}
                   <div className="relative aspect-[3/4] w-full shrink-0 overflow-hidden bg-gradient-to-b from-neutral-900 to-black">
@@ -111,7 +170,10 @@ export function EventsSection() {
                       alt={ev.title}
                       loading={i < 3 ? "eager" : "lazy"}
                       decoding="async"
-                      className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      style={ev.posterPosition ? { objectPosition: ev.posterPosition } : undefined}
+                      className={`absolute inset-0 h-full w-full transition-transform duration-700 ease-out group-hover:scale-[1.035] group-focus-visible:scale-[1.035] ${
+                        ev.posterFit === "contain" ? "object-contain p-6" : "object-cover"
+                      }`}
                     />
                     <div
                       aria-hidden
@@ -149,12 +211,36 @@ export function EventsSection() {
                     </p>
 
                     <div className="mt-4 flex items-center">
-                      <span className="inline-flex items-center gap-1 text-[0.6rem] font-bold uppercase tracking-[0.2em] text-sodium-glow transition-transform duration-300 group-hover:translate-x-1">
+                      {/* Only the arrow moves. Sliding the label under the
+                          cursor forces the eye to re-fixate mid-read. */}
+                      <span className="inline-flex items-center gap-1 text-[0.6rem] font-bold uppercase tracking-[0.2em] text-sodium-glow">
                         View Details
-                        <ArrowRight className="h-3 w-3" aria-hidden="true" />
+                        <ArrowRight
+                          className="h-3 w-3 transition-transform duration-300 ease-out group-hover:translate-x-1 group-focus-visible:translate-x-1"
+                          aria-hidden="true"
+                        />
                       </span>
                     </div>
                   </div>
+
+                  {/* The card's one light source: a lamp above it, off-frame.
+                      Resting edge, then a hotter copy stacked on top —
+                      background-image can't interpolate, so crossfading two
+                      layers is what makes it warm rather than hard-cut. */}
+                  <span
+                    aria-hidden
+                    className="pointer-events-none absolute inset-x-0 top-0 z-20 h-px bg-gradient-to-r from-transparent via-sodium-ember to-transparent opacity-70"
+                  />
+                  <span
+                    aria-hidden
+                    className="pointer-events-none absolute inset-x-0 top-0 z-20 h-px bg-gradient-to-r from-transparent via-sodium-glow to-transparent opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100 group-focus-visible:opacity-100"
+                  />
+                  {/* The light that edge casts. Slower than the edge itself, so
+                      it reads as light arriving rather than switching on. */}
+                  <span
+                    aria-hidden
+                    className="pointer-events-none absolute inset-x-0 top-0 z-20 h-24 bg-[linear-gradient(to_bottom,color-mix(in_oklab,var(--sodium-glow)_13%,transparent),transparent)] opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100 group-focus-visible:opacity-100"
+                  />
                 </article>
               </div>
             );
@@ -168,8 +254,22 @@ export function EventsSection() {
         triggerRef={triggerRef}
       />
 
+      {/* Scoped to #events — this <style> is global, so a bare [data-reveal]
+          selector would leak to the rest of the document.
+
+          `backwards` rather than `both` is load-bearing: `both` leaves the
+          animation's final transform:scale(1) filled forward, which outranks
+          the card's hover:-translate-y declaration and silently kills the
+          hover lift. `backwards` covers the delay window then releases. */}
       <style>{`
-        @keyframes cardIn { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes cardIn {
+          from { opacity: 0; transform: translate3d(0, 14px, 0) scale(0.965); }
+          to   { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+        }
+        #events [data-reveal="pending"] { opacity: 0; }
+        #events [data-reveal="on"] {
+          animation: cardIn 640ms cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms) backwards;
+        }
       `}</style>
     </section>
   );

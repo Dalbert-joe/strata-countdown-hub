@@ -1,7 +1,7 @@
-import paperPresentation from "../Paperpresentation.jpg";
+import wayneTech from "../waynetech.jpg";
 import whySoSerious from "../WhySoSerious.jpg";
-import rogueAi from "../RougeAI.jpg";
-import gothamTimes from "../OperationKnightfall.jpg";
+import rogueAi from "../rogueai.jpeg";
+import gothamTimes from "../gothamtimes.jpeg";
 import batmanRobin from "../BatmanRobin.jpg";
 import riddlersEscape from "../Riddler.jpg";
 import { PLACEHOLDER_PHONE } from "./site";
@@ -23,6 +23,14 @@ export type StrataEvent = {
   /** e.g. "Individual", "2 Members", "3-4 Members" */
   participation: string;
   poster: string;
+  /**
+   * How the poster fills the card's 3:4 frame. Defaults to "cover", which
+   * crops to fill. Use "contain" for artwork that must not be cropped — a wide
+   * logo lockup in a portrait frame loses everything but its centre otherwise.
+   */
+  posterFit?: "cover" | "contain";
+  /** `object-position` for "cover" posters whose subject isn't centred. */
+  posterPosition?: string;
   /** One-liner for the card. Keep to ~2 lines at card width. */
   summary: string;
   /** Full rules, one string per paragraph. Shown in the detail view. */
@@ -40,7 +48,7 @@ export const EVENTS: StrataEvent[] = [
     tag: "Event 01",
     category: "Technical Paper Presentation",
     participation: "Individual",
-    poster: paperPresentation,
+    poster: wayneTech,
     summary:
       "Submit your research paper ahead of the event, then defend it before a panel of department faculty.",
     description: [
@@ -116,6 +124,9 @@ export const EVENTS: StrataEvent[] = [
     category: "Team AI Video Generation",
     participation: "2 Members",
     poster: gothamTimes,
+    // Front page is taller than the frame; centring it would crop the
+    // masthead away. Bias upward so "The Gotham Times" stays readable.
+    posterPosition: "50% 12%",
     summary:
       "Turn a fictional Gotham news scenario into a short cinematic news video using Google Flow.",
     description: [

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Volume2, VolumeX } from "lucide-react";
 import logoAsset from "../strata26Logo.png";
 import videoAsset from "../herobg.mp4";
 import posterAsset from "../Events.jpg";
@@ -15,6 +16,30 @@ const BEAM_GRADIENT =
   "radial-gradient(ellipse 118% 62% at 0% 50%, rgba(255,238,212,0.45) 0%, rgba(255,186,130,0.20) 30%, rgba(255,134,74,0.05) 60%, rgba(0,0,0,0) 84%)";
 const POOL_GRADIENT =
   "radial-gradient(ellipse at 50% 50%, rgba(255,231,201,0.42) 0%, rgba(255,168,110,0.20) 34%, rgba(255,110,50,0.04) 62%, rgba(0,0,0,0) 78%)";
+
+/**
+ * Where the intro is cut, in seconds.
+ *
+ * BATMAN_26.mp4 is 7.13s long, but the STRATA '26 title lands at 4.50s and
+ * holds steady only until 5.40s — after that the shot moves on to material we
+ * don't want to show. Measured by sampling frames and tracking how much
+ * saturated red is on screen: it sits at ~83 through 5.40s, then falls away
+ * (78.7 at 5.45, 57.9 at 5.50, 16.6 by 5.65).
+ *
+ * At this mark the video is PAUSED rather than left running, so the last
+ * thing on screen is the title held still while the overlay fades out — if it
+ * kept playing, the 500ms fade would show exactly the tail we're cutting.
+ */
+const INTRO_CUT_SECONDS = 5.4;
+
+/** How long the held title stays up while the overlay fades. The frame is
+ *  frozen for this whole window, so the logo is the last thing on screen
+ *  right up to the moment the site appears. */
+const INTRO_FADE_MS = 700;
+
+/** How often the cut mark is polled. `timeupdate` only fires ~4x/sec, which
+ *  could overshoot into the decay; 40ms lands within a frame of the mark. */
+const INTRO_POLL_MS = 40;
 
 /**
  * Full-viewport opening section.
@@ -42,8 +67,10 @@ const POOL_GRADIENT =
  * this section rather than gating the section's mount — the hero's own
  * video/logos/spotlight are already mounted and warming up underneath while
  * the intro plays, so there's no extra load-in delay once the intro clears.
- * The intro fades out and unmounts on its own `ended` event, or immediately
- * if the user hits Skip.
+ * The intro is cut at INTRO_CUT_SECONDS rather than played out (see that
+ * constant for why), fading out from a held frame — or immediately if the
+ * user hits Skip. `onEnded` stays wired as a backstop in case the cut is ever
+ * moved past the end of the file.
  */
 export function HeroSection() {
   const spotlight = useHeroSpotlight();
@@ -54,7 +81,10 @@ export function HeroSection() {
   const introVideoRef = useRef<HTMLVideoElement>(null);
   const [introDone, setIntroDone] = useState(false);
   const [introClosing, setIntroClosing] = useState(false);
-  const [needsSoundTap, setNeedsSoundTap] = useState(false);
+  const [introMuted, setIntroMuted] = useState(false);
+  // Mirrors introClosing for the poll below, which reads it from inside an
+  // interval callback that would otherwise close over a stale value.
+  const introClosingRef = useRef(false);
 
   useEffect(() => {
     const el = spotlight.sectionRef.current;
@@ -73,10 +103,21 @@ export function HeroSection() {
     else video.pause();
   }, [heroVisible]);
 
+  const finishIntro = () => {
+    if (introClosingRef.current) return;
+    introClosingRef.current = true;
+    // Hold the last frame. The overlay takes 500ms to fade, and the video
+    // would otherwise keep rolling straight through it into the tail we're
+    // deliberately cutting.
+    introVideoRef.current?.pause();
+    setIntroClosing(true);
+    window.setTimeout(() => setIntroDone(true), INTRO_FADE_MS);
+  };
+
   // Try the intro with sound first. Browsers that block autoplay-with-audio
   // reject the play() promise with NotAllowedError — fall back to muted
-  // playback and surface a small "tap for sound" affordance instead of
-  // silently failing.
+  // playback so the intro still runs, with the toggle reflecting that it
+  // started silent.
   useEffect(() => {
     const video = introVideoRef.current;
     if (!video) return;
@@ -86,23 +127,26 @@ export function HeroSection() {
 
     video.play().catch(() => {
       video.muted = true;
-      setNeedsSoundTap(true);
+      setIntroMuted(true);
       video.play().catch(() => {});
     });
+
+    // End the intro at the title rather than at the file's own `ended`.
+    const id = window.setInterval(() => {
+      if (video.currentTime >= INTRO_CUT_SECONDS) finishIntro();
+    }, INTRO_POLL_MS);
+    return () => window.clearInterval(id);
   }, []);
 
-  const finishIntro = () => {
-    if (introClosing) return;
-    setIntroClosing(true);
-    window.setTimeout(() => setIntroDone(true), 500);
-  };
-
-  const enableIntroSound = () => {
+  const toggleIntroSound = () => {
     const video = introVideoRef.current;
     if (!video) return;
-    video.muted = false;
-    video.play().catch(() => {});
-    setNeedsSoundTap(false);
+    const nextMuted = !video.muted;
+    video.muted = nextMuted;
+    setIntroMuted(nextMuted);
+    // Unmuting counts as the user gesture browsers were waiting for, so a
+    // playback attempt that was previously rejected can succeed now.
+    if (!nextMuted) video.play().catch(() => {});
   };
 
   return (
@@ -114,7 +158,7 @@ export function HeroSection() {
       {/* --- Part A: intro splash overlay --- */}
       {!introDone && (
         <div
-          className={`fixed inset-0 z-[100] flex items-center justify-center bg-black transition-opacity duration-500 ${
+          className={`fixed inset-0 z-[100] flex items-center justify-center bg-black transition-opacity duration-700 ${
             introClosing ? "pointer-events-none opacity-0" : "opacity-100"
           }`}
         >
@@ -127,21 +171,29 @@ export function HeroSection() {
             playsInline
           />
 
-          {needsSoundTap && (
-            <button
-              type="button"
-              onClick={enableIntroSound}
-              className="absolute bottom-6 left-6 rounded-full border border-white/30 bg-black/40 px-4 py-2 text-xs font-medium uppercase tracking-wider text-white/80 backdrop-blur-sm transition-colors hover:bg-black/60"
-            >
-              Tap for sound
-            </button>
-          )}
+          {/* Always present, rather than only appearing when autoplay-with-
+              sound was blocked: it doubles as a mute for people who did get
+              audio and don't want it, and it states the current state instead
+              of issuing an instruction. */}
+          <button
+            type="button"
+            onClick={toggleIntroSound}
+            aria-label={introMuted ? "Turn intro sound on" : "Turn intro sound off"}
+            className="absolute bottom-6 left-6 inline-flex items-center gap-2 rounded-full border border-white/30 bg-black/40 px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-white/85 backdrop-blur-sm transition-colors hover:bg-black/60"
+          >
+            {introMuted ? (
+              <VolumeX className="h-4 w-4" aria-hidden />
+            ) : (
+              <Volume2 className="h-4 w-4" aria-hidden />
+            )}
+            {introMuted ? "Sound Off" : "Sound On"}
+          </button>
 
           <button
             type="button"
             onClick={finishIntro}
             aria-label="Skip intro"
-            className="absolute bottom-6 right-6 rounded-full border border-white/30 bg-black/40 px-5 py-2 text-xs font-semibold uppercase tracking-wider text-white/90 backdrop-blur-sm transition-colors hover:bg-black/60"
+            className="absolute bottom-6 right-6 rounded-full border border-white/30 bg-black/40 px-5 py-2.5 text-xs font-semibold uppercase tracking-wider text-white/90 backdrop-blur-sm transition-colors hover:bg-black/60"
           >
             Skip
           </button>
@@ -195,16 +247,20 @@ export function HeroSection() {
           button and menu toggle on small screens, the desktop links on
           mid-size ones. Clearing the bar vertically is the one placement that
           holds at every width. */}
-      <img
-        src={loyolaIcamLogo}
-        alt="Loyola ICAM"
-        className="absolute left-4 top-24 z-20 h-10 w-auto object-contain sm:left-6 sm:h-12 md:h-14"
-      />
-      <img
-        src={nexusLogo}
-        alt="NEXUS"
-        className="absolute right-4 top-24 z-20 h-10 w-auto object-contain sm:right-6 sm:h-12 md:h-14"
-      />
+      <div className="pointer-events-none absolute inset-x-0 top-24 z-20">
+        {/* Same `mx-auto max-w-6xl px-6 md:px-12` box the nav uses, so the two
+            logos land on the nav's own left and right edges instead of the
+            raw viewport edges — pinned to the viewport they drifted far wider
+            than the centred nav and read as unaligned. */}
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 md:px-12">
+          <img
+            src={loyolaIcamLogo}
+            alt="Loyola ICAM"
+            className="h-10 w-auto object-contain sm:h-12 md:h-14"
+          />
+          <img src={nexusLogo} alt="NEXUS" className="h-10 w-auto object-contain sm:h-12 md:h-14" />
+        </div>
+      </div>
 
       {/* Spotlight beam + background pool — behind the logo (z-5), clipped to the hero */}
       {spotlight.enabled && (
