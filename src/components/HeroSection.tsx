@@ -254,20 +254,21 @@ export function HeroSection() {
           button and menu toggle on small screens, the desktop links on
           mid-size ones. Clearing the bar vertically is the one placement that
           holds at every width. */}
-      {/* Logos centered as a group so they don't span extreme viewport edges on
-          wide screens. Opacity fades to 0 over the first 200px of scroll so
-          they clear the hero cleanly rather than fighting for attention. */}
+      {/* Institution logos sit in the same max-w-6xl box the nav uses, so
+          they land at the nav's own left/right edges rather than the raw
+          viewport edges. Opacity fades out over the first 200px of scroll. */}
       <div
-        className="pointer-events-none absolute inset-x-0 top-24 z-20 flex items-center justify-center gap-6 px-6 md:gap-10"
+        className="pointer-events-none absolute inset-x-0 top-24 z-20"
         style={{ opacity: logoOpacity, transition: "opacity 100ms linear" }}
       >
-        <img
-          src={loyolaIcamLogo}
-          alt="Loyola ICAM"
-          className="h-10 w-auto object-contain sm:h-12 md:h-14"
-        />
-        <div aria-hidden className="h-8 w-px bg-white/25" />
-        <img src={nexusLogo} alt="NEXUS" className="h-10 w-auto object-contain sm:h-12 md:h-14" />
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 md:px-12">
+          <img
+            src={loyolaIcamLogo}
+            alt="Loyola ICAM"
+            className="h-10 w-auto object-contain sm:h-12 md:h-14"
+          />
+          <img src={nexusLogo} alt="NEXUS" className="h-10 w-auto object-contain sm:h-12 md:h-14" />
+        </div>
       </div>
 
       {/* Spotlight beam + background pool — behind the logo (z-5), clipped to the hero */}
