@@ -2,7 +2,6 @@ import { useRef, useState, type RefObject } from "react";
 import { ArrowRight } from "lucide-react";
 import bgAsset from "../Events.jpg";
 import { EVENTS, type StrataEvent } from "../data/events";
-import { REGISTER_URL } from "../data/site";
 import { spawnCardBurst } from "./CardBurst";
 import { PhoneNumber } from "./PhoneNumber";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -149,26 +148,11 @@ export function EventsSection() {
                       Coordinators: {coordinatorNames === "" ? "To be announced" : coordinatorNames}
                     </p>
 
-                    <div className="mt-4 flex items-center justify-between gap-3">
+                    <div className="mt-4 flex items-center">
                       <span className="inline-flex items-center gap-1 text-[0.6rem] font-bold uppercase tracking-[0.2em] text-sodium-glow transition-transform duration-300 group-hover:translate-x-1">
                         View Details
                         <ArrowRight className="h-3 w-3" aria-hidden="true" />
                       </span>
-                      {/* Gold, not crimson: below the hero there is no red at
-                          all, so the CTA earns its prominence from being the
-                          only *filled* warm block on a black card rather than
-                          from being a different hue. Black text on gold also
-                          out-contrasts the old white-on-red. */}
-                      <a
-                        href={REGISTER_URL}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={(e) => e.stopPropagation()}
-                        aria-label={`Register for ${ev.title}`}
-                        className="rounded-md bg-sodium-glow px-5 py-2 text-center text-[0.6rem] font-bold uppercase tracking-[0.25em] text-black transition-colors duration-300 hover:bg-sodium-core focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sodium-glow"
-                      >
-                        Register
-                      </a>
                     </div>
                   </div>
                 </article>
@@ -263,16 +247,6 @@ function EventDialog({
                 </div>
               </div>
             )}
-
-            {/* 5. Register */}
-            <a
-              href={REGISTER_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex w-full items-center justify-center rounded-md bg-sodium-glow px-4 py-3 text-[0.65rem] font-bold uppercase tracking-[0.3em] text-black transition-colors hover:bg-sodium-core"
-            >
-              Register
-            </a>
           </>
         )}
       </DialogContent>

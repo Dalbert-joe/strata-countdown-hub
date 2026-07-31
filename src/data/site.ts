@@ -53,8 +53,8 @@ export const SITE: SiteConfig = {
  * Single Google Form for all six events. Every register button on the site
  * imports this constant — there is exactly one place to change it later.
  */
-// TODO: paste Google Form URL
-export const REGISTER_URL = "#";
+export const REGISTER_URL =
+  "https://docs.google.com/forms/d/e/1FAIpQLSdSFCxeP2h-byIiTObXuUTT1BUbP8YmmiiaBLhiNY4YdbEe2Q/viewform?usp=publish-editor";
 
 /**
  * Per-event coordinator phone numbers aren't supplied yet. Every event

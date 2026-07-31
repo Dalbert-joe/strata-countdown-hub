@@ -12,15 +12,13 @@ Event date: **8 August 2026** — roughly **9 days** out as of this file's date.
 
 These make the site actively wrong or unusable if it went live today.
 
-### 1. Registration form URL
+### ~~1. Registration form URL~~ ✅ DONE 2026-07-30
 
 - **File:** `src/data/site.ts` → `REGISTER_URL`
-- **Current:** `"#"`
-- **Impact:** Five register buttons (nav desktop, nav mobile, each event card,
-  event modal, contact CTA) all go nowhere. This is the site's entire conversion
-  goal.
-- **Action:** Jabin creates the Google Form, pastes the URL. One-line change,
-  activates everything.
+- **Now:** live Google Form URL. All 9 register links on the page verified
+  pointing at it (nav, per-event cards, modal, closing CTA).
+- The closing "Register Now" button in `ContactSection.tsx` was also enlarged
+  (`px-14 py-5 text-sm`, up from `px-10 py-4 text-[0.7rem]`) for visibility.
 
 ### 2. Per-event coordinator phone numbers
 

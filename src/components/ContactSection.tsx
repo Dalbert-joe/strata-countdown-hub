@@ -106,7 +106,7 @@ export function ContactSection() {
             href={REGISTER_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center rounded-md bg-sodium-glow px-10 py-4 text-[0.7rem] font-bold uppercase tracking-[0.35em] text-black transition-all duration-300 hover:bg-sodium-core hover:shadow-[0_0_44px_-8px_rgba(238,178,44,0.75)]"
+            className="inline-flex items-center justify-center rounded-md bg-sodium-glow px-14 py-5 text-sm font-bold uppercase tracking-[0.35em] text-black transition-all duration-300 hover:bg-sodium-core hover:shadow-[0_0_44px_-8px_rgba(238,178,44,0.75)]"
           >
             Register Now
           </a>
