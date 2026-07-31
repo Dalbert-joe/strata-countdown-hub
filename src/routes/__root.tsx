@@ -76,7 +76,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   head: () => ({
     meta: [
       { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
       // NOTE: the date was previously hard-coded here as "8 August 2026" but has
       // never been confirmed, so it is deliberately left out of the description.
       // Add it back via SITE.date once verified — see src/data/site.ts.

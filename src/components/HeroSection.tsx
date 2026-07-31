@@ -76,6 +76,7 @@ export function HeroSection() {
   const spotlight = useHeroSpotlight();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [heroVisible, setHeroVisible] = useState(true);
+  const [logoOpacity, setLogoOpacity] = useState(1);
 
   // --- Intro splash state ---
   const introVideoRef = useRef<HTMLVideoElement>(null);
@@ -94,6 +95,12 @@ export function HeroSection() {
     });
     observer.observe(el);
     return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const onScroll = () => setLogoOpacity(Math.max(0, 1 - window.scrollY / 200));
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   useEffect(() => {
@@ -179,7 +186,7 @@ export function HeroSection() {
             type="button"
             onClick={toggleIntroSound}
             aria-label={introMuted ? "Turn intro sound on" : "Turn intro sound off"}
-            className="absolute bottom-6 left-6 inline-flex items-center gap-2 rounded-full border border-white/30 bg-black/40 px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-white/85 backdrop-blur-sm transition-colors hover:bg-black/60"
+            className="absolute bottom-[calc(1.5rem+env(safe-area-inset-bottom,0px))] left-6 inline-flex items-center gap-2 rounded-full border border-white/30 bg-black/40 px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-white/85 backdrop-blur-sm transition-colors hover:bg-black/60"
           >
             {introMuted ? (
               <VolumeX className="h-4 w-4" aria-hidden />
@@ -193,7 +200,7 @@ export function HeroSection() {
             type="button"
             onClick={finishIntro}
             aria-label="Skip intro"
-            className="absolute bottom-6 right-6 rounded-full border border-white/30 bg-black/40 px-5 py-2.5 text-xs font-semibold uppercase tracking-wider text-white/90 backdrop-blur-sm transition-colors hover:bg-black/60"
+            className="absolute bottom-[calc(1.5rem+env(safe-area-inset-bottom,0px))] right-6 rounded-full border border-white/30 bg-black/40 px-5 py-2.5 text-xs font-semibold uppercase tracking-wider text-white/90 backdrop-blur-sm transition-colors hover:bg-black/60"
           >
             Skip
           </button>
@@ -247,19 +254,20 @@ export function HeroSection() {
           button and menu toggle on small screens, the desktop links on
           mid-size ones. Clearing the bar vertically is the one placement that
           holds at every width. */}
-      <div className="pointer-events-none absolute inset-x-0 top-24 z-20">
-        {/* Same `mx-auto max-w-6xl px-6 md:px-12` box the nav uses, so the two
-            logos land on the nav's own left and right edges instead of the
-            raw viewport edges — pinned to the viewport they drifted far wider
-            than the centred nav and read as unaligned. */}
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 md:px-12">
-          <img
-            src={loyolaIcamLogo}
-            alt="Loyola ICAM"
-            className="h-10 w-auto object-contain sm:h-12 md:h-14"
-          />
-          <img src={nexusLogo} alt="NEXUS" className="h-10 w-auto object-contain sm:h-12 md:h-14" />
-        </div>
+      {/* Logos centered as a group so they don't span extreme viewport edges on
+          wide screens. Opacity fades to 0 over the first 200px of scroll so
+          they clear the hero cleanly rather than fighting for attention. */}
+      <div
+        className="pointer-events-none absolute inset-x-0 top-24 z-20 flex items-center justify-center gap-6 px-6 md:gap-10"
+        style={{ opacity: logoOpacity, transition: "opacity 100ms linear" }}
+      >
+        <img
+          src={loyolaIcamLogo}
+          alt="Loyola ICAM"
+          className="h-10 w-auto object-contain sm:h-12 md:h-14"
+        />
+        <div aria-hidden className="h-8 w-px bg-white/25" />
+        <img src={nexusLogo} alt="NEXUS" className="h-10 w-auto object-contain sm:h-12 md:h-14" />
       </div>
 
       {/* Spotlight beam + background pool — behind the logo (z-5), clipped to the hero */}
