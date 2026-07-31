@@ -254,20 +254,17 @@ export function HeroSection() {
           button and menu toggle on small screens, the desktop links on
           mid-size ones. Clearing the bar vertically is the one placement that
           holds at every width. */}
-      {/* Institution logos sit in the same max-w-6xl box the nav uses, so
-          they land at the nav's own left/right edges rather than the raw
-          viewport edges. Opacity fades out over the first 200px of scroll. */}
+      {/* Institution logos floated inside the nav bar area — top-6 matches
+          the nav's own py-6, so logos align vertically with the nav links.
+          Hidden on mobile where Register + hamburger already fill the bar.
+          Opacity fades out over the first 200px of scroll. */}
       <div
-        className="pointer-events-none absolute inset-x-0 top-24 z-20"
+        className="pointer-events-none absolute inset-x-0 top-6 z-20 hidden md:block"
         style={{ opacity: logoOpacity, transition: "opacity 100ms linear" }}
       >
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 md:px-12">
-          <img
-            src={loyolaIcamLogo}
-            alt="Loyola ICAM"
-            className="h-10 w-auto object-contain sm:h-12 md:h-14"
-          />
-          <img src={nexusLogo} alt="NEXUS" className="h-10 w-auto object-contain sm:h-12 md:h-14" />
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-12">
+          <img src={loyolaIcamLogo} alt="Loyola ICAM" className="h-12 w-auto object-contain md:h-14" />
+          <img src={nexusLogo} alt="NEXUS" className="h-12 w-auto object-contain md:h-14" />
         </div>
       </div>
 
