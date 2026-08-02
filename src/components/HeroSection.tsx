@@ -40,6 +40,16 @@ const INTRO_FADE_MS = 700;
 const INTRO_POLL_MS = 40;
 
 /**
+ * The intro is desktop-only. Matches Tailwind's `md` breakpoint, so the JS gate
+ * below and the `max-md:hidden` class on the overlay agree on where the cutoff
+ * is. On a phone the intro is pure cost: it delays first contact with the site
+ * on the connection least able to afford a video, and mobile browsers block
+ * autoplay-with-sound outright, so the one thing the intro exists for cannot
+ * happen there anyway.
+ */
+const INTRO_MOBILE_QUERY = "(max-width: 767px)";
+
+/**
  * Full-viewport opening section.
  *
  * The video/overlays are `fixed` rather than `absolute` so they stay put as
@@ -112,6 +122,17 @@ export function HeroSection() {
     window.setTimeout(() => setIntroDone(true), INTRO_FADE_MS);
   };
 
+  // Skip the intro entirely on mobile. Done in an effect rather than in
+  // useState's initialiser because this component server-renders: the server
+  // has no viewport to measure, so the overlay is always in the initial HTML
+  // and `max-md:hidden` on it is what prevents a flash before this runs.
+  useEffect(() => {
+    if (window.matchMedia(INTRO_MOBILE_QUERY).matches) {
+      introClosingRef.current = true;
+      setIntroDone(true);
+    }
+  }, []);
+
   // Try the intro with sound first. Browsers that block autoplay-with-audio
   // reject the play() promise with NotAllowedError — fall back to muted
   // playback so the intro still runs, with the toggle reflecting that it
@@ -119,21 +140,48 @@ export function HeroSection() {
   useEffect(() => {
     const video = introVideoRef.current;
     if (!video) return;
+    if (window.matchMedia(INTRO_MOBILE_QUERY).matches) return;
 
     video.muted = false;
     video.volume = 1;
+
+    // Autoplay-with-sound is only granted to origins the browser considers
+    // high-engagement, so on a first visit this reliably fails. Recovering on
+    // the first gesture anywhere on the page — rather than only if the user
+    // happens to find the sound button — is what makes sound-on the effective
+    // default instead of just the requested one.
+    const unmuteOnGesture = () => {
+      video.muted = false;
+      setIntroMuted(false);
+      video.play().catch(() => {});
+    };
+    const addGestureListeners = () => {
+      const opts = { once: true, passive: true } as const;
+      window.addEventListener("pointerdown", unmuteOnGesture, opts);
+      window.addEventListener("keydown", unmuteOnGesture, opts);
+      window.addEventListener("touchstart", unmuteOnGesture, opts);
+    };
+    const removeGestureListeners = () => {
+      window.removeEventListener("pointerdown", unmuteOnGesture);
+      window.removeEventListener("keydown", unmuteOnGesture);
+      window.removeEventListener("touchstart", unmuteOnGesture);
+    };
 
     video.play().catch(() => {
       video.muted = true;
       setIntroMuted(true);
       video.play().catch(() => {});
+      addGestureListeners();
     });
 
     // End the intro at the title rather than at the file's own `ended`.
     const id = window.setInterval(() => {
       if (video.currentTime >= INTRO_CUT_SECONDS) finishIntro();
     }, INTRO_POLL_MS);
-    return () => window.clearInterval(id);
+    return () => {
+      window.clearInterval(id);
+      removeGestureListeners();
+    };
   }, []);
 
   const toggleIntroSound = () => {
@@ -156,16 +204,21 @@ export function HeroSection() {
       {/* --- Part A: intro splash overlay --- */}
       {!introDone && (
         <div
-          className={`fixed inset-0 z-[100] flex items-center justify-center bg-black transition-opacity duration-700 ${
+          className={`fixed inset-0 z-[100] flex items-center justify-center bg-black transition-opacity duration-700 max-md:hidden ${
             introClosing ? "pointer-events-none opacity-0" : "opacity-100"
           }`}
         >
+          {/* preload="metadata", and no `autoPlay`: playback is started by the
+              effect above, which returns early on mobile. Without this the 4.5MB
+              intro is fetched from the SSR'd markup on phones too — `max-md:hidden`
+              stops it being seen but not downloaded, and hydration only removes
+              the element after the request is already in flight. */}
           <video
             ref={introVideoRef}
             className="h-full w-full object-cover"
             src={introVideoAsset}
             onEnded={finishIntro}
-            autoPlay
+            preload="metadata"
             playsInline
           />
 

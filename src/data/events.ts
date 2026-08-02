@@ -4,7 +4,6 @@ import rogueAi from "../rogueai.jpeg";
 import gothamTimes from "../gothamtimes.jpeg";
 import batmanRobin from "../BatmanRobin.jpg";
 import riddlersEscape from "../Riddler.jpg";
-import { PLACEHOLDER_PHONE } from "./site";
 
 /**
  * The STRATA '26 event lineup.
@@ -47,7 +46,7 @@ export const EVENTS: StrataEvent[] = [
     title: "WayneTech Research Summit",
     tag: "Event 01",
     category: "Technical Paper Presentation",
-    participation: "Individual",
+    participation: "1-3 Members",
     poster: wayneTech,
     summary:
       "Submit your research paper ahead of the event, then defend it before a panel of department faculty.",
@@ -57,14 +56,14 @@ export const EVENTS: StrataEvent[] = [
       "Evaluation is based on the quality of research, technical content, presentation skills, innovation, and the ability to answer questions effectively.",
     ],
     highlights: [
-      { label: "Participation", value: "Individual" },
+      { label: "Participation", value: "1-3 members" },
       { label: "Presentation", value: "5 minutes" },
       { label: "Viva / Q&A", value: "2 minutes" },
       { label: "Submission", value: "Paper due one day prior" },
     ],
     coordinators: [
-      { name: "Asmita", phone: PLACEHOLDER_PHONE },
-      { name: "Bharath", phone: PLACEHOLDER_PHONE },
+      { name: "Asmita", phone: "+91 63741 52260" },
+      { name: "Bharath", phone: "+91 93902 05235" },
     ],
   },
   {
@@ -88,8 +87,8 @@ export const EVENTS: StrataEvent[] = [
       { label: "Win condition", value: "First to clear, else highest damage" },
     ],
     coordinators: [
-      { name: "Uwais", phone: PLACEHOLDER_PHONE },
-      { name: "Preetha", phone: PLACEHOLDER_PHONE },
+      { name: "Uwais", phone: "+91 95145 91215" },
+      { name: "Preetha", phone: "+91 72009 98714" },
     ],
   },
   {
@@ -113,8 +112,8 @@ export const EVENTS: StrataEvent[] = [
       { label: "Judged on", value: "Robustness and adaptability" },
     ],
     coordinators: [
-      { name: "Sri Lekha", phone: PLACEHOLDER_PHONE },
-      { name: "Nandhini", phone: PLACEHOLDER_PHONE },
+      { name: "Sri Lekha", phone: "+91 99404 98266" },
+      { name: "Nandhini", phone: "+91 88259 06825" },
     ],
   },
   {
@@ -142,8 +141,8 @@ export const EVENTS: StrataEvent[] = [
       { label: "Judged on", value: "Prompt quality and continuity" },
     ],
     coordinators: [
-      { name: "Marie", phone: PLACEHOLDER_PHONE },
-      { name: "Nisha", phone: PLACEHOLDER_PHONE },
+      { name: "Marie", phone: "+91 73059 43886" },
+      { name: "Nisha", phone: "+91 63856 23861" },
     ],
   },
   {
@@ -167,8 +166,8 @@ export const EVENTS: StrataEvent[] = [
       { label: "Focus", value: "Prompt engineering, responsible AI" },
     ],
     coordinators: [
-      { name: "Ananya", phone: PLACEHOLDER_PHONE },
-      { name: "Reny", phone: PLACEHOLDER_PHONE },
+      { name: "Ananya", phone: "+91 93420 40855" },
+      { name: "Reny", phone: "+91 93636 24384" },
     ],
   },
   {
@@ -191,6 +190,9 @@ export const EVENTS: StrataEvent[] = [
       { label: "Tech", value: "SQL, NoSQL, PL/SQL, MongoDB" },
       { label: "Win condition", value: "First to escape" },
     ],
-    coordinators: [],
+    coordinators: [
+      { name: "Anton", phone: "+91 93639 25369" },
+      { name: "Sebrancia", phone: "+91 93426 18335" },
+    ],
   },
 ];

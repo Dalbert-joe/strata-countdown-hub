@@ -108,6 +108,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       // and reference it with the deployed absolute URL.
     ],
     links: [
+      // Generated from src/strata26Logo.png. Without these the tab shows a
+      // blank page icon and iOS home-screen bookmarks get a screenshot.
+      { rel: "icon", type: "image/png", href: "/favicon.png" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {

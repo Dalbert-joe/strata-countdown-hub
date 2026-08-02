@@ -89,7 +89,10 @@ export function PhoneNumber({ phone, className = "" }: { phone: string; classNam
 
   // PhoneNumber only ever renders below the hero (contact block + event
   // modals), so it follows the below-the-fold rule: sodium, never red.
-  const sharedClasses = `group inline-flex items-center gap-2 underline decoration-sodium-ember/60 decoration-dotted underline-offset-4 transition-colors duration-200 hover:text-sodium-glow hover:decoration-sodium-glow ${className}`;
+  // `py-1.5 -my-1.5` grows the touch target from a 16px line box to ~28px
+  // without changing how the row sits in its container — on touch this is a
+  // `tel:` link, and a bare text line is well under a comfortable tap size.
+  const sharedClasses = `group inline-flex items-center gap-2 py-1.5 -my-1.5 underline decoration-sodium-ember/60 decoration-dotted underline-offset-4 transition-colors duration-200 hover:text-sodium-glow hover:decoration-sodium-glow ${className}`;
 
   if (!canHover) {
     return (

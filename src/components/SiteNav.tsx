@@ -135,11 +135,13 @@ export function SiteNav() {
             >
               <img src={logoAsset} alt="STRATA '26" className="h-8 w-auto object-contain md:h-9" />
             </a>
-            {/* Desktop only — mobile nav is already full with Register + hamburger */}
+            {/* Desktop only — mobile nav is already full with Register + hamburger.
+                Absolute, so its larger size never grows the bar: it is centred on
+                the same axis the STRATA logo occupies and simply cross-fades with it. */}
             <img
               src={loyolaIcamLogo}
               alt="Loyola ICAM"
-              className={`absolute left-0 top-1/2 hidden -translate-y-1/2 object-contain md:block md:h-9 transition-opacity duration-300 ${
+              className={`absolute left-0 top-1/2 hidden h-14 w-14 max-w-none -translate-y-1/2 object-contain transition-opacity duration-300 md:block ${
                 scrolled ? "pointer-events-none opacity-0" : "opacity-100"
               }`}
             />
@@ -165,15 +167,6 @@ export function SiteNav() {
                 />
               </a>
             ))}
-            {/* NEXUS sits directly left of Register — fades when scrolled so both
-                institution logos disappear together once the user leaves the hero. */}
-            <img
-              src={nexusLogo}
-              alt="NEXUS"
-              className={`h-8 w-auto object-contain md:h-9 transition-opacity duration-300 ${
-                scrolled ? "pointer-events-none opacity-0" : "opacity-100"
-              }`}
-            />
             <a
               {...registerLinkProps}
               className={`rounded-md px-4 py-1.5 text-xs font-bold uppercase tracking-[0.25em] transition-colors duration-300 md:text-sm ${ctaClasses}`}
@@ -182,13 +175,30 @@ export function SiteNav() {
             </a>
           </nav>
 
+          {/* NEXUS sits to the RIGHT of Register, at the bar's right edge.
+              It is a sibling of <nav> rather than a child so it escapes the
+              nav's gap-10 rhythm and can carry its own tighter spacing.
+
+              The wrapper (not the image) is what animates: collapsing max-w,
+              max-h and the left margin together means that once scrolled the
+              logo leaves no reserved gap holding Register off the right edge,
+              and no leftover height propping the compact bar open. */}
+          <span
+            aria-hidden={scrolled}
+            className={`hidden overflow-hidden transition-all duration-300 md:block ${
+              scrolled ? "ml-0 max-h-0 max-w-0 opacity-0" : "ml-8 max-h-16 max-w-20 opacity-100"
+            }`}
+          >
+            <img src={nexusLogo} alt="NEXUS" className="h-14 w-auto object-contain" />
+          </span>
+
           {/* Mobile: register stays visible in the collapsed bar, not hidden inside the menu.
               The nav register button is the only above-the-fold CTA now that the hero's own
               register button is gone, so it stays solid rather than outlined. */}
           <div className="ml-auto flex items-center gap-3 md:hidden">
             <a
               {...registerLinkProps}
-              className={`rounded-md px-3.5 py-2.5 text-[0.65rem] font-bold uppercase tracking-[0.2em] transition-colors duration-300 ${ctaClasses}`}
+              className={`rounded-md px-3.5 py-3 text-[0.65rem] font-bold uppercase tracking-[0.2em] transition-colors duration-300 ${ctaClasses}`}
             >
               Register
             </a>

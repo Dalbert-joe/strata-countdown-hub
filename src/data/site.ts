@@ -55,10 +55,3 @@ export const SITE: SiteConfig = {
  */
 export const REGISTER_URL =
   "https://docs.google.com/forms/d/e/1FAIpQLSdSFCxeP2h-byIiTObXuUTT1BUbP8YmmiiaBLhiNY4YdbEe2Q/viewform?usp=publish-editor";
-
-/**
- * Per-event coordinator phone numbers aren't supplied yet. Every event
- * coordinator uses this single placeholder so all six can be swapped for
- * real numbers in one pass later.
- */
-export const PLACEHOLDER_PHONE = "00000 00000";
