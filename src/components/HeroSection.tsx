@@ -152,7 +152,6 @@ export function HeroSection() {
     // default instead of just the requested one.
     const unmuteOnGesture = () => {
       video.muted = false;
-      setIntroMuted(false);
       video.play().catch(() => {});
     };
     const addGestureListeners = () => {
@@ -169,10 +168,18 @@ export function HeroSection() {
 
     video.play().catch(() => {
       video.muted = true;
-      setIntroMuted(true);
       video.play().catch(() => {});
       addGestureListeners();
     });
+
+    // The button's label is derived from the element's own `muted` property
+    // rather than from whatever we last tried to set. A blocked unmuted
+    // autoplay flips `muted` back on without telling React, so tracking our
+    // intent instead of the actual state is how the control ends up claiming
+    // sound is on while the video plays silently.
+    const syncMuted = () => setIntroMuted(video.muted);
+    syncMuted();
+    video.addEventListener("volumechange", syncMuted);
 
     // End the intro at the title rather than at the file's own `ended`.
     const id = window.setInterval(() => {
@@ -181,6 +188,7 @@ export function HeroSection() {
     return () => {
       window.clearInterval(id);
       removeGestureListeners();
+      video.removeEventListener("volumechange", syncMuted);
     };
   }, []);
 
@@ -222,14 +230,14 @@ export function HeroSection() {
             playsInline
           />
 
-          {/* Always present, rather than only appearing when autoplay-with-
-              sound was blocked: it doubles as a mute for people who did get
-              audio and don't want it, and it states the current state instead
-              of issuing an instruction. */}
+          {/* Labelled with the ACTION, not the current state. "Sound On" while
+              sound was already on read as a button offering to turn it on,
+              which made an unmuted intro look muted. "Mute" can only mean
+              sound is currently playing. */}
           <button
             type="button"
             onClick={toggleIntroSound}
-            aria-label={introMuted ? "Turn intro sound on" : "Turn intro sound off"}
+            aria-label={introMuted ? "Unmute intro" : "Mute intro"}
             className="absolute bottom-[calc(1.5rem+env(safe-area-inset-bottom,0px))] left-6 inline-flex items-center gap-2 rounded-full border border-white/30 bg-black/40 px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-white/85 backdrop-blur-sm transition-colors hover:bg-black/60"
           >
             {introMuted ? (
@@ -237,7 +245,7 @@ export function HeroSection() {
             ) : (
               <Volume2 className="h-4 w-4" aria-hidden />
             )}
-            {introMuted ? "Sound Off" : "Sound On"}
+            {introMuted ? "Unmute" : "Mute"}
           </button>
 
           <button
