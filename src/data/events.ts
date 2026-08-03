@@ -110,12 +110,15 @@ export const EVENTS: StrataEvent[] = [
       "Rogue AI is a competitive AI chatbot development event where each team, consisting of 3 to 4 members, must design and build an intelligent chatbot within the given time.",
       "Unlike conventional hackathons, every team randomly assigns another participating team a unique challenge or constraint through a randomized selection process. These constraints act as disadvantages that teams must overcome while continuing to improve their chatbot.",
       "Since challenges are assigned randomly, some teams may receive multiple constraints while others receive few or none. Success depends on a team's technical expertise, adaptability, and ability to deliver a robust chatbot despite unpredictable conditions.",
+      "Participants must bring their own laptop.",
     ],
     highlights: [
       { label: "Team size", value: "3-4 members" },
       { label: "Build", value: "AI chatbot" },
       { label: "Twist", value: "Peer-assigned constraints" },
       { label: "Judged on", value: "Robustness and adaptability" },
+      { label: "Timing", value: "11:00 AM – 12:15 PM" },
+      { label: "Reporting", value: "10 minutes before the event" },
     ],
     coordinators: [
       { name: "Sri Lekha", phone: "+91 99404 98266" },

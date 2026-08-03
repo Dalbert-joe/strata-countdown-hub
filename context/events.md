@@ -115,14 +115,18 @@ Since challenges are assigned randomly, some teams may receive multiple constrai
 receive few or none. Success depends on a team's technical expertise, adaptability, and ability
 to deliver a robust chatbot despite unpredictable conditions.
 
+Participants must bring their own laptop.
+
 **Format facts**
 
-|           |                             |
-| --------- | --------------------------- |
-| Team size | 3–4 members                 |
-| Build     | AI chatbot                  |
-| Twist     | Peer-assigned constraints   |
-| Judged on | Robustness and adaptability |
+|           |                              |
+| --------- | ---------------------------- |
+| Team size | 3–4 members                  |
+| Build     | AI chatbot                   |
+| Twist     | Peer-assigned constraints    |
+| Judged on | Robustness and adaptability  |
+| Timing    | 11:00 AM – 12:15 PM          |
+| Reporting | 10 minutes before the event  |
 
 ---
 
@@ -280,7 +284,7 @@ Each event in `src/data/events.ts` carries:
 - [ ] **Custom poster for The Gotham Times** — currently reusing the cut
       Operation Knightfall art
 - [x] Duration / time slot for each event, given as `Timing` / `Reporting` highlights —
-      confirmed 2026-08-03 for all events except Rogue AI (still needed)
+      confirmed 2026-08-03 for all six events
 - [ ] Venue or lab per event
 - [ ] Prize details
 - [ ] Resolve the WayneTech "team vs. participant" contradiction flagged above
