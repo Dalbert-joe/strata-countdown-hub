@@ -2,7 +2,7 @@
 
 Source of truth for all event content on the site.
 Provided by Jabin on 2026-07-29. Supersedes the original 8-event placeholder lineup.
-Last Updated: 2026-07-30
+Last Updated: 2026-08-03
 
 The code mirrors this file at `src/data/events.ts`. **Edit both together** —
 if you change an event here, update the data file, and vice versa.
@@ -38,14 +38,21 @@ a 2-minute viva / question-and-answer session.
 Evaluation is based on the quality of research, technical content, presentation skills,
 innovation, and the ability to answer questions effectively.
 
+LICET students can also participate in this event.
+
+Plagiarism or AI-generated content without proper understanding may lead to disqualification.
+Judges' decision will be final.
+
 **Format facts**
 
-|               |                         |
-| ------------- | ----------------------- |
-| Participation | Individual              |
-| Presentation  | 5 minutes               |
-| Viva / Q&A    | 2 minutes               |
-| Submission    | Paper due one day prior |
+|               |                             |
+| ------------- | --------------------------- |
+| Participation | Individual                  |
+| Presentation  | 5 minutes                   |
+| Viva / Q&A    | 2 minutes                   |
+| Submission    | Paper due one day prior     |
+| Timing        | 9:30 AM – 11:00 AM          |
+| Reporting     | 15 minutes before the event |
 
 > ⚠️ **Open question:** the source text says _"Each team will be allotted 5 minutes"_ while the
 > category is Individual. Site currently says "Each participant". Confirm which is right.
@@ -81,6 +88,8 @@ winner.
 | Scoring       | Damage per solved problem           |
 | Twist         | Random Joker hazards                |
 | Win condition | First to clear, else highest damage |
+| Timing        | 11:00 AM – 12:30 PM                 |
+| Reporting     | 10 minutes before the event         |
 
 ---
 
@@ -136,14 +145,18 @@ Judging focuses primarily on prompt quality, scenario accuracy, visual consisten
 creativity, and how effectively the generated video represents the assigned news event. While
 editing is permitted, it does not guarantee additional evaluation points.
 
+Participants must bring their own laptop.
+
 **Format facts**
 
-|             |                                        |
-| ----------- | -------------------------------------- |
-| Team size   | 2 members                              |
-| Tool        | Google Flow                            |
-| Deliverable | Short cinematic news video             |
-| Judged on   | Prompt quality, continuity, creativity |
+|             |                                         |
+| ----------- | --------------------------------------- |
+| Team size   | 2 members                               |
+| Tool        | Google Flow                             |
+| Deliverable | Short cinematic news video              |
+| Judged on   | Prompt quality, continuity, creativity  |
+| Timing      | 12:45 PM – 1:50 PM                      |
+| Reporting   | 10 minutes before the event             |
 
 ---
 
@@ -175,6 +188,8 @@ knowledge, and responsible AI practices.
 | Roles     | Batman describes, Robin prompts    |
 | Evaluated | Prompt text only                   |
 | Focus     | Prompt engineering, responsible AI |
+| Timing    | 9:45 AM – 11:00 AM                 |
+| Reporting | 10 minutes before the event        |
 
 ---
 
@@ -199,12 +214,14 @@ problem-solving ability, and speed under pressure.
 
 **Format facts**
 
-|               |                             |
-| ------------- | --------------------------- |
-| Participation | Individual                  |
-| Rooms         | 5 sequential                |
-| Tech          | SQL, NoSQL, PL/SQL, MongoDB |
-| Win condition | First to escape             |
+|               |                              |
+| ------------- | ---------------------------- |
+| Participation | Individual                   |
+| Rooms         | 5 sequential                 |
+| Tech          | SQL, NoSQL, PL/SQL, MongoDB  |
+| Win condition | First to escape              |
+| Timing        | 12:45 PM – 2:15 PM           |
+| Reporting     | 10 minutes before the event  |
 
 ---
 
@@ -262,8 +279,9 @@ Each event in `src/data/events.ts` carries:
       switch for all five register buttons, currently `"#"`
 - [ ] **Custom poster for The Gotham Times** — currently reusing the cut
       Operation Knightfall art
-- [ ] Duration / time slot for each event — would need a new `StrataEvent` field
-- [ ] Venue or lab per event — same
+- [x] Duration / time slot for each event, given as `Timing` / `Reporting` highlights —
+      confirmed 2026-08-03 for all events except Rogue AI (still needed)
+- [ ] Venue or lab per event
 - [ ] Prize details
 - [ ] Resolve the WayneTech "team vs. participant" contradiction flagged above
 - [x] Registration fee — confirmed free, all events (`SITE.fee`)

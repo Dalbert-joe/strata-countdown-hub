@@ -54,12 +54,16 @@ export const EVENTS: StrataEvent[] = [
       "WayneTech Research Summit is a technical paper presentation event where participants are required to submit their research paper prior to the competition (preferably one day before the event) for preliminary review.",
       "On the event day, participants present their research work before a panel of faculty members from the department. Each participant is allotted 5 minutes for the presentation, followed by a 2-minute viva and question-and-answer session.",
       "Evaluation is based on the quality of research, technical content, presentation skills, innovation, and the ability to answer questions effectively.",
+      "LICET students can also participate in this event.",
+      "Plagiarism or AI-generated content without proper understanding may lead to disqualification. Judges' decision will be final.",
     ],
     highlights: [
       { label: "Participation", value: "1-3 members" },
       { label: "Presentation", value: "5 minutes" },
       { label: "Viva / Q&A", value: "2 minutes" },
       { label: "Submission", value: "Paper due one day prior" },
+      { label: "Timing", value: "9:30 AM – 11:00 AM" },
+      { label: "Reporting", value: "15 minutes before the event" },
     ],
     coordinators: [
       { name: "Asmita", phone: "+91 63741 52260" },
@@ -85,6 +89,8 @@ export const EVENTS: StrataEvent[] = [
       { label: "Scoring", value: "Damage per solved problem" },
       { label: "Twist", value: "Random Joker hazards" },
       { label: "Win condition", value: "First to clear, else highest damage" },
+      { label: "Timing", value: "11:00 AM – 12:30 PM" },
+      { label: "Reporting", value: "10 minutes before the event" },
     ],
     coordinators: [
       { name: "Uwais", phone: "+91 95145 91215" },
@@ -133,12 +139,15 @@ export const EVENTS: StrataEvent[] = [
       "The Gotham Times is a two-member AI video generation competition inspired by Gotham City from the DC Universe.",
       "Each team receives a fictional news scenario and must create a short cinematic news video using Google Flow. Participants may generate multiple video clips and combine them through editing to improve storytelling and continuity.",
       "Judging focuses primarily on prompt quality, scenario accuracy, visual consistency, continuity, creativity, and how effectively the generated video represents the assigned news event. While editing is permitted, it does not guarantee additional evaluation points.",
+      "Participants must bring their own laptop.",
     ],
     highlights: [
       { label: "Team size", value: "2 members" },
       { label: "Tool", value: "Google Flow" },
       { label: "Deliverable", value: "Short cinematic news video" },
       { label: "Judged on", value: "Prompt quality and continuity" },
+      { label: "Timing", value: "12:45 PM – 1:50 PM" },
+      { label: "Reporting", value: "10 minutes before the event" },
     ],
     coordinators: [
       { name: "Marie", phone: "+91 73059 43886" },
@@ -164,6 +173,8 @@ export const EVENTS: StrataEvent[] = [
       { label: "Roles", value: "Batman describes, Robin prompts" },
       { label: "Evaluated", value: "Prompt text only" },
       { label: "Focus", value: "Prompt engineering, responsible AI" },
+      { label: "Timing", value: "9:45 AM – 11:00 AM" },
+      { label: "Reporting", value: "10 minutes before the event" },
     ],
     coordinators: [
       { name: "Ananya", phone: "+91 93420 40855" },
@@ -189,6 +200,8 @@ export const EVENTS: StrataEvent[] = [
       { label: "Rooms", value: "5 sequential" },
       { label: "Tech", value: "SQL, NoSQL, PL/SQL, MongoDB" },
       { label: "Win condition", value: "First to escape" },
+      { label: "Timing", value: "12:45 PM – 2:15 PM" },
+      { label: "Reporting", value: "10 minutes before the event" },
     ],
     coordinators: [
       { name: "Anton", phone: "+91 93639 25369" },
