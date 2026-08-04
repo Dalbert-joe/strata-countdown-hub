@@ -52,6 +52,10 @@ export const SITE: SiteConfig = {
 /**
  * Single Google Form for all six events. Every register button on the site
  * imports this constant — there is exactly one place to change it later.
+ *
+ * Canonical `viewform` URL with no `usp=` parameter: the editor hands out
+ * `?usp=publish-editor`, which Google then 302s to exactly this address, so
+ * carrying it only added a redirect between the click and the form.
  */
 export const REGISTER_URL =
-  "https://docs.google.com/forms/d/e/1FAIpQLSdSFCxeP2h-byIiTObXuUTT1BUbP8YmmiiaBLhiNY4YdbEe2Q/viewform?usp=publish-editor";
+  "https://docs.google.com/forms/d/e/1FAIpQLSdSFCxeP2h-byIiTObXuUTT1BUbP8YmmiiaBLhiNY4YdbEe2Q/viewform";

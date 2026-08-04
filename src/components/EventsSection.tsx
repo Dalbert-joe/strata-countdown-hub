@@ -303,7 +303,10 @@ function EventDialog({
               <DialogTitle className="font-batman mt-2 text-2xl uppercase tracking-[0.1em] text-white md:text-3xl">
                 {event.title}
               </DialogTitle>
-              <p className="text-sm text-white/70">{event.summary}</p>
+              {/* The overview, not `summary` — `summary` is the trimmed line
+                  that has to fit two rows on the card, and there is room here
+                  for the full framing. */}
+              <p className="text-sm leading-relaxed text-white/70">{event.overview}</p>
             </DialogHeader>
 
             {/* 2. Team size badge */}
@@ -322,12 +325,55 @@ function EventDialog({
               ))}
             </dl>
 
-            {/* 3. Full description, preserved verbatim */}
-            <div className="space-y-3">
-              {event.description.map((para) => (
-                <p key={para.slice(0, 40)} className="text-sm leading-relaxed text-white/75">
-                  {para}
-                </p>
+            {/* 3. Guidelines and rounds */}
+            <div className="space-y-6">
+              {event.sections.map((section) => (
+                <section key={section.title}>
+                  <h4 className="font-batman text-xs uppercase tracking-[0.2em] text-sodium-glow">
+                    {section.title}
+                  </h4>
+
+                  {section.intro?.map((para) => (
+                    <p key={para.slice(0, 40)} className="mt-3 text-sm leading-relaxed text-white/75">
+                      {para}
+                    </p>
+                  ))}
+
+                  <div className="mt-3 space-y-3">
+                    {section.items?.map((item, i) => (
+                      <div key={item.label ?? `points-${i}`}>
+                        {item.label !== undefined && (
+                          <p className="text-[0.6rem] font-bold uppercase tracking-[0.2em] text-white/45">
+                            {item.label}
+                          </p>
+                        )}
+                        {/* Single unlabelled points render as prose rather than a
+                            one-item bullet list, which reads as a formatting bug. */}
+                        {item.points.length === 1 && item.label !== undefined ? (
+                          <p className="mt-1 text-sm leading-relaxed text-white/75">
+                            {item.points[0]}
+                          </p>
+                        ) : (
+                          <ul
+                            className={`space-y-1.5 text-sm leading-relaxed text-white/75 ${
+                              item.label !== undefined ? "mt-1.5" : ""
+                            }`}
+                          >
+                            {item.points.map((point) => (
+                              <li key={point.slice(0, 40)} className="flex gap-2.5">
+                                <span
+                                  aria-hidden
+                                  className="mt-[0.5em] h-1 w-1 shrink-0 rounded-full bg-sodium-ember"
+                                />
+                                <span>{point}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </section>
               ))}
             </div>
 

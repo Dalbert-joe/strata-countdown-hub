@@ -13,6 +13,17 @@
   font-weight: normal;
   font-style: normal;
   font-display: swap;
+
+  /* The file has no glyph for  "  &  ;  ·  ×  –  —  ‘  ’  — it renders them as
+     a blank .notdef box, which silently ate the ampersand in "Batman & Robin",
+     the middle dot in the dialog's "Event 05 · Category" line, and every en
+     dash in the round headings.
+
+     Declaring the range it actually covers (printable ASCII minus " & and ;)
+     means anything outside it is handed to the next font in the stack — Anton —
+     instead of disappearing. Nothing else has to know: headings keep using
+     `font-batman` and just get a readable ampersand. */
+  unicode-range: U+0020-0021, U+0023-0025, U+0027-003A, U+003C-007E;
 }
 
 /*

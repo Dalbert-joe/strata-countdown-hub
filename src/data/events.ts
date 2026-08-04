@@ -8,11 +8,36 @@ import riddlersEscape from "../Riddler.jpg";
 /**
  * The STRATA '26 event lineup.
  *
- * This mirrors `context/events.md` — edit both together.
- *
  * `slug` is already unique and URL-safe, so moving from the current detail
  * dialog to real `/events/$slug` routes needs no data changes.
  */
+
+/**
+ * A labelled group of points inside a section — "Task", "Challenge",
+ * "Winning Criteria" and so on. `label` is optional so a section can also be a
+ * plain bullet list (the guidelines block has no sub-headings).
+ */
+export type EventPoints = {
+  label?: string;
+  points: string[];
+};
+
+/**
+ * One block of the rules: the guidelines, or a single round.
+ *
+ * Rules are modelled as structure rather than pre-formatted prose because the
+ * shape is genuinely repetitive across all six events — every round is some
+ * combination of task, constraints and how it is judged. Keeping it as data
+ * means the dialog decides how a "Winning Criteria" list looks once, instead of
+ * six descriptions each hard-coding their own layout.
+ */
+export type EventSection = {
+  title: string;
+  /** Prose shown under the title, before any points. */
+  intro?: string[];
+  items?: EventPoints[];
+};
+
 export type StrataEvent = {
   slug: string;
   title: string;
@@ -32,10 +57,12 @@ export type StrataEvent = {
   posterPosition?: string;
   /** One-liner for the card. Keep to ~2 lines at card width. */
   summary: string;
-  /** Full rules, one string per paragraph. Shown in the detail view. */
-  description: string[];
+  /** The "Event Overview" paragraph, shown at the top of the detail view. */
+  overview: string;
   /** Format facts rendered as a small key/value table. */
   highlights: { label: string; value: string }[];
+  /** Guidelines and rounds, in display order. */
+  sections: EventSection[];
   /** Student coordinators for this event. Empty array renders as "To be announced". */
   coordinators: { name: string; phone: string }[];
 };
@@ -49,17 +76,56 @@ export const EVENTS: StrataEvent[] = [
     participation: "1-3 Members",
     poster: wayneTech,
     summary:
-      "Submit your research paper ahead of the event, then defend it before a panel of department faculty.",
-    description: [
-      "WayneTech Research Summit is a technical paper presentation event where participants are required to submit their research paper prior to the competition (preferably one day before the event) for preliminary review.",
-      "On the event day, participants present their research work before a panel of faculty members from the department. Each participant is allotted 5 minutes for the presentation, followed by a 2-minute viva and question-and-answer session.",
-      "Evaluation is based on the quality of research, technical content, presentation skills, innovation, and the ability to answer questions effectively.",
-    ],
+      "Present your research paper to a faculty panel, then defend it in a technical Q&A.",
+    overview:
+      "Present your research paper before a panel of faculty members through a technical presentation followed by a Q&A session. Showcase innovation, technical knowledge, and research excellence.",
     highlights: [
       { label: "Participation", value: "1-3 members" },
       { label: "Presentation", value: "5 minutes" },
       { label: "Viva / Q&A", value: "2 minutes" },
       { label: "Submission", value: "Paper due one day prior" },
+    ],
+    sections: [
+      {
+        title: "Guidelines & General Instructions",
+        items: [
+          {
+            points: [
+              "Team size: 1 to 3 members.",
+              "The research paper must be submitted before the event, preferably one day in advance.",
+              "Presentation time: 5 minutes.",
+              "Viva and Q&A: 2 minutes.",
+              "The judges' decision is final.",
+            ],
+          },
+        ],
+      },
+      {
+        title: "Round 1 – Research Presentation",
+        items: [
+          {
+            label: "Task",
+            points: ["Present your research paper and defend your work during the viva session."],
+          },
+          {
+            label: "Challenge",
+            points: [
+              "Deliver a clear and concise technical presentation.",
+              "Answer questions from the faculty panel confidently.",
+            ],
+          },
+          {
+            label: "Winning Criteria",
+            points: [
+              "Research quality.",
+              "Technical content.",
+              "Innovation.",
+              "Presentation skills.",
+              "Performance in the Q&A session.",
+            ],
+          },
+        ],
+      },
     ],
     coordinators: [
       { name: "Asmita", phone: "+91 63741 52260" },
@@ -74,17 +140,61 @@ export const EVENTS: StrataEvent[] = [
     participation: "Individual",
     poster: whySoSerious,
     summary:
-      "Solve programming challenges to deal damage to the Joker, while he throws random hazards at your run.",
-    description: [
-      "Why So Serious? is an interactive coding competition where participants solve a series of programming challenges to inflict damage on the Joker.",
-      "Throughout the competition, the Joker introduces random hazards that temporarily disrupt participants' progress. These may include temporary system freezes, reductions to a participant's solved problem count, or other distractions designed to simulate real-world pressure.",
-      "The participant who successfully solves all coding challenges and defeats the Joker first is declared the winner. If no participant completes all challenges within the allotted time, the participant with the highest accumulated damage, based on solved problems, is declared the winner.",
-    ],
+      "Solve coding problems to damage the Joker while he throws random hazards at your run.",
+    overview:
+      "Battle the Joker in a high-intensity coding challenge. Solve programming problems to deal damage while surviving unexpected Joker attacks. Defeat the Joker first, or finish with the most serious damage to win.",
     highlights: [
       { label: "Participation", value: "Individual" },
-      { label: "Scoring", value: "Damage per solved problem" },
-      { label: "Twist", value: "Random Joker hazards" },
-      { label: "Win condition", value: "First to clear, else highest damage" },
+      { label: "Problems", value: "10 + a final challenge" },
+      { label: "Bring", value: "Your HackerRank ID" },
+      { label: "Twist", value: "Random hazards, 2x damage window" },
+    ],
+    sections: [
+      {
+        title: "Guidelines & General Instructions",
+        items: [
+          {
+            points: [
+              "Individual event.",
+              "Use only the system provided by the organizers.",
+              "No external help or AI tools are permitted.",
+              "Participants must come with a HackerRank ID.",
+              "The judges' decision is final.",
+            ],
+          },
+        ],
+      },
+      {
+        title: "Round 1 – Defeat the Joker",
+        items: [
+          { label: "Task", points: ["Solve coding challenges to damage the Joker."] },
+          {
+            label: "Challenge",
+            points: [
+              "Start with 10 coding problems.",
+              "The 11th Final Challenge unlocks in the last 15 minutes.",
+            ],
+          },
+          {
+            label: "Joker Attacks",
+            points: ["Random obstacles such as system freeze may occur."],
+          },
+          {
+            label: "Double Damage",
+            points: [
+              "A surprise 10-minute Double Damage Window activates randomly.",
+              "Every challenge solved during this period deals 2x damage.",
+            ],
+          },
+          {
+            label: "Winning Criteria",
+            points: [
+              "The first to solve all 10 challenges wins.",
+              "If no one defeats the Joker, the participant with the highest damage score wins.",
+            ],
+          },
+        ],
+      },
     ],
     coordinators: [
       { name: "Uwais", phone: "+91 95145 91215" },
@@ -99,17 +209,75 @@ export const EVENTS: StrataEvent[] = [
     participation: "3-4 Members",
     poster: rogueAi,
     summary:
-      "Build an intelligent chatbot under randomly assigned constraints handed to you by rival teams.",
-    description: [
-      "Rogue AI is a competitive AI chatbot development event where each team, consisting of 3 to 4 members, must design and build an intelligent chatbot within the given time.",
-      "Unlike conventional hackathons, every team randomly assigns another participating team a unique challenge or constraint through a randomized selection process. These constraints act as disadvantages that teams must overcome while continuing to improve their chatbot.",
-      "Since challenges are assigned randomly, some teams may receive multiple constraints while others receive few or none. Success depends on a team's technical expertise, adaptability, and ability to deliver a robust chatbot despite unpredictable conditions.",
-    ],
+      "Build a chatbot for a domain revealed on the day, under a constraint handed to you by a rival team.",
+    overview:
+      "Rogue AI is an AI chatbot development competition designed to test participants' creativity, technical skills, and ability to adapt under pressure. Teams will develop an AI chatbot based on a domain that is revealed only at the start of the event. Along the way, they must also overcome an unexpected challenge assigned by another team. The event encourages innovative thinking, teamwork, and problem-solving in a fun and competitive environment.",
     highlights: [
-      { label: "Team size", value: "3-4 members" },
-      { label: "Build", value: "AI chatbot" },
-      { label: "Twist", value: "Peer-assigned constraints" },
-      { label: "Judged on", value: "Robustness and adaptability" },
+      { label: "Team size", value: "3-4 participants" },
+      { label: "Domain", value: "Revealed at the start" },
+      { label: "Twist", value: "Peer-assigned challenge" },
+      { label: "Judged on", value: "Functionality and adaptability" },
+    ],
+    sections: [
+      {
+        title: "Guidelines & General Instructions",
+        items: [
+          {
+            points: [
+              "Team size: 3 to 4 members.",
+              "The chatbot domain is announced only when the event begins.",
+              "Use only the tools and resources permitted by the organizers.",
+              "Plagiarism and external assistance are strictly prohibited.",
+              "Teams must complete their chatbot within the given time.",
+              "The assigned challenge must be incorporated into the chatbot.",
+              "The judges' decision is final.",
+            ],
+          },
+        ],
+      },
+      {
+        title: "Task",
+        intro: ["At the beginning of the event, each team will pick two cards."],
+        items: [
+          {
+            label: "Card 1 – Team & Domain Card",
+            points: [
+              "Contains the team's number and the chatbot domain they must work on.",
+              "Teams should develop their chatbot according to the assigned domain.",
+            ],
+          },
+          {
+            label: "Card 2 – Challenge Assignment Card",
+            points: [
+              "The team number to which the challenge must be assigned.",
+              "Two challenge options.",
+              "The team must discuss and choose one of the two challenges to assign to the specified team. The selected challenge will then be communicated to that team and must be implemented as part of their chatbot.",
+            ],
+          },
+        ],
+      },
+      {
+        title: "Challenge Round",
+        items: [
+          {
+            points: [
+              "Every team will receive one challenge selected by another team.",
+              "The assigned challenge is mandatory and must be included in the final chatbot.",
+              "Teams should adapt their solution while maintaining the chatbot's functionality and user experience.",
+              "The challenge adds an element of strategy and tests how well teams can work under unexpected conditions.",
+            ],
+          },
+          {
+            label: "Winning Criteria",
+            points: [
+              "Chatbot functionality.",
+              "Innovation and creativity.",
+              "Adaptability to assigned challenges.",
+              "Overall performance and user experience.",
+            ],
+          },
+        ],
+      },
     ],
     coordinators: [
       { name: "Sri Lekha", phone: "+91 99404 98266" },
@@ -128,17 +296,56 @@ export const EVENTS: StrataEvent[] = [
     // with dark gutters on the sides, which suits the noir aesthetic.
     posterFit: "contain",
     summary:
-      "Turn a fictional Gotham news scenario into a short cinematic news video using Google Flow.",
-    description: [
-      "The Gotham Times is a two-member AI video generation competition inspired by Gotham City from the DC Universe.",
-      "Each team receives a fictional news scenario and must create a short cinematic news video using Google Flow. Participants may generate multiple video clips and combine them through editing to improve storytelling and continuity.",
-      "Judging focuses primarily on prompt quality, scenario accuracy, visual consistency, continuity, creativity, and how effectively the generated video represents the assigned news event. While editing is permitted, it does not guarantee additional evaluation points.",
-    ],
+      "Turn a fictional Gotham news scenario into a cinematic AI news broadcast using Google Flow.",
+    overview:
+      "Create a cinematic AI-generated news video based on a fictional Gotham City news scenario using Google Flow. Transform your story into a compelling visual broadcast through effective prompt engineering and storytelling.",
     highlights: [
-      { label: "Team size", value: "2 members" },
+      { label: "Team size", value: "2 participants" },
       { label: "Tool", value: "Google Flow" },
-      { label: "Deliverable", value: "Short cinematic news video" },
+      { label: "Editing", value: "Permitted" },
       { label: "Judged on", value: "Prompt quality and continuity" },
+    ],
+    sections: [
+      {
+        title: "Guidelines & General Instructions",
+        items: [
+          {
+            points: [
+              "Team size: 2 members.",
+              "Use Google Flow for video generation.",
+              "Editing and combining generated clips is permitted.",
+              "No external AI tools unless approved by the organizers.",
+              "The judges' decision is final.",
+            ],
+          },
+        ],
+      },
+      {
+        title: "Round 1 – Breaking News",
+        items: [
+          {
+            label: "Task",
+            points: ["Generate a cinematic news video from the assigned Gotham news scenario."],
+          },
+          {
+            label: "Challenge",
+            points: [
+              "Each team receives a unique fictional news scenario.",
+              "Generate multiple clips and edit them into one cohesive news report.",
+              "Focus on storytelling, continuity, and visual consistency.",
+            ],
+          },
+          {
+            label: "Winning Criteria",
+            points: [
+              "Prompt engineering quality.",
+              "Scenario accuracy.",
+              "Visual consistency and continuity.",
+              "Creativity and cinematic storytelling.",
+            ],
+          },
+        ],
+      },
     ],
     coordinators: [
       { name: "Marie", phone: "+91 73059 43886" },
@@ -153,17 +360,66 @@ export const EVENTS: StrataEvent[] = [
     participation: "2 Members",
     poster: batmanRobin,
     summary:
-      "One teammate describes a hidden image. The other turns that description into an AI image prompt.",
-    description: [
-      "Batman & Robin is a two-member prompt engineering challenge designed to evaluate communication and AI prompting skills.",
-      "One participant (Batman) is shown an image that remains hidden from their teammate. Batman must verbally describe the image without displaying it, while the second participant (Robin) converts the description into a detailed AI image-generation prompt.",
-      "Only the generated prompt text is evaluated, not the generated image. The winning team is the one whose prompt is most capable of reproducing an image that closely resembles the original reference. Evaluation emphasizes prompt engineering technique, descriptive accuracy, AI knowledge, and responsible AI practices.",
-    ],
+      "Batman memorises a hidden image and describes it. Robin, who never sees it, prompts it back.",
+    overview:
+      "Work as the ultimate duo to recreate a hidden image using prompt engineering. Batman memorizes the image, Robin never sees it — only teamwork and precise prompts can recreate the original.",
     highlights: [
-      { label: "Team size", value: "2 members" },
+      { label: "Team size", value: "2 participants" },
+      { label: "Duration", value: "10 minutes" },
+      { label: "Generations", value: "Maximum 5" },
       { label: "Roles", value: "Batman describes, Robin prompts" },
-      { label: "Evaluated", value: "Prompt text only" },
-      { label: "Focus", value: "Prompt engineering, responsible AI" },
+    ],
+    sections: [
+      {
+        title: "Guidelines & General Instructions",
+        items: [
+          {
+            points: [
+              "Team size: 2 members.",
+              "Duration: 10 minutes.",
+              "Use only the AI platform provided.",
+              "Maximum of 5 image generations.",
+              "No mobile phones, external AI tools, or internet resources.",
+              "The judges' decision is final.",
+            ],
+          },
+        ],
+      },
+      {
+        title: "Round 1 – Observe & Recreate",
+        items: [
+          {
+            label: "Task",
+            points: [
+              "Batman observes a hidden image for 1 to 2 minutes, then describes it to Robin. Together, they engineer prompts to recreate the image.",
+            ],
+          },
+          {
+            label: "Challenge",
+            points: [
+              "1 to 2 minutes for image observation.",
+              "8 minutes for discussion and prompt engineering.",
+              "Maximum of 5 image generations.",
+            ],
+          },
+          {
+            label: "Rules",
+            points: [
+              "Robin must never view the reference image.",
+              "Batman may rely only on memory after observation.",
+              "The last generated image will be considered the final submission.",
+            ],
+          },
+          {
+            label: "Winning Criteria",
+            points: [
+              "Closest match to the reference image.",
+              "Effective prompt engineering.",
+              "Visual accuracy and teamwork.",
+            ],
+          },
+        ],
+      },
     ],
     coordinators: [
       { name: "Ananya", phone: "+91 93420 40855" },
@@ -178,17 +434,70 @@ export const EVENTS: StrataEvent[] = [
     participation: "Individual",
     poster: riddlersEscape,
     summary:
-      "Escape five sequential rooms by querying your way out through SQL, NoSQL, PL/SQL and MongoDB.",
-    description: [
-      "Riddler's Escape is a gamified database problem-solving event where participants navigate through a virtual environment consisting of five sequential rooms.",
-      "To unlock each room, participants must solve database-related challenges involving SQL, NoSQL, PL/SQL, and MongoDB. The output of each query serves as the key required to progress to the next room.",
-      "The participant who successfully clears all five rooms and reaches the final treasure first is declared the winner. The event evaluates database querying skills, logical reasoning, problem-solving ability, and speed under pressure.",
-    ],
+      "Every correct SQL query unlocks the next clue. Survive the eliminations to reach the final five.",
+    overview:
+      "Embark on a SQL-powered treasure hunt where every correct query unlocks the next clue. Survive each elimination round and be among the Top 5 finalists to uncover the hidden treasure.",
     highlights: [
       { label: "Participation", value: "Individual" },
-      { label: "Rooms", value: "5 sequential" },
-      { label: "Tech", value: "SQL, NoSQL, PL/SQL, MongoDB" },
-      { label: "Win condition", value: "First to escape" },
+      { label: "Rounds", value: "6, with eliminations" },
+      { label: "Tech", value: "SQL only" },
+      { label: "Bring", value: "Your own laptop" },
+    ],
+    sections: [
+      {
+        title: "Guidelines & General Instructions",
+        items: [
+          {
+            points: [
+              "Individual event.",
+              "Participants must bring their own laptops.",
+              "Only SQL queries are permitted.",
+              "No AI tools or external assistance are allowed.",
+              "The judges' decision is final.",
+            ],
+          },
+        ],
+      },
+      {
+        title: "Round 1 – The First Clue",
+        items: [
+          { label: "Task", points: ["Solve SQL queries to reveal the first hidden clue."] },
+          {
+            label: "Challenge",
+            points: ["Each correct query unlocks the next location on the virtual map."],
+          },
+          { label: "Winning Criteria", points: ["Top performers advance to Round 2."] },
+        ],
+      },
+      {
+        title: "Rounds 2–5 – The Treasure Trail",
+        items: [
+          { label: "Task", points: ["Solve increasingly difficult SQL challenges."] },
+          {
+            label: "Challenge",
+            points: [
+              "Every correct query reveals a new clue while participants face elimination after each round.",
+            ],
+          },
+          {
+            label: "Winning Criteria",
+            points: ["Only the Top 5 participants qualify for the Final Round."],
+          },
+        ],
+      },
+      {
+        title: "Round 6 – The Final Treasure",
+        items: [
+          { label: "Task", points: ["Solve the final SQL challenge to decode the last clue."] },
+          { label: "Goal", points: ["Be the first to uncover the hidden treasure."] },
+          {
+            label: "Winning Criteria",
+            points: [
+              "First correct submission wins. In case of a tie, the fastest correct solution is declared the winner.",
+            ],
+          },
+        ],
+      },
     ],
     coordinators: [
       { name: "Anton", phone: "+91 93639 25369" },
