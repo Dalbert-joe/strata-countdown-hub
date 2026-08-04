@@ -376,15 +376,28 @@ function EventDialog({
               </ul>
             </div>
 
+            {/* The 1px "borders" here are really the parent colour showing
+                through `gap-px`, so a half-empty final row isn't blank — it
+                shows as a stray lighter tile. With an odd number of facts the
+                last one spans the full width instead of leaving that hole. */}
             <dl className="grid grid-cols-1 gap-px overflow-hidden border border-gotham-concrete bg-gotham-concrete sm:grid-cols-2">
-              {event.highlights.map((h) => (
-                <div key={h.label} className="bg-neutral-950 px-4 py-3">
-                  <dt className="text-[0.55rem] font-bold uppercase tracking-[0.25em] text-white/45">
-                    {h.label}
-                  </dt>
-                  <dd className="mt-1 text-sm text-white">{h.value}</dd>
-                </div>
-              ))}
+              {event.highlights.map((h, i) => {
+                const isLast = i === event.highlights.length - 1;
+                const isOddCount = event.highlights.length % 2 === 1;
+                return (
+                  <div
+                    key={h.label}
+                    className={`bg-neutral-950 px-4 py-3 ${
+                      isLast && isOddCount ? "sm:col-span-2" : ""
+                    }`}
+                  >
+                    <dt className="text-[0.55rem] font-bold uppercase tracking-[0.25em] text-white/45">
+                      {h.label}
+                    </dt>
+                    <dd className="mt-1 text-sm text-white">{h.value}</dd>
+                  </div>
+                );
+              })}
             </dl>
 
             {/* 3. Guidelines and rounds */}
