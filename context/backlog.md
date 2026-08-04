@@ -135,8 +135,10 @@ Not blocking, but the site is thinner than it could be without them.
 
 - [ ] **Duration / time slot per event** — students plan their day around this.
       Would need a new `StrataEvent` field.
-- [ ] **Venue / lab per event** — same.
-- [ ] **Prize details** — a real registration driver if there's a prize pool.
+- [x] **Venue / lab per event** — confirmed 2026-08-04, in each event's `venue` field
+      (floor included: G-rooms Third Floor, B22 Second Floor).
+- [x] **Prize details** — confirmed 2026-08-04, site-wide: cash prizes for top participants,
+      participation certificates for everyone.
 - [ ] **Social links** — `SITE.socials.instagram` / `.linkedin` are empty, so the
       footer social row doesn't render at all.
 - [ ] **Contact email** — `SITE.contact.email` is empty.

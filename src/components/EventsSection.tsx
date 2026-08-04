@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type CSSProperties, type RefObject } from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, MapPin, Trophy } from "lucide-react";
 import bgAsset from "../Events.jpg";
 import { EVENTS, type StrataEvent } from "../data/events";
 import { spawnCardBurst } from "./CardBurst";
@@ -8,6 +8,12 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 
 const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
 const MODAL_OPEN_DELAY_MS = 250;
+
+// Same for every event, so it lives here rather than repeated per-event in events.ts.
+const PRIZE_BULLETS = [
+  "Cash prizes for top participants",
+  "Participation certificates will be provided",
+];
 
 /**
  * The event lineup. `scroll-mt-24` offsets the anchor target so the fixed nav
@@ -179,10 +185,12 @@ export function EventsSection() {
                       aria-hidden
                       className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent"
                     />
-                    <span className="absolute left-3 top-3 rounded-full border border-sodium-deep/50 bg-black/40 px-2 py-0.5 text-[0.55rem] font-bold uppercase tracking-[0.2em] text-sodium-glow backdrop-blur-sm">
+                    {/* Squared tabs hugging the frame edge, not floating glass
+                        pills — Deco framing instead of SaaS-badge language. */}
+                    <span className="absolute left-0 top-3 border-y border-r border-sodium-deep/60 bg-gotham-void px-2.5 py-1 text-[0.55rem] font-bold uppercase tracking-[0.2em] text-sodium-glow">
                       {ev.tag}
                     </span>
-                    <span className="absolute right-3 top-3 rounded-full border border-white/20 bg-black/50 px-2 py-0.5 text-[0.55rem] font-bold uppercase tracking-[0.15em] text-white/80 backdrop-blur-sm">
+                    <span className="absolute right-0 top-3 border-y border-l border-gotham-concrete bg-gotham-void px-2.5 py-1 text-[0.55rem] font-bold uppercase tracking-[0.15em] text-white/80">
                       {ev.participation}
                     </span>
                   </div>
@@ -201,6 +209,18 @@ export function EventsSection() {
                     <p className="mt-2 flex-1 text-xs leading-relaxed text-white/65">
                       {ev.summary}
                     </p>
+
+                    <div className="mt-3 border-l-2 border-sodium-deep/70 pl-2.5">
+                      <p className="flex items-center gap-1.5 text-[0.55rem] font-bold uppercase tracking-[0.2em] text-sodium-glow">
+                        <Trophy className="h-3 w-3 shrink-0" aria-hidden="true" />
+                        Prizes
+                      </p>
+                      <ul className="mt-1 list-disc space-y-0.5 pl-3.5 text-[0.65rem] leading-snug text-white/65 marker:text-sodium-deep">
+                        {PRIZE_BULLETS.map((bullet) => (
+                          <li key={bullet}>{bullet}</li>
+                        ))}
+                      </ul>
+                    </div>
 
                     <p
                       className={`mt-3 text-[0.6rem] font-semibold uppercase tracking-[0.15em] ${
@@ -287,7 +307,7 @@ function EventDialog({
   return (
     <Dialog open={event !== null} onOpenChange={onOpenChange}>
       <DialogContent
-        className="scrollbar-none max-h-[85vh] overflow-y-auto border-white/15 bg-neutral-950 sm:max-w-2xl"
+        className="scrollbar-none max-h-[85vh] overflow-y-auto rounded-none border-gotham-concrete bg-neutral-950 sm:max-w-2xl sm:rounded-none"
         onCloseAutoFocus={(e) => {
           e.preventDefault();
           triggerRef.current?.focus();
@@ -306,12 +326,54 @@ function EventDialog({
               <p className="text-sm text-white/70">{event.summary}</p>
             </DialogHeader>
 
-            {/* 2. Team size badge */}
-            <span className="inline-flex w-fit items-center rounded-full border border-white/20 bg-white/5 px-3 py-1 text-[0.6rem] font-bold uppercase tracking-[0.2em] text-white/80">
-              {event.participation}
-            </span>
+            {/* 2. Team size + venue tags — squared, opaque, edge-bordered.
+                No rounded-full pills, no translucent glass fill. */}
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="inline-flex w-fit items-center border border-gotham-concrete bg-gotham-void px-3 py-1 text-[0.6rem] font-bold uppercase tracking-[0.2em] text-white/80">
+                {event.participation}
+              </span>
+              <span className="inline-flex w-fit items-center gap-1.5 border border-gotham-concrete bg-gotham-void px-3 py-1 text-[0.6rem] font-bold uppercase tracking-[0.2em] text-white/80">
+                <MapPin className="h-3 w-3 text-sodium-glow" aria-hidden="true" />
+                {event.venue}
+              </span>
+            </div>
 
-            <dl className="grid grid-cols-1 gap-px overflow-hidden rounded-lg border border-white/10 bg-white/10 sm:grid-cols-2">
+            {/* Submission formats — a standalone callout so a multi-format
+                event (paper/project/poster) doesn't get buried as one small
+                value inside the highlights table below. A single lit left
+                edge, not a full glow ring — the card uses the same motif. */}
+            {event.submissionFormats && event.submissionFormats.length > 0 && (
+              <div className="border-l-2 border-sodium-glow bg-gotham-asphalt px-4 py-3">
+                <p className="text-[0.55rem] font-bold uppercase tracking-[0.25em] text-sodium-glow">
+                  Submit &amp; Present
+                </p>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {event.submissionFormats.map((format) => (
+                    <span
+                      key={format}
+                      className="border border-sodium-glow/50 bg-gotham-void px-3 py-1 text-xs font-bold uppercase tracking-wider text-white"
+                    >
+                      {format}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Prizes — same content as the card, spelled out with room to breathe. */}
+            <div className="border-l-2 border-sodium-deep bg-gotham-asphalt px-4 py-3">
+              <p className="flex items-center gap-1.5 text-[0.55rem] font-bold uppercase tracking-[0.25em] text-sodium-glow">
+                <Trophy className="h-3 w-3" aria-hidden="true" />
+                Prizes
+              </p>
+              <ul className="mt-2 list-disc space-y-1 pl-4 text-sm text-white/80 marker:text-sodium-deep">
+                {PRIZE_BULLETS.map((bullet) => (
+                  <li key={bullet}>{bullet}</li>
+                ))}
+              </ul>
+            </div>
+
+            <dl className="grid grid-cols-1 gap-px overflow-hidden border border-gotham-concrete bg-gotham-concrete sm:grid-cols-2">
               {event.highlights.map((h) => (
                 <div key={h.label} className="bg-neutral-950 px-4 py-3">
                   <dt className="text-[0.55rem] font-bold uppercase tracking-[0.25em] text-white/45">
@@ -333,7 +395,7 @@ function EventDialog({
 
             {/* 4. Coordinators — omitted entirely when not yet assigned */}
             {event.coordinators.length > 0 && (
-              <div className="rounded-lg border border-white/10 bg-white/[0.03] px-4 py-3">
+              <div className="border-l-2 border-gotham-concrete bg-gotham-asphalt px-4 py-3">
                 <p className="text-[0.55rem] font-bold uppercase tracking-[0.25em] text-white/45">
                   Coordinators
                 </p>

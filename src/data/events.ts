@@ -34,6 +34,13 @@ export type StrataEvent = {
   summary: string;
   /** Full rules, one string per paragraph. Shown in the detail view. */
   description: string[];
+  /** Room / lab code. Shown as its own badge, not buried in the highlights table. */
+  venue: string;
+  /**
+   * Accepted submission formats (e.g. Paper / Project / Poster), shown as
+   * standalone callout badges. Omit for events with one fixed deliverable.
+   */
+  submissionFormats?: string[];
   /** Format facts rendered as a small key/value table. */
   highlights: { label: string; value: string }[];
   /** Student coordinators for this event. Empty array renders as "To be announced". */
@@ -49,19 +56,21 @@ export const EVENTS: StrataEvent[] = [
     participation: "1-3 Members",
     poster: wayneTech,
     summary:
-      "Submit your research paper ahead of the event, then defend it before a panel of department faculty.",
+      "Submit a paper, project, or poster ahead of the event, then present and defend it before a panel of department faculty.",
     description: [
-      "WayneTech Research Summit is a technical paper presentation event where participants are required to submit their research paper prior to the competition (preferably one day before the event) for preliminary review.",
-      "On the event day, participants present their research work before a panel of faculty members from the department. Each participant is allotted 5 minutes for the presentation, followed by a 2-minute viva and question-and-answer session.",
+      "WayneTech Research Summit is a technical presentation event where participants can submit a research paper, a project, or a poster prior to the competition (preferably one day before the event) for preliminary review.",
+      "On the event day, participants present their submitted work, paper, project, or poster, before a panel of faculty members from the department. Each participant is allotted 5 minutes for the presentation, followed by a 2-minute viva and question-and-answer session.",
       "Evaluation is based on the quality of research, technical content, presentation skills, innovation, and the ability to answer questions effectively.",
       "LICET students can also participate in this event.",
       "Plagiarism or AI-generated content without proper understanding may lead to disqualification. Judges' decision will be final.",
     ],
+    venue: "G32 (Third Floor)",
+    submissionFormats: ["Paper", "Project", "Poster"],
     highlights: [
       { label: "Participation", value: "1-3 members" },
       { label: "Presentation", value: "5 minutes" },
       { label: "Viva / Q&A", value: "2 minutes" },
-      { label: "Submission", value: "Paper due one day prior" },
+      { label: "Submission", value: "Due one day prior" },
       { label: "Timing", value: "9:30 AM – 11:00 AM" },
       { label: "Reporting", value: "15 minutes before the event" },
     ],
@@ -84,6 +93,7 @@ export const EVENTS: StrataEvent[] = [
       "Throughout the competition, the Joker introduces random hazards that temporarily disrupt participants' progress. These may include temporary system freezes, reductions to a participant's solved problem count, or other distractions designed to simulate real-world pressure.",
       "The participant who successfully solves all coding challenges and defeats the Joker first is declared the winner. If no participant completes all challenges within the allotted time, the participant with the highest accumulated damage, based on solved problems, is declared the winner.",
     ],
+    venue: "B22 (Second Floor)",
     highlights: [
       { label: "Participation", value: "Individual" },
       { label: "Scoring", value: "Damage per solved problem" },
@@ -112,6 +122,7 @@ export const EVENTS: StrataEvent[] = [
       "Since challenges are assigned randomly, some teams may receive multiple constraints while others receive few or none. Success depends on a team's technical expertise, adaptability, and ability to deliver a robust chatbot despite unpredictable conditions.",
       "Participants must bring their own laptop.",
     ],
+    venue: "G31 (Third Floor)",
     highlights: [
       { label: "Team size", value: "3-4 members" },
       { label: "Build", value: "AI chatbot" },
@@ -144,6 +155,7 @@ export const EVENTS: StrataEvent[] = [
       "Judging focuses primarily on prompt quality, scenario accuracy, visual consistency, continuity, creativity, and how effectively the generated video represents the assigned news event. While editing is permitted, it does not guarantee additional evaluation points.",
       "Participants must bring their own laptop.",
     ],
+    venue: "G32 (Third Floor)",
     highlights: [
       { label: "Team size", value: "2 members" },
       { label: "Tool", value: "Google Flow" },
@@ -171,6 +183,7 @@ export const EVENTS: StrataEvent[] = [
       "One participant (Batman) is shown an image that remains hidden from their teammate. Batman must verbally describe the image without displaying it, while the second participant (Robin) converts the description into a detailed AI image-generation prompt.",
       "Only the generated prompt text is evaluated, not the generated image. The winning team is the one whose prompt is most capable of reproducing an image that closely resembles the original reference. Evaluation emphasizes prompt engineering technique, descriptive accuracy, AI knowledge, and responsible AI practices.",
     ],
+    venue: "G33 (Third Floor)",
     highlights: [
       { label: "Team size", value: "2 members" },
       { label: "Roles", value: "Batman describes, Robin prompts" },
@@ -198,6 +211,7 @@ export const EVENTS: StrataEvent[] = [
       "To unlock each room, participants must solve database-related challenges involving SQL, NoSQL, PL/SQL, and MongoDB. The output of each query serves as the key required to progress to the next room.",
       "The participant who successfully clears all five rooms and reaches the final treasure first is declared the winner. The event evaluates database querying skills, logical reasoning, problem-solving ability, and speed under pressure.",
     ],
+    venue: "B22 (Second Floor)",
     highlights: [
       { label: "Participation", value: "Individual" },
       { label: "Rooms", value: "5 sequential" },
@@ -208,7 +222,7 @@ export const EVENTS: StrataEvent[] = [
     ],
     coordinators: [
       { name: "Anton", phone: "+91 93639 25369" },
-      { name: "Sebrancia", phone: "+91 93426 18335" },
+      { name: "Sebarancia", phone: "+91 93426 18335" },
     ],
   },
 ];
