@@ -469,7 +469,6 @@ export const EVENTS: StrataEvent[] = [
       { label: "Participation", value: "Individual" },
       { label: "Rounds", value: "6, with eliminations" },
       { label: "Tech", value: "SQL only" },
-      { label: "Bring", value: "Your own laptop" },
       { label: "Timing", value: "12:45 PM – 2:15 PM" },
       { label: "Reporting", value: "10 minutes before the event" },
     ],
@@ -480,7 +479,6 @@ export const EVENTS: StrataEvent[] = [
           {
             points: [
               "Individual event.",
-              "Participants must bring their own laptops.",
               "Only SQL queries are permitted.",
               "No AI tools or external assistance are allowed.",
               "The judges' decision is final.",
