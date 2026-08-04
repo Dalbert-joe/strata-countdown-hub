@@ -2,7 +2,7 @@
 
 Source of truth for all event content on the site.
 Provided by Jabin on 2026-07-29. Supersedes the original 8-event placeholder lineup.
-Last Updated: 2026-07-30
+Last Updated: 2026-08-03
 
 The code mirrors this file at `src/data/events.ts`. **Edit both together** —
 if you change an event here, update the data file, and vice versa.
@@ -24,31 +24,45 @@ rule to make it read better — only genuine typo fixes (and note them when you 
 - **Slug:** `waynetech-research-summit`
 - **Category:** Technical Paper Presentation
 - **Participation:** Individual
+- **Venue:** G32 (Third Floor)
+- **Submission formats:** Paper, Project, Poster (shown as its own callout in the modal, not
+  buried in the format-facts table)
 - **Poster:** `src/Paperpresentation.jpg`
 - **Coordinators:** Asmita & Bharath
 
-WayneTech Research Summit is a technical paper presentation event where participants are
-required to submit their research paper prior to the competition (preferably one day before
+WayneTech Research Summit is a technical presentation event where participants can submit a
+research paper, a project, or a poster prior to the competition (preferably one day before
 the event) for preliminary review.
 
-On the event day, participants present their research work before a panel of faculty members
-from the department. Each participant is allotted 5 minutes for the presentation, followed by
-a 2-minute viva / question-and-answer session.
+On the event day, participants present their submitted work, paper, project, or poster,
+before a panel of faculty members from the department. Each participant is allotted 5 minutes
+for the presentation, followed by a 2-minute viva / question-and-answer session.
 
 Evaluation is based on the quality of research, technical content, presentation skills,
 innovation, and the ability to answer questions effectively.
 
+LICET students can also participate in this event.
+
+Plagiarism or AI-generated content without proper understanding may lead to disqualification.
+Judges' decision will be final.
+
 **Format facts**
 
-|               |                         |
-| ------------- | ----------------------- |
-| Participation | Individual              |
-| Presentation  | 5 minutes               |
-| Viva / Q&A    | 2 minutes               |
-| Submission    | Paper due one day prior |
+|               |                              |
+| ------------- | ---------------------------- |
+| Participation | Individual                   |
+| Presentation  | 5 minutes                    |
+| Viva / Q&A    | 2 minutes                    |
+| Submission    | Due one day prior            |
+| Timing        | 9:30 AM – 11:00 AM           |
+| Reporting     | 15 minutes before the event  |
 
 > ⚠️ **Open question:** the source text says _"Each team will be allotted 5 minutes"_ while the
 > category is Individual. Site currently says "Each participant". Confirm which is right.
+
+> ✏️ **2026-08-04 edit (not verbatim):** submission format widened from "paper only" to
+> "Paper, Project, or Poster" per Jabin's request. Confirm this matches the department's actual
+> rules before the event.
 
 ---
 
@@ -57,6 +71,7 @@ innovation, and the ability to answer questions effectively.
 - **Slug:** `why-so-serious`
 - **Category:** Solo Technical Coding Challenge
 - **Participation:** Individual
+- **Venue:** B22 (Second Floor)
 - **Poster:** `src/WhySoSerious.jpg`
 - **Coordinators:** Uwais & Preetha
 
@@ -81,6 +96,8 @@ winner.
 | Scoring       | Damage per solved problem           |
 | Twist         | Random Joker hazards                |
 | Win condition | First to clear, else highest damage |
+| Timing        | 11:00 AM – 12:30 PM                 |
+| Reporting     | 10 minutes before the event         |
 
 ---
 
@@ -89,6 +106,7 @@ winner.
 - **Slug:** `rogue-ai`
 - **Category:** Team AI Development Challenge
 - **Participation:** 3–4 Members
+- **Venue:** G31 (Third Floor)
 - **Poster:** `src/RougeAI.jpg`
 - **Coordinators:** Sri Lekha & Nandhini
 
@@ -106,14 +124,18 @@ Since challenges are assigned randomly, some teams may receive multiple constrai
 receive few or none. Success depends on a team's technical expertise, adaptability, and ability
 to deliver a robust chatbot despite unpredictable conditions.
 
+Participants must bring their own laptop.
+
 **Format facts**
 
-|           |                             |
-| --------- | --------------------------- |
-| Team size | 3–4 members                 |
-| Build     | AI chatbot                  |
-| Twist     | Peer-assigned constraints   |
-| Judged on | Robustness and adaptability |
+|           |                              |
+| --------- | ---------------------------- |
+| Team size | 3–4 members                  |
+| Build     | AI chatbot                   |
+| Twist     | Peer-assigned constraints    |
+| Judged on | Robustness and adaptability  |
+| Timing    | 11:00 AM – 12:15 PM          |
+| Reporting | 10 minutes before the event  |
 
 ---
 
@@ -122,7 +144,8 @@ to deliver a robust chatbot despite unpredictable conditions.
 - **Slug:** `the-gotham-times`
 - **Category:** Team AI Video Generation
 - **Participation:** 2 Members
-- **Poster:** ⚠️ **NONE — using `src/OperationKnightfall.jpg` as a temporary stand-in**
+- **Venue:** G32 (Third Floor)
+- **Poster:** ⚠️ **NONE, using `src/OperationKnightfall.jpg` as a temporary stand-in**
 - **Coordinators:** Marie & Nisha
 
 The Gotham Times is a two-member AI video generation competition inspired by Gotham City from
@@ -136,14 +159,18 @@ Judging focuses primarily on prompt quality, scenario accuracy, visual consisten
 creativity, and how effectively the generated video represents the assigned news event. While
 editing is permitted, it does not guarantee additional evaluation points.
 
+Participants must bring their own laptop.
+
 **Format facts**
 
-|             |                                        |
-| ----------- | -------------------------------------- |
-| Team size   | 2 members                              |
-| Tool        | Google Flow                            |
-| Deliverable | Short cinematic news video             |
-| Judged on   | Prompt quality, continuity, creativity |
+|             |                                         |
+| ----------- | --------------------------------------- |
+| Team size   | 2 members                               |
+| Tool        | Google Flow                             |
+| Deliverable | Short cinematic news video              |
+| Judged on   | Prompt quality, continuity, creativity  |
+| Timing      | 12:45 PM – 1:50 PM                      |
+| Reporting   | 10 minutes before the event             |
 
 ---
 
@@ -152,6 +179,7 @@ editing is permitted, it does not guarantee additional evaluation points.
 - **Slug:** `batman-and-robin`
 - **Category:** Technical Duo Event — Prompt Engineering
 - **Participation:** 2 Members
+- **Venue:** G33 (Third Floor)
 - **Poster:** `src/BatmanRobin.jpg`
 - **Coordinators:** Ananya & Reny
 
@@ -175,6 +203,8 @@ knowledge, and responsible AI practices.
 | Roles     | Batman describes, Robin prompts    |
 | Evaluated | Prompt text only                   |
 | Focus     | Prompt engineering, responsible AI |
+| Timing    | 9:45 AM – 11:00 AM                 |
+| Reporting | 10 minutes before the event        |
 
 ---
 
@@ -183,6 +213,7 @@ knowledge, and responsible AI practices.
 - **Slug:** `riddlers-escape`
 - **Category:** Solo Database Challenge
 - **Participation:** Individual
+- **Venue:** B22 (Second Floor)
 - **Poster:** `src/Riddler.jpg`
 - **Coordinators:** To be announced
 
@@ -199,12 +230,14 @@ problem-solving ability, and speed under pressure.
 
 **Format facts**
 
-|               |                             |
-| ------------- | --------------------------- |
-| Participation | Individual                  |
-| Rooms         | 5 sequential                |
-| Tech          | SQL, NoSQL, PL/SQL, MongoDB |
-| Win condition | First to escape             |
+|               |                              |
+| ------------- | ---------------------------- |
+| Participation | Individual                   |
+| Rooms         | 5 sequential                 |
+| Tech          | SQL, NoSQL, PL/SQL, MongoDB  |
+| Win condition | First to escape              |
+| Timing        | 12:45 PM – 2:15 PM           |
+| Reporting     | 10 minutes before the event  |
 
 ---
 
@@ -249,6 +282,8 @@ Each event in `src/data/events.ts` carries:
 | `poster`                    | Imported image module, not a path string                           |
 | `summary`                   | One-liner for the card — keep to ~2 lines at card width            |
 | `description[]`             | One string per paragraph, verbatim from the department             |
+| `venue`                     | Room/lab code — rendered as its own badge, not in the highlights table |
+| `submissionFormats[]`       | Optional. Renders as callout badges (WayneTech: Paper/Project/Poster) |
 | `highlights[]`              | `{ label, value }` — the format-facts table in the modal           |
 | `coordinators[]`            | `{ name, phone }` — empty array renders "To be announced"          |
 
@@ -262,9 +297,16 @@ Each event in `src/data/events.ts` carries:
       switch for all five register buttons, currently `"#"`
 - [ ] **Custom poster for The Gotham Times** — currently reusing the cut
       Operation Knightfall art
-- [ ] Duration / time slot for each event — would need a new `StrataEvent` field
-- [ ] Venue or lab per event — same
-- [ ] Prize details
+- [x] Duration / time slot for each event, given as `Timing` / `Reporting` highlights —
+      confirmed 2026-08-03 for all six events
+- [x] Venue or lab per event, given as the `venue` field (rendered as a badge, not a table
+      row) — confirmed 2026-08-04 (WayneTech G32, Batman & Robin G33, Why So Serious B22,
+      Rogue AI G31, The Gotham Times G32, Riddler's Escape B22), each with its floor
+      (G-rooms: Third Floor, B22: Second Floor)
+- [x] Prize details — confirmed 2026-08-04, site-wide (not per-event): cash prizes for top
+      participants, participation certificates for everyone. Shown as a shared "Prizes"
+      callout on every card and in every modal (`src/components/EventsSection.tsx`),
+      not stored per-event in `events.ts`.
 - [ ] Resolve the WayneTech "team vs. participant" contradiction flagged above
 - [x] Registration fee — confirmed free, all events (`SITE.fee`)
 - [x] Student coordinator **names** per event (see summary table above)

@@ -59,6 +59,13 @@ export type StrataEvent = {
   summary: string;
   /** The "Event Overview" paragraph, shown at the top of the detail view. */
   overview: string;
+  /** Room / lab code. Shown as its own badge, not buried in the highlights table. */
+  venue: string;
+  /**
+   * Accepted submission formats (e.g. Paper / Project / Poster), shown as
+   * standalone callout badges. Omit for events with one fixed deliverable.
+   */
+  submissionFormats?: string[];
   /** Format facts rendered as a small key/value table. */
   highlights: { label: string; value: string }[];
   /** Guidelines and rounds, in display order. */
@@ -76,14 +83,18 @@ export const EVENTS: StrataEvent[] = [
     participation: "1-3 Members",
     poster: wayneTech,
     summary:
-      "Present your research paper to a faculty panel, then defend it in a technical Q&A.",
+      "Submit a paper, project, or poster ahead of the event, then present and defend it before a panel of department faculty.",
     overview:
-      "Present your research paper before a panel of faculty members through a technical presentation followed by a Q&A session. Showcase innovation, technical knowledge, and research excellence.",
+      "Present your research work before a panel of faculty members through a technical presentation followed by a Q&A session. Showcase innovation, technical knowledge, and research excellence.",
+    venue: "G32 (Third Floor)",
+    submissionFormats: ["Paper", "Project", "Poster"],
     highlights: [
       { label: "Participation", value: "1-3 members" },
       { label: "Presentation", value: "5 minutes" },
       { label: "Viva / Q&A", value: "2 minutes" },
-      { label: "Submission", value: "Paper due one day prior" },
+      { label: "Submission", value: "Due one day prior" },
+      { label: "Timing", value: "9:30 AM – 11:00 AM" },
+      { label: "Reporting", value: "15 minutes before the event" },
     ],
     sections: [
       {
@@ -92,9 +103,11 @@ export const EVENTS: StrataEvent[] = [
           {
             points: [
               "Team size: 1 to 3 members.",
-              "The research paper must be submitted before the event, preferably one day in advance.",
+              "A paper, project, or poster may be submitted, preferably one day before the event, for preliminary review.",
               "Presentation time: 5 minutes.",
               "Viva and Q&A: 2 minutes.",
+              "LICET students can also participate in this event.",
+              "Plagiarism or AI-generated content without proper understanding may lead to disqualification.",
               "The judges' decision is final.",
             ],
           },
@@ -105,7 +118,7 @@ export const EVENTS: StrataEvent[] = [
         items: [
           {
             label: "Task",
-            points: ["Present your research paper and defend your work during the viva session."],
+            points: ["Present your submitted work and defend it during the viva session."],
           },
           {
             label: "Challenge",
@@ -143,11 +156,14 @@ export const EVENTS: StrataEvent[] = [
       "Solve coding problems to damage the Joker while he throws random hazards at your run.",
     overview:
       "Battle the Joker in a high-intensity coding challenge. Solve programming problems to deal damage while surviving unexpected Joker attacks. Defeat the Joker first, or finish with the most serious damage to win.",
+    venue: "B22 (Second Floor)",
     highlights: [
       { label: "Participation", value: "Individual" },
       { label: "Problems", value: "10 + a final challenge" },
       { label: "Bring", value: "Your HackerRank ID" },
       { label: "Twist", value: "Random hazards, 2x damage window" },
+      { label: "Timing", value: "11:00 AM – 12:30 PM" },
+      { label: "Reporting", value: "10 minutes before the event" },
     ],
     sections: [
       {
@@ -212,11 +228,14 @@ export const EVENTS: StrataEvent[] = [
       "Build a chatbot for a domain revealed on the day, under a constraint handed to you by a rival team.",
     overview:
       "Rogue AI is an AI chatbot development competition designed to test participants' creativity, technical skills, and ability to adapt under pressure. Teams will develop an AI chatbot based on a domain that is revealed only at the start of the event. Along the way, they must also overcome an unexpected challenge assigned by another team. The event encourages innovative thinking, teamwork, and problem-solving in a fun and competitive environment.",
+    venue: "G31 (Third Floor)",
     highlights: [
-      { label: "Team size", value: "3-4 participants" },
+      { label: "Team size", value: "3-4 members" },
       { label: "Domain", value: "Revealed at the start" },
       { label: "Twist", value: "Peer-assigned challenge" },
-      { label: "Judged on", value: "Functionality and adaptability" },
+      { label: "Bring", value: "Your own laptop" },
+      { label: "Timing", value: "11:00 AM – 12:15 PM" },
+      { label: "Reporting", value: "10 minutes before the event" },
     ],
     sections: [
       {
@@ -225,6 +244,7 @@ export const EVENTS: StrataEvent[] = [
           {
             points: [
               "Team size: 3 to 4 members.",
+              "Participants must bring their own laptop.",
               "The chatbot domain is announced only when the event begins.",
               "Use only the tools and resources permitted by the organizers.",
               "Plagiarism and external assistance are strictly prohibited.",
@@ -299,11 +319,14 @@ export const EVENTS: StrataEvent[] = [
       "Turn a fictional Gotham news scenario into a cinematic AI news broadcast using Google Flow.",
     overview:
       "Create a cinematic AI-generated news video based on a fictional Gotham City news scenario using Google Flow. Transform your story into a compelling visual broadcast through effective prompt engineering and storytelling.",
+    venue: "G32 (Third Floor)",
     highlights: [
-      { label: "Team size", value: "2 participants" },
+      { label: "Team size", value: "2 members" },
       { label: "Tool", value: "Google Flow" },
       { label: "Editing", value: "Permitted" },
-      { label: "Judged on", value: "Prompt quality and continuity" },
+      { label: "Bring", value: "Your own laptop" },
+      { label: "Timing", value: "12:45 PM – 1:50 PM" },
+      { label: "Reporting", value: "10 minutes before the event" },
     ],
     sections: [
       {
@@ -312,6 +335,7 @@ export const EVENTS: StrataEvent[] = [
           {
             points: [
               "Team size: 2 members.",
+              "Participants must bring their own laptop.",
               "Use Google Flow for video generation.",
               "Editing and combining generated clips is permitted.",
               "No external AI tools unless approved by the organizers.",
@@ -363,11 +387,14 @@ export const EVENTS: StrataEvent[] = [
       "Batman memorises a hidden image and describes it. Robin, who never sees it, prompts it back.",
     overview:
       "Work as the ultimate duo to recreate a hidden image using prompt engineering. Batman memorizes the image, Robin never sees it — only teamwork and precise prompts can recreate the original.",
+    venue: "G33 (Third Floor)",
     highlights: [
-      { label: "Team size", value: "2 participants" },
+      { label: "Team size", value: "2 members" },
       { label: "Duration", value: "10 minutes" },
       { label: "Generations", value: "Maximum 5" },
       { label: "Roles", value: "Batman describes, Robin prompts" },
+      { label: "Timing", value: "9:45 AM – 11:00 AM" },
+      { label: "Reporting", value: "10 minutes before the event" },
     ],
     sections: [
       {
@@ -437,11 +464,14 @@ export const EVENTS: StrataEvent[] = [
       "Every correct SQL query unlocks the next clue. Survive the eliminations to reach the final five.",
     overview:
       "Embark on a SQL-powered treasure hunt where every correct query unlocks the next clue. Survive each elimination round and be among the Top 5 finalists to uncover the hidden treasure.",
+    venue: "B22 (Second Floor)",
     highlights: [
       { label: "Participation", value: "Individual" },
       { label: "Rounds", value: "6, with eliminations" },
       { label: "Tech", value: "SQL only" },
       { label: "Bring", value: "Your own laptop" },
+      { label: "Timing", value: "12:45 PM – 2:15 PM" },
+      { label: "Reporting", value: "10 minutes before the event" },
     ],
     sections: [
       {

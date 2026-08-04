@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type CSSProperties, type RefObject } from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, MapPin, Trophy } from "lucide-react";
 import bgAsset from "../Events.jpg";
 import { EVENTS, type StrataEvent } from "../data/events";
 import { spawnCardBurst } from "./CardBurst";
@@ -8,6 +8,12 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 
 const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
 const MODAL_OPEN_DELAY_MS = 250;
+
+// Same for every event, so it lives here rather than repeated per-event in events.ts.
+const PRIZE_BULLETS = [
+  "Cash prizes for top participants",
+  "Participation certificates will be provided",
+];
 
 /**
  * The event lineup. `scroll-mt-24` offsets the anchor target so the fixed nav
@@ -111,7 +117,7 @@ export function EventsSection() {
         className="absolute inset-0 z-0 bg-gradient-to-b from-black/80 via-black/40 to-black"
       />
 
-      <div className="relative z-10 mx-auto max-w-6xl">
+      <div className="relative z-10 mx-auto max-w-7xl">
         {/* Heading */}
         <div className="text-center">
           <p className="font-batman text-[0.65rem] font-semibold uppercase tracking-[0.5em] text-sodium-glow md:text-xs">
@@ -130,7 +136,7 @@ export function EventsSection() {
         </div>
 
         {/* Grid — 3 across on desktop so six events land as two clean rows */}
-        <div className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {EVENTS.map((ev, i) => {
             const coordinatorNames = ev.coordinators.map((c) => c.name).join(" & ");
             return (
@@ -179,44 +185,58 @@ export function EventsSection() {
                       aria-hidden
                       className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent"
                     />
-                    <span className="absolute left-3 top-3 rounded-full border border-sodium-deep/50 bg-black/40 px-2 py-0.5 text-[0.55rem] font-bold uppercase tracking-[0.2em] text-sodium-glow backdrop-blur-sm">
+                    {/* Squared tabs hugging the frame edge, not floating glass
+                        pills — Deco framing instead of SaaS-badge language. */}
+                    <span className="absolute left-0 top-3 border-y border-r border-sodium-deep/60 bg-gotham-void px-3 py-1.5 text-[0.65rem] font-bold uppercase tracking-[0.2em] text-sodium-glow">
                       {ev.tag}
                     </span>
-                    <span className="absolute right-3 top-3 rounded-full border border-white/20 bg-black/50 px-2 py-0.5 text-[0.55rem] font-bold uppercase tracking-[0.15em] text-white/80 backdrop-blur-sm">
+                    <span className="absolute right-0 top-3 border-y border-l border-gotham-concrete bg-gotham-void px-3 py-1.5 text-[0.65rem] font-bold uppercase tracking-[0.15em] text-white/80">
                       {ev.participation}
                     </span>
                   </div>
 
-                  <div className="relative flex flex-1 flex-col p-4">
+                  <div className="relative flex flex-1 flex-col p-6">
                     {/* Category sits one step further from the lamp than the
                         title does — deep amber reads as the dimmer falloff, so
                         the two warm elements have a hierarchy instead of
                         competing at the same brightness. */}
-                    <p className="text-[0.55rem] font-semibold uppercase tracking-[0.25em] text-sodium-deep">
+                    <p className="text-xs font-semibold uppercase tracking-[0.25em] text-sodium-deep">
                       {ev.category}
                     </p>
-                    <h3 className="font-batman mt-1.5 text-sm uppercase tracking-[0.15em] text-white transition-colors duration-300 group-hover:text-sodium-glow md:text-base">
+                    <h3 className="font-batman mt-2 text-lg uppercase tracking-[0.15em] text-white transition-colors duration-300 group-hover:text-sodium-glow md:text-xl">
                       {ev.title}
                     </h3>
-                    <p className="mt-2 flex-1 text-xs leading-relaxed text-white/65">
+                    <p className="mt-3 flex-1 text-sm leading-relaxed text-white/65">
                       {ev.summary}
                     </p>
 
+                    <div className="mt-4 border-l-2 border-sodium-deep/70 pl-3">
+                      <p className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.2em] text-sodium-glow">
+                        <Trophy className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+                        Prizes
+                      </p>
+                      <ul className="mt-1.5 list-disc space-y-1 pl-4 text-sm leading-snug text-white/65 marker:text-sodium-deep">
+                        {PRIZE_BULLETS.map((bullet) => (
+                          <li key={bullet}>{bullet}</li>
+                        ))}
+                      </ul>
+                    </div>
+
                     <p
-                      className={`mt-3 text-[0.6rem] font-semibold uppercase tracking-[0.15em] ${
+                      className={`mt-4 text-xs font-semibold uppercase tracking-[0.15em] ${
                         coordinatorNames === "" ? "italic text-white/35" : "text-white/50"
                       }`}
                     >
                       Coordinators: {coordinatorNames === "" ? "To be announced" : coordinatorNames}
                     </p>
 
-                    <div className="mt-4 flex items-center">
+                    <div className="mt-5 flex items-center">
                       {/* Only the arrow moves. Sliding the label under the
                           cursor forces the eye to re-fixate mid-read. */}
-                      <span className="inline-flex items-center gap-1 text-[0.6rem] font-bold uppercase tracking-[0.2em] text-sodium-glow">
+                      <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.2em] text-sodium-glow">
                         View Details
                         <ArrowRight
-                          className="h-3 w-3 transition-transform duration-300 ease-out group-hover:translate-x-1 group-focus-visible:translate-x-1"
+                          className="h-3.5 w-3.5 transition-transform duration-300 ease-out group-hover:translate-x-1 group-focus-visible:translate-x-1"
                           aria-hidden="true"
                         />
                       </span>
@@ -287,7 +307,7 @@ function EventDialog({
   return (
     <Dialog open={event !== null} onOpenChange={onOpenChange}>
       <DialogContent
-        className="scrollbar-none max-h-[85vh] overflow-y-auto border-white/15 bg-neutral-950 sm:max-w-2xl"
+        className="scrollbar-none max-h-[85vh] overflow-y-auto rounded-none border-gotham-concrete bg-neutral-950 sm:max-w-2xl sm:rounded-none"
         onCloseAutoFocus={(e) => {
           e.preventDefault();
           triggerRef.current?.focus();
@@ -309,12 +329,54 @@ function EventDialog({
               <p className="text-sm leading-relaxed text-white/70">{event.overview}</p>
             </DialogHeader>
 
-            {/* 2. Team size badge */}
-            <span className="inline-flex w-fit items-center rounded-full border border-white/20 bg-white/5 px-3 py-1 text-[0.6rem] font-bold uppercase tracking-[0.2em] text-white/80">
-              {event.participation}
-            </span>
+            {/* 2. Team size + venue tags — squared, opaque, edge-bordered.
+                No rounded-full pills, no translucent glass fill. */}
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="inline-flex w-fit items-center border border-gotham-concrete bg-gotham-void px-3 py-1 text-[0.6rem] font-bold uppercase tracking-[0.2em] text-white/80">
+                {event.participation}
+              </span>
+              <span className="inline-flex w-fit items-center gap-1.5 border border-gotham-concrete bg-gotham-void px-3 py-1 text-[0.6rem] font-bold uppercase tracking-[0.2em] text-white/80">
+                <MapPin className="h-3 w-3 text-sodium-glow" aria-hidden="true" />
+                {event.venue}
+              </span>
+            </div>
 
-            <dl className="grid grid-cols-1 gap-px overflow-hidden rounded-lg border border-white/10 bg-white/10 sm:grid-cols-2">
+            {/* Submission formats — a standalone callout so a multi-format
+                event (paper/project/poster) doesn't get buried as one small
+                value inside the highlights table below. A single lit left
+                edge, not a full glow ring — the card uses the same motif. */}
+            {event.submissionFormats && event.submissionFormats.length > 0 && (
+              <div className="border-l-2 border-sodium-glow bg-gotham-asphalt px-4 py-3">
+                <p className="text-[0.55rem] font-bold uppercase tracking-[0.25em] text-sodium-glow">
+                  Submit &amp; Present
+                </p>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {event.submissionFormats.map((format) => (
+                    <span
+                      key={format}
+                      className="border border-sodium-glow/50 bg-gotham-void px-3 py-1 text-xs font-bold uppercase tracking-wider text-white"
+                    >
+                      {format}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Prizes — same content as the card, spelled out with room to breathe. */}
+            <div className="border-l-2 border-sodium-deep bg-gotham-asphalt px-4 py-3">
+              <p className="flex items-center gap-1.5 text-[0.55rem] font-bold uppercase tracking-[0.25em] text-sodium-glow">
+                <Trophy className="h-3 w-3" aria-hidden="true" />
+                Prizes
+              </p>
+              <ul className="mt-2 list-disc space-y-1 pl-4 text-sm text-white/80 marker:text-sodium-deep">
+                {PRIZE_BULLETS.map((bullet) => (
+                  <li key={bullet}>{bullet}</li>
+                ))}
+              </ul>
+            </div>
+
+            <dl className="grid grid-cols-1 gap-px overflow-hidden border border-gotham-concrete bg-gotham-concrete sm:grid-cols-2">
               {event.highlights.map((h) => (
                 <div key={h.label} className="bg-neutral-950 px-4 py-3">
                   <dt className="text-[0.55rem] font-bold uppercase tracking-[0.25em] text-white/45">
@@ -379,7 +441,7 @@ function EventDialog({
 
             {/* 4. Coordinators — omitted entirely when not yet assigned */}
             {event.coordinators.length > 0 && (
-              <div className="rounded-lg border border-white/10 bg-white/[0.03] px-4 py-3">
+              <div className="border-l-2 border-gotham-concrete bg-gotham-asphalt px-4 py-3">
                 <p className="text-[0.55rem] font-bold uppercase tracking-[0.25em] text-white/45">
                   Coordinators
                 </p>
