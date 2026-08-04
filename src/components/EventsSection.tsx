@@ -117,7 +117,7 @@ export function EventsSection() {
         className="absolute inset-0 z-0 bg-gradient-to-b from-black/80 via-black/40 to-black"
       />
 
-      <div className="relative z-10 mx-auto max-w-6xl">
+      <div className="relative z-10 mx-auto max-w-7xl">
         {/* Heading */}
         <div className="text-center">
           <p className="font-batman text-[0.65rem] font-semibold uppercase tracking-[0.5em] text-sodium-glow md:text-xs">
@@ -136,7 +136,7 @@ export function EventsSection() {
         </div>
 
         {/* Grid — 3 across on desktop so six events land as two clean rows */}
-        <div className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {EVENTS.map((ev, i) => {
             const coordinatorNames = ev.coordinators.map((c) => c.name).join(" & ");
             return (
@@ -187,35 +187,35 @@ export function EventsSection() {
                     />
                     {/* Squared tabs hugging the frame edge, not floating glass
                         pills — Deco framing instead of SaaS-badge language. */}
-                    <span className="absolute left-0 top-3 border-y border-r border-sodium-deep/60 bg-gotham-void px-2.5 py-1 text-[0.55rem] font-bold uppercase tracking-[0.2em] text-sodium-glow">
+                    <span className="absolute left-0 top-3 border-y border-r border-sodium-deep/60 bg-gotham-void px-3 py-1.5 text-[0.65rem] font-bold uppercase tracking-[0.2em] text-sodium-glow">
                       {ev.tag}
                     </span>
-                    <span className="absolute right-0 top-3 border-y border-l border-gotham-concrete bg-gotham-void px-2.5 py-1 text-[0.55rem] font-bold uppercase tracking-[0.15em] text-white/80">
+                    <span className="absolute right-0 top-3 border-y border-l border-gotham-concrete bg-gotham-void px-3 py-1.5 text-[0.65rem] font-bold uppercase tracking-[0.15em] text-white/80">
                       {ev.participation}
                     </span>
                   </div>
 
-                  <div className="relative flex flex-1 flex-col p-4">
+                  <div className="relative flex flex-1 flex-col p-6">
                     {/* Category sits one step further from the lamp than the
                         title does — deep amber reads as the dimmer falloff, so
                         the two warm elements have a hierarchy instead of
                         competing at the same brightness. */}
-                    <p className="text-[0.55rem] font-semibold uppercase tracking-[0.25em] text-sodium-deep">
+                    <p className="text-xs font-semibold uppercase tracking-[0.25em] text-sodium-deep">
                       {ev.category}
                     </p>
-                    <h3 className="font-batman mt-1.5 text-sm uppercase tracking-[0.15em] text-white transition-colors duration-300 group-hover:text-sodium-glow md:text-base">
+                    <h3 className="font-batman mt-2 text-lg uppercase tracking-[0.15em] text-white transition-colors duration-300 group-hover:text-sodium-glow md:text-xl">
                       {ev.title}
                     </h3>
-                    <p className="mt-2 flex-1 text-xs leading-relaxed text-white/65">
+                    <p className="mt-3 flex-1 text-sm leading-relaxed text-white/65">
                       {ev.summary}
                     </p>
 
-                    <div className="mt-3 border-l-2 border-sodium-deep/70 pl-2.5">
-                      <p className="flex items-center gap-1.5 text-[0.55rem] font-bold uppercase tracking-[0.2em] text-sodium-glow">
-                        <Trophy className="h-3 w-3 shrink-0" aria-hidden="true" />
+                    <div className="mt-4 border-l-2 border-sodium-deep/70 pl-3">
+                      <p className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.2em] text-sodium-glow">
+                        <Trophy className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
                         Prizes
                       </p>
-                      <ul className="mt-1 list-disc space-y-0.5 pl-3.5 text-[0.65rem] leading-snug text-white/65 marker:text-sodium-deep">
+                      <ul className="mt-1.5 list-disc space-y-1 pl-4 text-sm leading-snug text-white/65 marker:text-sodium-deep">
                         {PRIZE_BULLETS.map((bullet) => (
                           <li key={bullet}>{bullet}</li>
                         ))}
@@ -223,20 +223,20 @@ export function EventsSection() {
                     </div>
 
                     <p
-                      className={`mt-3 text-[0.6rem] font-semibold uppercase tracking-[0.15em] ${
+                      className={`mt-4 text-xs font-semibold uppercase tracking-[0.15em] ${
                         coordinatorNames === "" ? "italic text-white/35" : "text-white/50"
                       }`}
                     >
                       Coordinators: {coordinatorNames === "" ? "To be announced" : coordinatorNames}
                     </p>
 
-                    <div className="mt-4 flex items-center">
+                    <div className="mt-5 flex items-center">
                       {/* Only the arrow moves. Sliding the label under the
                           cursor forces the eye to re-fixate mid-read. */}
-                      <span className="inline-flex items-center gap-1 text-[0.6rem] font-bold uppercase tracking-[0.2em] text-sodium-glow">
+                      <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.2em] text-sodium-glow">
                         View Details
                         <ArrowRight
-                          className="h-3 w-3 transition-transform duration-300 ease-out group-hover:translate-x-1 group-focus-visible:translate-x-1"
+                          className="h-3.5 w-3.5 transition-transform duration-300 ease-out group-hover:translate-x-1 group-focus-visible:translate-x-1"
                           aria-hidden="true"
                         />
                       </span>
